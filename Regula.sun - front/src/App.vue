@@ -2,7 +2,12 @@
 </script>
 
 <template>
-  
+  <main>
+    <router-view />
+  </main>
+  <div>
+    Teste
+  </div>
 </template>
 
 <style scoped>
@@ -53,8 +58,8 @@
 
   
   /* Fontes */
-  --fontePrincipal: 'Roboto', sans-serif;;
-  --fonteSecundaria: 'Source Sans 3', sans-serif;
+  --fontePrincipal: 'Source Sans 3', sans-serif;;
+  --fonteSecundaria: 'Roboto', sans-serif;
 
 
   /* Padronização de tamanho */
