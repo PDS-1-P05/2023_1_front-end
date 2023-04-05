@@ -1,85 +1,70 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+
+/* IMPORTANDO A FONTE SOURCE SANS 3 */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* IMPORTANDO A FONTE ROBOTO */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* RESET DE ESTILIZAÇÃO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  /* Paleta de cores */
+
+  /* Principal */
+  --corPrincipalClara: #3A84B5;
+  --corPrincipal: #024069;
+  --corPrincipalEscura: #012136;
+
+  /* Principal */
+  --corSecundariaClara: #62B37D;
+  --corSecundaria: #28A350;
+  --corSecundariaEscura: #1C7038;
+
+  /* Principal */
+  --corTerciariaClara: #49C2F2;
+  --corTerciaria: #00ADEF;
+  --corTerciariaEscura: #0087BD;
+
+  /* Principal */
+  --corQuaternariaClara: #FFF64F;
+  --corQuaternaria: #FFF102;
+  --corQuaternariaEscura: #CCC202;
+
+  /* Branco */
+  --branco: #fff;
+  --brancoClaro: hsl(0, 0%, 72%);
+
+  /* Preto */
+  --preto: #231F20;
+  --pretoClaro: hsla(345, 6%, 13%, 0.48);
+
+
+  
+  /* Fontes */
+  --fontePrincipal: 'Roboto', sans-serif;;
+  --fonteSecundaria: 'Source Sans 3', sans-serif;
+
+
+  /* Padronização de tamanho */
+  font-size: 62.5%; /* 1rem = 10px */
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+html,
+body {
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  height: 100%;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
 </style>
