@@ -50,7 +50,6 @@
           </p>
         </div>
         <div class="linha-vertical"></div>
-        <v-btn size="large" rounded="xl">GERE SEU GRÁFICO </v-btn>
       </div>
     </section>
 
@@ -76,8 +75,12 @@
 
 <script>
 
+import 
+
 export default {
-  
+  components: {
+    HomeButton
+  }
 }
 
 </script>
