@@ -6,17 +6,17 @@
     <router-view />
   </main>
   <div>
-    Teste
+    Teste EOEOOE
   </div>
 </template>
 
-<style scoped>
-
+<style>
 /* IMPORTANDO A FONTE SOURCE SANS 3 */
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 /* IMPORTANDO A FONTE ROBOTO */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 
 /* RESET DE ESTILIZAÇÃO */
 * {
@@ -24,6 +24,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 :root {
   /* Paleta de cores */
 
@@ -56,14 +57,16 @@
   --pretoClaro: hsla(345, 6%, 13%, 0.48);
 
 
-  
+
   /* Fontes */
-  --fontePrincipal: 'Source Sans 3', sans-serif;;
+  --fontePrincipal: 'Source Sans 3', sans-serif;
+  ;
   --fonteSecundaria: 'Roboto', sans-serif;
 
 
   /* Padronização de tamanho */
-  font-size: 62.5%; /* 1rem = 10px */
+  font-size: 62.5%;
+  /* 1rem = 10px */
 }
 
 html,
@@ -71,5 +74,4 @@ body {
   width: 100%;
   height: 100%;
 }
-
 </style>
