@@ -13,7 +13,6 @@
                 </router-link>
             </v-img>
 
-            <!-- display para web -->
             <ul v-show="!mobile" class="nav">
                 <v-row align-content="center">
                     <li v-for="link in links" :key="link.para">
@@ -26,12 +25,9 @@
             </ul>
 
             <div class="menu-icon">
-                <!-- o evento "toggleMobileNav" vai trigar o "icone-ativo" quando mobileNav for verdadeiro -->
                 <v-icon v-show="mobile" @click="toggleMobileNav" :class="{ 'icone-ativo': mobileNav }">mdi-menu</v-icon>
             </div>
-            <!-- animar elementos -->
             <transition name="mobile-nav">
-                <!-- display para mobile -->
                 <ul v-show="mobileNav" class="dropdown-menu">
                     <v-icon class="close-icon" @click="toggleDropdownMenu">mdi-close</v-icon>
                     <li v-for="link in links" :key="link.para">
@@ -70,7 +66,6 @@ export default {
     },
 
     methods: {
-        /* toggle = acionado ou não */
         toggleMobileNav() {
             this.mobileNav = !this.mobileNav;
         },
@@ -79,7 +74,6 @@ export default {
             this.mobileNav = !this.mobileNav;
         },
 
-        /* verifica tamanho da tela para mostrar o menu */
         checkScreen() {
             this.widthJanela = window.innerWidth;
             if (this.widthJanela <= 750) {
@@ -136,9 +130,8 @@ img {
 }
 
 .nav-item:hover {
+    cursor: pointer;
     font-weight: bold;
-    /* color: #ccc202;
-    border-color: #ccc202; */
 }
 
 .nav-icon {
