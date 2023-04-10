@@ -1,13 +1,12 @@
 <template>
     <footer id="footer">
-        <a id="agems" href="https://www.agems.ms.gov.br/"><Image :src="logo_agems" :alt="Image" width="370" height="106"></Image></a>
-        <a id="nes" href="https://nes.facom.ufms.br/"><Image :src="logo_nes" :alt="Image" width="100" height="116"></Image></a>
-        <a id="ufms" href="https://www.ufms.br/"><Image :src="logo_ufms" :alt="Image" width="200" height="200"></Image></a>   
+        <a id="agems" href="https://www.agems.ms.gov.br/"><img :src="logo_agems" :alt="Image" width="370" height="106" /></a>
+        <a id="nes" href="https://nes.facom.ufms.br/"><img :src="logo_nes" :alt="Image" width="100" height="116" /></a>
+        <a id="ufms" href="https://www.ufms.br/"><img :src="logo_ufms" :alt="Image" width="200" height="200" /></a>   
     </footer>
 </template>
 
 <script>
-import Image from 'primevue/image';
 export default {
     name: 'Footer',
     data() {
