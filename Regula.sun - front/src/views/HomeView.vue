@@ -1,7 +1,6 @@
 <template>
   <main>
     
-    <!-- HERO -->
     <section class="wrapper background-hero" id="hero">
       <div class="hero-wrapper">
         <h2>
@@ -14,7 +13,6 @@
       </div>
     </section>
 
-    <!-- SOBRE -->
     <section class="wrapper" id="sobre">
         <div :class="classe">
           <div class="coluna-a">
@@ -34,7 +32,6 @@
         </div>
     </section>
 
-    <!-- GRÁFICO -->
     <section class="wrapper background" id="grafico">
       <div :class="classe">
         <div class="coluna-b">
@@ -60,7 +57,6 @@
       </div>
     </section>
 
-    <!-- BOLETIM -->
     <section class="wrapper" id="boletim">
       <div :class="classe">
         <div class="coluna-a-wrapper">
@@ -121,12 +117,16 @@ export default {
   },
 
   watch: {
-    largura(newLargura) {
-      if (newLargura >= 600) {
-        this.classe = 'wrapper-section'
-      } else if (newLargura <= 600) {
-        this.classe = 'wrapper-section-mobile'
-      }
+    largura: {
+      handler(newLargura) {
+        if (newLargura >= 600) {
+          this.classe = 'wrapper-section'
+        } else if (newLargura <= 600) {
+          this.classe = 'wrapper-section-mobile'
+        }
+      },
+      
+      immediate: true
     }
   }
 }
@@ -135,8 +135,6 @@ export default {
 
 <style>
 
-
-/* MAIN CSS */
 main {
   color: var(--preto);
 }
@@ -161,7 +159,6 @@ main p {
 }
 
 
-/* WRAPPERS CSS */
 .wrapper {
   display: flex;
   justify-content: center;
@@ -212,9 +209,6 @@ main p {
   gap: 3rem;
 }
 
-
-/* MUDA O BACKGROUND PARA AS SECTIONS
-QUE POSSUEM COR DE FUNDO DIFERENTE */
 .background-hero {
   color: var(--branco);
 
@@ -230,7 +224,6 @@ QUE POSSUEM COR DE FUNDO DIFERENTE */
   background-color: var(--corPrincipal);
 }
 
-/* LINHAS UTILIZADAS */
 .linha-horizontal {
   width: 25vw;
   height: 1rem;
@@ -250,8 +243,6 @@ QUE POSSUEM COR DE FUNDO DIFERENTE */
   background-color: var(--branco);
 }
 
-
-/* COLUNAS CSS */
 .coluna-a {
   display: flex;
   gap: 3rem;
@@ -263,8 +254,6 @@ QUE POSSUEM COR DE FUNDO DIFERENTE */
   display: none;
 }
 
-
-/* MOLDURA CSS */
 .moldura-grafico,
 .moldura-boletim {
   border-radius: 8rem;
@@ -293,8 +282,6 @@ QUE POSSUEM COR DE FUNDO DIFERENTE */
   max-width: 1024px;
 }
 
-
-/* BREAKPOINTS */
 @media screen and (min-width: 600px) {
   .coluna-b {
     display: flex;
