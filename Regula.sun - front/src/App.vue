@@ -18,6 +18,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 :root {
 
   --corPrincipalClara: #3A84B5;
@@ -41,9 +42,8 @@
 
   --preto: #231F20;
   --pretoClaro: hsla(345, 6%, 13%, 0.48);
-
-
-  --fontePrincipal: 'Source Sans 3', sans-serif;;
+  
+  --fontePrincipal: 'Source Sans 3', sans-serif;
   --fonteSecundaria: 'Roboto', sans-serif;
 
   font-size: 62.5%;
@@ -54,5 +54,4 @@ body {
   width: 100%;
   height: 100%;
 }
-
 </style>
