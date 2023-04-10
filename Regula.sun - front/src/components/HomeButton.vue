@@ -1,7 +1,7 @@
 <template>
-    <button>
-        {{  conteudo }}
-    </button>
+    <v-btn size="large" rounded="xl" id="btn-home"> 
+        {{ conteudo }}
+    </v-btn>
 </template>
 
 <script>
@@ -14,16 +14,16 @@ export default {
         }
     }
 }
-
 </script>
 
 <style scoped>
-    
-    button {
-        width: 25.5rem;
-        height: 5.5rem;
 
-        color: var(--branco);
-        background-color: var(--corSecundaria);
-    }
+#btn-home {
+    color: var(--branco);
+    background-color: var(--corSecundaria);
+
+    width: 100%;
+    max-width: 47rem;
+}
+
 </style>
