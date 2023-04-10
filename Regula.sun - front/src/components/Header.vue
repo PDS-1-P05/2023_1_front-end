@@ -90,10 +90,10 @@ export default {
   
 <style scoped>
 * {
-    background-color: #024069;
-    font-family: "Source Sans 3", sans-serif;
+    background-color: var(--corPrincipal);
+    font-family: (--fontePrincipal);
     font-size: 1.6rem;
-    color: #fff;
+    color: var(--branco);
     align-items: center;
     text-decoration: none;
     text-transform: uppercase;
@@ -103,7 +103,9 @@ export default {
 header {
     width: 100%;
     position: fixed;
+    z-index: 100;
     transition: 0.5s easy all;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
 }
 
 nav {
@@ -157,7 +159,7 @@ img {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: #024069;
+    background-color: var(--corPrincipal);
     top: 0;
     left: 0;
 }
