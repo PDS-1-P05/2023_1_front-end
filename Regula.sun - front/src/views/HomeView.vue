@@ -10,6 +10,6 @@ export default {
 
 <template>
   <main>
-    <p>aaaa</p>
+    <Header />
   </main>
 </template>

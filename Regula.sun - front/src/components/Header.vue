@@ -1,91 +1,178 @@
 <template>
     <header>
-        <div class="logo">
-            <img src="../assets/REGULASUN.svg" alt="Logo" width="85" height="85">
-        </div>
+        <nav>
+            <v-img v-show="!mobile">
+                <router-link to="/">
+                    <img src="../assets/REGULASUN.svg" alt="logo" width="90" height="90" />
+                </router-link>
+            </v-img>
 
-        <div class="menu">
-            <li class="menu-item">
-                <a href="#">
-                    <i class="pi pi-home" style="font-size: 2rem"></i>
-                    <p>Home</p>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#">
-                    <i class="pi pi-chart-bar" style="font-size: 2rem"></i>
-                    <p>Gráfico</p>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#">
-                    <i class="pi pi-file" style="font-size: 2rem"></i>
-                    <p>Boletim</p>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#">
-                    <i class="pi pi-user" style="font-size: 2rem"></i>
-                    <p>Admin</p>
-                </a>
-            </li>
-        </div>
+            <v-img v-show="mobile">
+                <router-link to="/">
+                    <img src="../assets/REGULASUN.svg" alt="logo" width="90" height="90" align="right" />
+                </router-link>
+            </v-img>
+
+            <!-- display para web -->
+            <ul v-show="!mobile" class="nav">
+                <v-row align-content="center">
+                    <li v-for="link in links" :key="link.para">
+                        <router-item class="nav-item" :to="link.para">
+                            <v-icon class="nav-icon">{{ link.icone }}</v-icon>
+                            {{ link.nome }}
+                        </router-item>
+                    </li>
+                </v-row>
+            </ul>
+
+            <div class="menu-icon">
+                <!-- o evento "toggleMobileNav" vai trigar o "icone-ativo" quando mobileNav for verdadeiro -->
+                <v-icon v-show="mobile" @click="toggleMobileNav" :class="{ 'icone-ativo': mobileNav }">mdi-menu</v-icon>
+            </div>
+            <!-- animar elementos -->
+            <transition name="mobile-nav">
+                <!-- display para mobile -->
+                <ul v-show="mobileNav" class="dropdown-menu">
+                    <v-icon class="close-icon" @click="toggleDropdownMenu">mdi-close</v-icon>
+                    <li v-for="link in links" :key="link.para">
+                        <router-link class="nav-item" :to="link.para">
+                            <v-icon class="nav-icon">{{ link.icone }}</v-icon>
+                            {{ link.nome }}
+                        </router-link>
+                    </li>
+                </ul>
+            </transition>
+        </nav>
     </header>
 </template>
-
+  
 <script>
 export default {
     name: "Header",
-}
-</script>
+    data() {
+        return {
+            links: [
+                { para: "/", icone: "mdi-home", nome: "Home" },
+                { para: "/grafico", icone: "mdi-chart-bar", nome: "Gráfico" },
+                { para: "/boletim", icone: "mdi-script-text", nome: "Boletim" },
+                { para: "/admin", icone: "mdi-account-tie", nome: "Admin" },
+            ],
 
+            mobile: null,
+            mobileNav: null,
+            widthJanela: null,
+        };
+    },
+
+    created() {
+        window.addEventListener("resize", this.checkScreen);
+        this.checkScreen();
+    },
+
+    methods: {
+        /* toggle = acionado ou não */
+        toggleMobileNav() {
+            this.mobileNav = !this.mobileNav;
+        },
+
+        toggleDropdownMenu() {
+            this.mobileNav = !this.mobileNav;
+        },
+
+        /* verifica tamanho da tela para mostrar o menu */
+        checkScreen() {
+            this.widthJanela = window.innerWidth;
+            if (this.widthJanela <= 750) {
+                this.mobile = true;
+                return;
+            }
+            this.mobile = false;
+            this.mobileNav = false;
+            return;
+        },
+    },
+};
+</script>
+  
 <style scoped>
 * {
-    background-color: var(--corPrincipal);
-    font-family: var(--fontePrincipal);
+    background-color: #024069;
+    font-family: "Source Sans 3", sans-serif;
     font-size: 1.6rem;
-    color: var(--branco);
+    color: #fff;
     align-items: center;
     text-decoration: none;
     text-transform: uppercase;
+    list-style: none;
 }
 
 header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2.5rem 15rem;
+    width: 100%;
+    position: fixed;
+    transition: 0.5s easy all;
 }
 
-.logo {
+nav {
     display: flex;
     flex-direction: row;
-    justify-items: space-between;
-    align-items: center;
-}
-
-.menu {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    position: relative;
+    padding: 1rem 10rem;
     justify-items: center;
-}
-
-.menu a {
-    display: flex;
-    flex-direction: row;
-}
-
-.menu-item {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-self: center;
-    padding-right: 3rem;
+    transition: 0.5s ease all;
 }
 
-.menu-item i {
-    padding-right: 1rem;
+img {
+    transition: 0.5s ease all;
+}
+
+.nav li:not(:nth-child(4)) {
+    padding-right: 5rem;
+}
+
+.nav-item {
+    transition: 0.5s ease all;
+    border-bottom: 1px solid transparent;
+}
+
+.nav-item:hover {
+    font-weight: bold;
+    /* color: #ccc202;
+    border-color: #ccc202; */
+}
+
+.nav-icon {
+    padding-right: 0.5rem;
+}
+
+.menu-icon {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 10rem;
+    height: 100%;
+    cursor: pointer;
+    transition: 0.8s ease all;
+}
+
+.dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #024069;
+    top: 0;
+    left: 0;
+}
+
+.close-icon {
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
 }
 </style>
+  
