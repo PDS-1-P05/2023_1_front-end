@@ -112,7 +112,7 @@ export default {
     }
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("resize", this.onResize);
   },
 
@@ -212,7 +212,7 @@ main p {
 .background-hero {
   color: var(--branco);
 
-  background: rgb(2,64,105);
+  background: rgb(2, 64, 105);
   background: radial-gradient(circle,
     var(--corPrincipal),
     var(--corPrincipalEscura) 72%
