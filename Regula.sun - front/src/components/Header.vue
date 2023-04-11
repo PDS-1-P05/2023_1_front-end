@@ -16,10 +16,10 @@
             <ul v-show="!mobile" class="nav">
                 <v-row align-content="center">
                     <li v-for="link in links" :key="link.para">
-                        <router-item class="nav-item" :to="link.para">
+                        <router-link class="nav-item" :to="link.para">
                             <v-icon class="nav-icon">{{ link.icone }}</v-icon>
                             {{ link.nome }}
-                        </router-item>
+                        </router-link>
                     </li>
                 </v-row>
             </ul>
