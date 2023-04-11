@@ -1,8 +1,8 @@
 <template>
-    <footer id="footer">
-        <a id="agems" href="https://www.agems.ms.gov.br/"><img :src="logo_agems" :alt="Image" width="370" height="106" /></a>
-        <a id="nes" href="https://nes.facom.ufms.br/"><img :src="logo_nes" :alt="Image" width="100" height="116" /></a>
-        <a id="ufms" href="https://www.ufms.br/"><img :src="logo_ufms" :alt="Image" width="200" height="200" /></a>   
+    <footer >
+        <a id="agems" href="https://www.agems.ms.gov.br/"><img :src="logo_agems" :alt="Image" width="200" height="80" /></a>
+        <a id="nes" href="https://nes.facom.ufms.br/"><img :src="logo_nes" :alt="Image" width="50" height="86" /></a>
+        <a id="ufms" href="https://www.ufms.br/"><img :src="logo_ufms" :alt="Image" width="100" height="100" /></a>   
     </footer>
 </template>
 
@@ -20,16 +20,18 @@ export default {
 </script>
 
 <style scoped>
-    #footer{
+    footer{
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-content: center;
         margin-top: 90px;
         margin-bottom: 143px;
+        padding-top: 2%;
+        padding-bottom: 5%;
     }
     @media (max-width: 650px) {
-        #footer{
+        footer{
             flex-direction: column;
             text-align: center;
         }
