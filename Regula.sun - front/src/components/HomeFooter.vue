@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: 'Footer',
+    name: 'HomeFooter',
     data() {
         return {
             logo_agems: 'src/assets/AGEMS.svg',
