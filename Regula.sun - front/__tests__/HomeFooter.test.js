@@ -1,21 +1,16 @@
 import { shallowMount } from '@vue/test-utils';
-import Footer from '@/components/Footer.vue'
-// import { expect } from 'vitest';
+import HomeFooter from '@/components/HomeFooter.vue'
+import { expect, describe, it} from 'vitest';
 
-describe('Footer.vue', () => {
+describe('HomeFooter.vue', () => {
     it('renders correctly', () => {
-      const wrapper = shallowMount(Footer);
-    });
-  });
-  describe('Footer.vue', () => {
-    it('renders correctly', () => {
-      const wrapper = shallowMount(Footer);
+      const wrapper = shallowMount(HomeFooter);
       expect(wrapper.exists()).toBe(true);
     });
   });
   describe('Footer.vue', () => {
     it('renders correctly', () => {
-      const wrapper = shallowMount(Footer);
+      const wrapper = shallowMount(HomeFooter);
       const agemsLink = wrapper.find('#agems');
       const nesLink = wrapper.find('#nes');
       const ufmsLink = wrapper.find('#ufms');
@@ -27,5 +22,3 @@ describe('Footer.vue', () => {
       expect(ufmsLink.find('img').attributes('src')).toBe('src/assets/UFMS-LOGO.svg');
     });
   });
-      
-  

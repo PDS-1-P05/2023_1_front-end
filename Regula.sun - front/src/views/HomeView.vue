@@ -80,19 +80,19 @@
         </div>
       </div>
     </section>
-    <Footer></Footer>
+    <HomeFooter></HomeFooter>
   </main>
 </template>
 
 <script>
 
 import HomeButton from '@/components/HomeButton.vue'
-import Footer from '@/components/Footer.vue'
+import HomeFooter from '@/components/HomeFooter.vue'
 
 export default {
   components: {
     HomeButton,
-    Footer
+    HomeFooter
   },
 
   data() {
