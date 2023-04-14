@@ -1,7 +1,9 @@
 <template>
-    <v-btn size="large" rounded="xl" id="btn-home"> 
-        {{ conteudo }}
-    </v-btn>
+    <div v-if="conteudo" id="btn-wrapper" data-test="btn-wrapper">
+        <v-btn size="large" rounded="xl" id="btn-home" data-test="btn-home">
+            {{ conteudo }}
+        </v-btn>
+    </div>
 </template>
 
 <script>
@@ -17,6 +19,10 @@ export default {
 </script>
 
 <style scoped>
+
+#btn-wrapper {
+    width: 100%;
+}
 
 #btn-home {
     color: var(--branco);
