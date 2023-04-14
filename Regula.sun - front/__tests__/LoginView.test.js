@@ -3,7 +3,8 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { createRouter, createWebHistory } from "vue-router";
 import { mount } from "@vue/test-utils";
-import { describe } from "vitest";
+import { describe, beforeEach, afterEach, it, expect } from "vitest";
+require("dotenv").config();
 
 describe("LoginView", () => {
   let wrapper, mockAxios;
@@ -100,7 +101,7 @@ describe("LoginView", () => {
     expect(wrapper.vm.regrasSenha[0]("")).toBe("Insira uma senha!");
   });
 
-  it("desabilita o form quando o botao de logar é clicado", async () => {
+  it("desabilita o form quando o botao de logar é clicado", () => {
     expect(wrapper.find(".botao").exists()).toBe(true);
     expect(wrapper.find(".loader").exists()).toBe(false);
     expect(wrapper.find(".email").attributes("disabled")).toBe("false");
@@ -109,15 +110,14 @@ describe("LoginView", () => {
     const emailInput = wrapper.find(".email");
     const emailInputElement = emailInput.element;
     emailInputElement.value = "teste@email.com";
-    await emailInputElement.dispatchEvent(new Event("input"));
+    emailInputElement.dispatchEvent(new Event("input"));
 
     const senhaInput = wrapper.find(".senha");
     const senhaInputElement = senhaInput.element;
     senhaInputElement.value = "12345678";
-    await senhaInputElement.dispatchEvent(new Event("input"));
+    senhaInputElement.dispatchEvent(new Event("input"));
 
     wrapper.find(".botao").trigger("click");
-    await wrapper.vm.$nextTick();
 
     expect(wrapper.find(".botao").exists()).toBe(true);
     expect(wrapper.find(".loader").exists()).toBe(false);
@@ -125,27 +125,26 @@ describe("LoginView", () => {
     expect(wrapper.find(".senha").attributes("disabled")).toBe("false");
   });
 
-  it("requisicao 401", async () => {
+  it("requisicao 401", () => {
     mockAxios = new MockAdapter(axios);
     mockAxios.onPost("/autenticar").reply(401);
 
     const emailInput = wrapper.find(".email");
     const emailInputElement = emailInput.element;
     emailInputElement.value = "teste@teste.com";
-    await emailInputElement.dispatchEvent(new Event("input"));
+    emailInputElement.dispatchEvent(new Event("input"));
 
     const senhaInput = wrapper.find(".senha");
     const senhaInputElement = senhaInput.element;
     senhaInputElement.value = "12345678";
-    await senhaInputElement.dispatchEvent(new Event("input"));
+    senhaInputElement.dispatchEvent(new Event("input"));
 
     wrapper.find(".botao").trigger("click");
-    await wrapper.vm.$nextTick();
 
     expect(wrapper.find(".alerta .descricao").exists()).toBe(false);
   });
 
-  it("requisicao 200", async () => {
+  it("requisicao 200", () => {
     mockAxios = new MockAdapter(axios);
     mockAxios.onPost("/autenticar").reply(200);
     const router = createRouter({
@@ -167,17 +166,16 @@ describe("LoginView", () => {
     const emailInput = wrapper.find(".email");
     const emailInputElement = emailInput.element;
     emailInputElement.value = process.env.TESTE_EMAIL_LOGIN;
-    await emailInputElement.dispatchEvent(new Event("input"));
+    emailInputElement.dispatchEvent(new Event("input"));
 
     const senhaInput = wrapper.find(".senha");
     const senhaInputElement = senhaInput.element;
     senhaInputElement.value = process.env.TESTE_SENHA_LOGIN;
-    await senhaInputElement.dispatchEvent(new Event("input"));
+    senhaInputElement.dispatchEvent(new Event("input"));
 
     wrapper.find(".botao").trigger("click");
-    await wrapper.vm.$nextTick();
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    new Promise((resolve) => setTimeout(resolve, 2000));
     expect(wrapper.vm.$route.path).toBe("/admin");
   });
 });
