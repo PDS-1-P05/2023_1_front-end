@@ -254,9 +254,9 @@
     background-color: var(--corPrincipalClara);
 }
 
-@media (max-width: 1028px) {
+@media (max-width: 1023px) {
     .container {
-        height: 100vh;
+        height: calc(100vh - 3.5rem);
     }
 }
 

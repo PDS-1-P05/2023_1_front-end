@@ -80,4 +80,20 @@ body {
     padding-top: 2rem;
   }
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+::-webkit-scrollbar-track {
+    background: var(--branco); 
+}
+   
+::-webkit-scrollbar-thumb {
+    background: var(--corPrincipalClara); 
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: var(--corPrincipalEscura); 
+}
 </style>
