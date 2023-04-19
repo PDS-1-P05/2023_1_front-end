@@ -25,5 +25,6 @@ describe('ImportButton.vue', () => {
         await wrapper.setProps({ conteudo: 'teste' })
 
         expect(wrapper.vm.conteudo).toBe('teste')
+        expect(wrapper.findAll('button')).toHaveLength(1)
     })
 })
