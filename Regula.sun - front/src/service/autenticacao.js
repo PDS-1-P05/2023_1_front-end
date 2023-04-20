@@ -24,10 +24,9 @@ export async function validarTokenAcesso() {
 
   if (token_acesso) {
     const decodificarToken = jwt_decode(token_acesso);
-    const dataCriacao = decodificarToken.iat * 1000;
     const tempoExpiracao = decodificarToken.exp * 1000;
 
-    if (Date.now() > dataCriacao + tempoExpiracao) {
+    if (Date.now() > tempoExpiracao) {
       localStorage.removeItem("token_acesso");
       return false;
     } else {
