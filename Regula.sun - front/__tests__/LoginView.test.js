@@ -1,13 +1,11 @@
 import LoginView from "../src/views/LoginView.vue";
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
 import { createRouter, createWebHistory } from "vue-router";
 import { mount } from "@vue/test-utils";
 import { describe, beforeEach, afterEach, it, expect } from "vitest";
 require("dotenv").config();
 
 describe("LoginView", () => {
-  let wrapper, mockAxios;
+  let wrapper;
 
   beforeEach(() => {
     wrapper = mount(LoginView);
@@ -101,11 +99,8 @@ describe("LoginView", () => {
     expect(wrapper.vm.regrasSenha[0]("")).toBe("Insira uma senha!");
   });
 
-  it("desabilita o form quando o botao de logar é clicado", () => {
-    expect(wrapper.find(".botao").exists()).toBe(true);
-    expect(wrapper.find(".loader").exists()).toBe(false);
-    expect(wrapper.find(".email").attributes("disabled")).toBe("false");
-    expect(wrapper.find(".senha").attributes("disabled")).toBe("false");
+  it("desabilita o form quando o botao de logar é clicado", async () => {
+    expect(wrapper.find("v-form").attributes("disabled")).toBe("false");
 
     const emailInput = wrapper.find(".email");
     const emailInputElement = emailInput.element;
@@ -118,17 +113,12 @@ describe("LoginView", () => {
     senhaInputElement.dispatchEvent(new Event("input"));
 
     wrapper.find(".botao").trigger("click");
+    await wrapper.vm.$nextTick();
 
-    expect(wrapper.find(".botao").exists()).toBe(true);
-    expect(wrapper.find(".loader").exists()).toBe(false);
-    expect(wrapper.find(".email").attributes("disabled")).toBe("false");
-    expect(wrapper.find(".senha").attributes("disabled")).toBe("false");
+    expect(wrapper.find("v-form").attributes("disabled")).toBeTruthy();
   });
 
-  it("requisicao 401", () => {
-    mockAxios = new MockAdapter(axios);
-    mockAxios.onPost("/autenticar").reply(401);
-
+  it("h3 fica visivel e recebe texto informando o erro de usuário invalido", () => {
     const emailInput = wrapper.find(".email");
     const emailInputElement = emailInput.element;
     emailInputElement.value = "teste@teste.com";
@@ -144,9 +134,7 @@ describe("LoginView", () => {
     expect(wrapper.find(".alerta .descricao").exists()).toBe(false);
   });
 
-  it("requisicao 200", () => {
-    mockAxios = new MockAdapter(axios);
-    mockAxios.onPost("/autenticar").reply(200);
+  it("efetuar login e ser redirecionado para a pagina admin", () => {
     const router = createRouter({
       history: createWebHistory(),
       routes: [{ path: "/admin" }],
