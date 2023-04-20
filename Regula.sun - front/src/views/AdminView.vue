@@ -1,9 +1,14 @@
 <template>
     <div class="container">
-        <ImportButton
-            conteudo="Importar Indicadores"
-        >
-        </ImportButton>
+        <div>
+            <DragNDrop titulo="Importar Indicadores" idInput="indicadores"></DragNDrop>
+        </div>
+        <div>
+            <DragNDrop titulo="Importar Metas" idInput="metas"></DragNDrop>
+        </div>
+        <div>
+            <ImportButton conteudo="Importar Indicadores"></ImportButton>
+        </div>
     </div>
 </template>
 
@@ -11,13 +16,15 @@
     import { validarTokenAcesso } from "../service/autenticacao.js";
     import router from "@/router";
     import ImportButton from "@/components/ImportButton.vue";
+    import DragNDrop from "../components/DragNDrop.vue";
 
     export default {
         name: "AdminView",
 
         components: {
-            ImportButton
-        },
+    ImportButton,
+    DragNDrop
+},
 
         mounted() {
             validarTokenAcesso().then((token) => {
