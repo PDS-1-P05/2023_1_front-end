@@ -3,60 +3,62 @@
 
     <div class="container">
         <div class="area-login">
-            <h1>Login</h1>
-            <v-form ref="form" @submit.prevent="validate()">
-                <div class="input">
-                    <label class="label" for="email">Email:</label>
-                    <v-text-field 
-                        required
-                        :disabled="formDesabilitado"
-                        :variant="null"
-                        class="email" 
-                        prepend-inner-icon="mdi-email-outline"
-                        placeholder="email@exemplo.com"
-                        :rules="regrasEmail"
-                        v-model="email">
-                    </v-text-field>
-                </div>
-                <div class="input">
-                    <label class="label" for="senha">Senha:</label>
-                    <v-text-field
-                        required
-                        :disabled="formDesabilitado"
-                        :variant="null"
-                        class="senha"
-                        prepend-inner-icon="mdi-key-outline"
-                        placeholder="•••••••••"
-                        :rules="regrasSenha"
-                        :type="showPassword ? 'text' : 'password'"
-                        :append-icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-                        @click:append="showPassword = !showPassword"
-                        v-model="senha">
-                    </v-text-field>
-                </div>
-                <div class="alerta" v-if="alerta">
-                    <div class="descricao">
-                        <v-icon icon="mdi-alert-circle-outline"></v-icon>
-                        <h3> {{ mensagemAlerta }}</h3>
+            <div class="area-form">
+                <h1>Login</h1>
+                <v-form ref="form" @submit.prevent="validate()">
+                    <div class="input">
+                        <label class="label" for="email">Email:</label>
+                        <v-text-field 
+                            required
+                            :disabled="formDesabilitado"
+                            :variant="null"
+                            class="email" 
+                            prepend-inner-icon="mdi-email-outline"
+                            placeholder="email@exemplo.com"
+                            :rules="regrasEmail"
+                            v-model="email">
+                        </v-text-field>
                     </div>
-                    <div class="fecharAlerta">
-                        <v-btn 
-                            style="font-size: 1.4rem;"
-                            variant="text"
-                            icon="mdi-window-close"
-                            @click="this.alerta = false"
-                        ></v-btn>
+                    <div class="input">
+                        <label class="label" for="senha">Senha:</label>
+                        <v-text-field
+                            required
+                            :disabled="formDesabilitado"
+                            :variant="null"
+                            class="senha"
+                            prepend-inner-icon="mdi-key-outline"
+                            placeholder="•••••••••"
+                            :rules="regrasSenha"
+                            :type="showPassword ? 'text' : 'password'"
+                            :append-icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                            @click:append="showPassword = !showPassword"
+                            v-model="senha">
+                        </v-text-field>
                     </div>
-                </div>
-                <div class="loader" v-if="this.formDesabilitado">
-                    <v-progress-circular
-                        indeterminate
-                    ></v-progress-circular>
-                </div>
-                <div v-if="this.btnLogar">
-                    <button class="botao" type="submit">Logar</button>
-                </div>
-            </v-form>
+                    <div class="alerta" v-if="alerta">
+                        <div class="descricao">
+                            <v-icon icon="mdi-alert-circle-outline"></v-icon>
+                            <h3> {{ mensagemAlerta }}</h3>
+                        </div>
+                        <div class="fecharAlerta">
+                            <v-btn 
+                                style="font-size: 1.4rem;"
+                                variant="text"
+                                icon="mdi-window-close"
+                                @click="this.alerta = false"
+                            ></v-btn>
+                        </div>
+                    </div>
+                    <div class="loader" v-if="this.formDesabilitado">
+                        <v-progress-circular
+                            indeterminate
+                        ></v-progress-circular>
+                    </div>
+                    <div v-if="this.btnLogar">
+                        <button class="botao" type="submit">Logar</button>
+                    </div>
+                </v-form>
+            </div>
         </div>
         <div class="area-imagem">
             <img src="src\assets\imagem_login.svg" alt="Paisagem de MS">
@@ -159,27 +161,36 @@
 
 <style scoped>
 .container {
-    margin-top: -5rem; 
-    height: 100vh;
+    height: calc(100vh - 5rem);
     display: flex;
-    align-items: center;
     overflow: hidden;
 }
-.area-login {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10rem;
+
+.area-imagem {
+    width: 50%;
+    height: 100%;
 }
-.area-login h1 {
+
+.area-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.area-login {
+    margin-top: 5rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.area-form h1 {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 1rem;
 }
-.area-imagem {
-    width: 60%;
-}
+
 .input {
     margin: 3rem 0;
     display: flex;
@@ -214,9 +225,10 @@
     display: flex;
     align-items: center;
     padding: 1rem;
+    font-size: 1.6rem;
 }
 .alerta > .descricao > h3 {
-    padding-left: 1rem;
+    padding-left: 1.2rem;
     font-size: 1.6rem;
 }
 .alerta > .fecharAlerta  {
@@ -238,13 +250,17 @@
     font-size: 2rem;
 }
 
-img {
-    width: 100%;
-    height: 100%;
-    /* object-fit: cover; */
+.botao:hover {
+    background-color: var(--corPrincipalClara);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
+    .container {
+        height: calc(100vh - 3.5rem);
+    }
+}
+
+@media (max-width: 780px) {
     .area-login {
         width: 100%;
     }
