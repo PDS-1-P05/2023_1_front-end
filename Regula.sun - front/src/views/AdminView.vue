@@ -1,15 +1,23 @@
 <template>
     <div class="container">
-        <h3>Em desenvolvimento...</h3>
+        <ImportButton
+            conteudo="Importar Indicadores"
+        >
+        </ImportButton>
     </div>
 </template>
 
 <script>
     import { validarTokenAcesso } from "../service/autenticacao.js";
     import router from "@/router";
+    import ImportButton from "@/components/ImportButton.vue";
 
     export default {
         name: "AdminView",
+
+        components: {
+            ImportButton
+        },
 
         mounted() {
             validarTokenAcesso().then((token) => {
