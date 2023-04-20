@@ -5,12 +5,11 @@
         <div class="area-login">
             <div class="area-form">
                 <h1>Login</h1>
-                <v-form ref="form" @submit.prevent="validate()">
+                <v-form :disabled="formDesabilitado" ref="form" @submit.prevent="validate()">
                     <div class="input">
                         <label class="label" for="email">Email:</label>
                         <v-text-field 
                             required
-                            :disabled="formDesabilitado"
                             :variant="null"
                             class="email" 
                             prepend-inner-icon="mdi-email-outline"
@@ -23,7 +22,6 @@
                         <label class="label" for="senha">Senha:</label>
                         <v-text-field
                             required
-                            :disabled="formDesabilitado"
                             :variant="null"
                             class="senha"
                             prepend-inner-icon="mdi-key-outline"
