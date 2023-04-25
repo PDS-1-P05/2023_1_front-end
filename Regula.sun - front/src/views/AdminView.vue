@@ -6,9 +6,6 @@
         <div>
             <DragNDrop titulo="Importar Metas" idInput="metas"></DragNDrop>
         </div>
-        <div>
-            <ImportButton conteudo="Importar Indicadores"></ImportButton>
-        </div>
     </div>
 </template>
 
@@ -17,14 +14,23 @@
     import router from "@/router";
     import ImportButton from "@/components/ImportButton.vue";
     import DragNDrop from "../components/DragNDrop.vue";
+    import VisualizacaoTabela from "../components/VisualizacaoTabela.vue";
 
     export default {
         name: "AdminView",
 
+        data() {
+            return {
+                erroUpload: false,
+                mostrarTabela: false,
+            }
+        },
+
         components: {
-    ImportButton,
-    DragNDrop
-},
+            ImportButton,
+            DragNDrop,
+            VisualizacaoTabela
+        },
 
         mounted() {
             validarTokenAcesso().then((token) => {
@@ -33,12 +39,32 @@
                 }
             })
         },
+
+        methods: {
+            arquivoExiste() {
+                const file = this.$store.state.arquivoIndicadores;
+                if (!file) {
+                    this.erroUpload = true;
+                } else {
+                    this.erroUpload = false;
+                    this.preVisualizarArquivo(file);
+                }
+            },
+
+            preVisualizarArquivo(file) {
+                setTimeout(() => {
+                    this.emitter.emit('pre-visualizar', file);
+                }, 100);
+                this.mostrarTabela = true;
+            },
+
+        },
     }
 </script>
 
-<style  scoped>
+<style scoped>
 .container {
     margin-top: 8rem;
-    margin-left: 2rem;
+    margin: 0 4rem;
 }
 </style>
