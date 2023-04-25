@@ -20,7 +20,6 @@
                 <ImportButton conteudo="Importar Metas"></ImportButton>
             </v-window-item>
         </v-window>
-
     </div>
 </template>
 
@@ -33,6 +32,13 @@
 
     export default {
         name: "AdminView",
+
+        data() {
+            return {
+                erroUpload: false,
+                mostrarTabela: false,
+            }
+        },
 
         components: {
             ImportButton,
@@ -59,10 +65,31 @@
                 }
             })
         },
+
+        methods: {
+            arquivoExiste() {
+                const file = this.$store.state.arquivoIndicadores;
+                if (!file) {
+                    this.erroUpload = true;
+                } else {
+                    this.erroUpload = false;
+                    this.preVisualizarArquivo(file);
+                }
+            },
+
+            preVisualizarArquivo(file) {
+                setTimeout(() => {
+                    this.emitter.emit('pre-visualizar', file);
+                }, 100);
+                this.mostrarTabela = true;
+            },
+
+        },
     }
 </script>
 
 <style  scoped>
+
 .admin-view-wrapper {
     margin-top: 10rem;
     padding-inline: 1.5rem;

@@ -78,6 +78,11 @@
                         this.descricao = "Insira um arquivo válido!";
                     } else {
                         this.descricao = arquivo.name;
+                        if (this.idInput === "indicadores") {
+                            this.$store.commit("salvarIndicadores", arquivo);
+                        } else if (this.idInput === "metas") {
+                            this.$store.commit("salvarMetas", arquivo);
+                        }
                     }
                 }
                 
