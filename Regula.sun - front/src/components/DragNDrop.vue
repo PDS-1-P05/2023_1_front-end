@@ -102,7 +102,8 @@
     
 }
 .dropzone {
-    width: 77rem;
+    width: 75vw;
+    max-width: 77rem;
     height: 22rem;
     display: flex;
     flex-direction: column;
