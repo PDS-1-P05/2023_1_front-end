@@ -59,8 +59,8 @@
 </template>
 
 <script>
-    // import { validarTokenAcesso } from "../service/autenticacao.js";
-    // import router from "@/router";
+    import { validarTokenAcesso } from "../service/autenticacao.js";
+    import router from "@/router";
     import DefaultButton from "@/components/DefaultButton.vue";
     import DragNDrop from "../components/DragNDrop.vue";
     import AdminNavTab from "@/components/AdminNavTab.vue"
@@ -88,13 +88,13 @@
             VisualizacaoMetas
         },
 
-        // mounted() {
-        //     validarTokenAcesso().then((token) => {
-        //         if (!token) {
-        //             router.push('/login');
-        //         }
-        //     })
-        // },
+        mounted() {
+            validarTokenAcesso().then((token) => {
+                if (!token) {
+                    router.push('/login');
+                }
+            })
+        },
 
         methods: {
             arquivoExisteIndicadores() {
