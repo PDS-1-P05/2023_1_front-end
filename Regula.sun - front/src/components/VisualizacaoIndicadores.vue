@@ -19,7 +19,7 @@
     import { processarArquivo, retornarColunas } from "../utils/funcoes";
 
     export default {
-        name: "VisualizacaoTabela",
+        name: "VisualizacaoIndicadores",
 
         data() {
             return {
@@ -29,13 +29,12 @@
         },
 
         created () {
-            this.emitter.on("pre-visualizar", arquivo => {
-                this.mostrarDados(arquivo)
-            });
+            this.emitter.on("visualizar-indicadores", () => { this.mostrarDados() });
         },
 
         methods: {
-            mostrarDados(arquivo) {
+            mostrarDados() {
+                let arquivo = this.$store.state.arquivoIndicadores;
                 const reader = new FileReader();
                 reader.readAsText(arquivo);
                 reader.onload = () => {
