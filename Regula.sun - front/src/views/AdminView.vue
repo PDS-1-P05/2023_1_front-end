@@ -10,79 +10,122 @@
         <v-window v-model="tab" id="window">
             <v-window-item value="Indicadores" class="window-item" >
                 <DragNDrop titulo="Importar Indicadores" idInput="indicadores"></DragNDrop>
+                
+                <div class="erroUpload" v-show="erroUploadIndicadores">
+                    <div class="mensagemErro">
+                        <span>Insira um arquivo para fazer Upload!</span>
+                    </div>
 
-                <ImportButton conteudo="Importar Indicadores"></ImportButton>
+                    <button style="font-size: 1.4rem;" @click="this.erroUploadIndicadores = false">
+                        <v-icon icon="mdi-window-close"></v-icon>
+                    </button>
+                </div>
+                
+                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteIndicadores"></DefaultButton>
+                
+                <div v-if="mostrarTabelaIndicadores" class="wrapper-tabela">
+                    <VisualizacaoIndicadores></VisualizacaoIndicadores>
+                </div>
+                
+                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaIndicadores"></DefaultButton>
+            
             </v-window-item>
 
             <v-window-item value="Metas" class="window-item" >
                 <DragNDrop titulo="Importar Metas" idInput="metas"></DragNDrop>
 
-                <ImportButton conteudo="Importar Metas"></ImportButton>
+                <div class="erroUpload" v-show="erroUploadMetas">
+                    <div class="mensagemErro">
+                        <span>Insira um arquivo para fazer Upload!</span>
+                    </div>
+
+                    <button style="font-size: 1.4rem;" @click="this.erroUploadMetas = false">
+                        <v-icon icon="mdi-window-close"></v-icon>
+                    </button>
+                </div>
+
+                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas"></DefaultButton>
+                
+                <div v-if="mostrarTabelaMetas" class="wrapper-tabela">
+                    <VisualizacaoMetas></VisualizacaoMetas>
+                </div>
+
+                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaMetas"></DefaultButton>
+
             </v-window-item>
         </v-window>
+
     </div>
 </template>
 
 <script>
-    import { validarTokenAcesso } from "../service/autenticacao.js";
-    import router from "@/router";
-    import ImportButton from "@/components/ImportButton.vue";
+    // import { validarTokenAcesso } from "../service/autenticacao.js";
+    // import router from "@/router";
+    import DefaultButton from "@/components/DefaultButton.vue";
     import DragNDrop from "../components/DragNDrop.vue";
     import AdminNavTab from "@/components/AdminNavTab.vue"
+    import VisualizacaoIndicadores from "@/components/VisualizacaoIndicadores.vue"
+    import VisualizacaoMetas from "@/components/VisualizacaoMetas.vue"
 
     export default {
         name: "AdminView",
 
         data() {
             return {
-                erroUpload: false,
-                mostrarTabela: false,
+                tab: null,
+                erroUploadIndicadores: false,
+                erroUploadMetas: false,
+                mostrarTabelaIndicadores: false,
+                mostrarTabelaMetas: false,
             }
         },
 
         components: {
-            ImportButton,
+            DefaultButton,
             DragNDrop,
-            AdminNavTab
+            AdminNavTab,
+            VisualizacaoIndicadores,
+            VisualizacaoMetas
         },
 
-        data() {
-            return {
-                tab: null,
-            }
-        },
+        // mounted() {
+        //     validarTokenAcesso().then((token) => {
+        //         if (!token) {
+        //             router.push('/login');
+        //         }
+        //     })
+        // },
 
         methods: {
+            arquivoExisteIndicadores() {
+                let arquivo = this.$store.state.arquivoIndicadores;
+                if (!arquivo) {
+                    this.erroUploadIndicadores = true;
+                } else {
+                    this.erroUploadIndicadores = false;  
+                    setTimeout(() => {
+                        this.emitter.emit('visualizar-indicadores');
+                    }, 100);
+                    this.mostrarTabelaIndicadores = true;   
+                }
+            },
+
+            arquivoExisteMetas() {
+                let arquivo = this.$store.state.arquivoMetas;
+                if (!arquivo) {
+                    this.erroUploadMetas = true;
+                } else {
+                    this.erroUploadMetas = false;
+                    setTimeout(() => {
+                        this.emitter.emit('visualizar-metas');
+                    }, 100);
+                    this.mostrarTabelaMetas = true;
+                }
+            },
+
             alteraTab(newPage) {
                 this.tab = newPage
             }
-        },
-
-        mounted() {
-            validarTokenAcesso().then((token) => {
-                if (!token) {
-                    router.push('/login');
-                }
-            })
-        },
-
-        methods: {
-            arquivoExiste() {
-                const file = this.$store.state.arquivoIndicadores;
-                if (!file) {
-                    this.erroUpload = true;
-                } else {
-                    this.erroUpload = false;
-                    this.preVisualizarArquivo(file);
-                }
-            },
-
-            preVisualizarArquivo(file) {
-                setTimeout(() => {
-                    this.emitter.emit('pre-visualizar', file);
-                }, 100);
-                this.mostrarTabela = true;
-            },
 
         },
     }
@@ -115,7 +158,32 @@
     justify-content: center;
     align-items: center;
 
+    gap: 3rem;
+
     padding: 3rem;
+}
+
+.erroUpload {
+    display: flex;
+    width: 35rem;
+    padding: 0.8rem;
+    background-color: #F6E0E4;
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+    color: #B00020;
+}
+
+.erroUpload .mensagemErro {
+    width: 90%;
+}
+
+.erroUpload > button {
+    width: 10%;
+    text-align: center;
+}
+
+.wrapper-tabela {
+    width: 80vw;
 }
 
 </style>

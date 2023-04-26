@@ -1,5 +1,5 @@
 <template>
-    <button id="import-button" v-if="conteudo">
+    <button id="default-button" v-if="conteudo">
         {{ conteudo }}
     </button>
 </template>
@@ -19,7 +19,7 @@ export default {
 
 <style>
 
-#import-button {    
+#default-button {    
     color: var(--branco);
     background-color: var(--corPrincipalClara);
     
@@ -45,18 +45,18 @@ export default {
     transition: box-shadow 0.2s ease, background-color 0.2 ease;
 }
 
-#import-button:hover {
+#default-button:hover {
     background-color: #539aca;
 
     box-shadow: 0rem 0.2rem 0.5rem var(--preto);
 }
 
-#import-button:active {
+#default-button:active {
     background-color: var(--corPrincipal);
 }
 
 @media screen and (min-width: 600px) {
-  #import-button {
+  #default-button {
     font-size: 1.3rem;
   }
 }
