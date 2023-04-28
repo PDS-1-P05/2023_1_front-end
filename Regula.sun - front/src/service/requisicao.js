@@ -1,15 +1,44 @@
 import axios from "axios";
 
-export async function getCidades() {
-    await axios.get("http://localhost:3000/cidades")
-    .then((resposta) => {
-        if (resposta.status == 200) {
-        return cidades;
-        } else if (resposta.status == 500) { // Erro interno do servidor
-        return 500
-        }
-  }).catch((e) => {
-    console.log(e);
-  });
+const headers = {
+  "x-access-token": localStorage.getItem("token_acesso"),
+};
 
+export async function getCidades() {
+  try {
+    const requisicao = await axios.get("http://localhost:3000/cidades");
+    console.log(requisicao);
+    if (requisicao.status === 200) {
+      return requisicao.cidades;
+    }
+  } catch (erro) {
+    return erro;
+  }
+}
+
+export async function importarIndicadores(jsonIndicadores) {
+  try {
+    const requisicao = await axios.post(
+      "http://localhost:3000/lancamentosIndicadores",
+      jsonIndicadores,
+      { headers }
+    );
+    console.log(requisicao);
+    return requisicao.status;
+  } catch (erro) {
+    return erro;
+  }
+}
+
+export async function importarMetas(jsonMetas) {
+  try {
+    const requisicao = await axios.post(
+      "http://localhost:3000/lancamentosMetas",
+      jsonMetas,
+      { headers }
+    );
+    return requisicao.status;
+  } catch (erro) {
+    return erro;
+  }
 }

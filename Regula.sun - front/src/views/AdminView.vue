@@ -27,8 +27,23 @@
                     <VisualizacaoIndicadores></VisualizacaoIndicadores>
                 </div>
                 
-                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaIndicadores"></DefaultButton>
+                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaIndicadores" @click="enviarIndicadores"></DefaultButton>
             
+                <div class="loader" v-if="this.loaderIndicadores">
+                    <v-progress-circular
+                        indeterminate
+                    ></v-progress-circular>
+                </div>
+                <div class="erroUpload" v-show="alertaRequisicaoIndicadores">
+                    <div class="mensagemErro">
+                        <span>{{ this.mensagemRequisicaoIndicadores}}</span>
+                    </div>
+
+                    <button style="font-size: 1.4rem;" @click="this.alertaRequisicaoIndicadores = false">
+                        <v-icon icon="mdi-window-close"></v-icon>
+                    </button>
+                </div>
+
             </v-window-item>
 
             <v-window-item value="Metas" class="window-item" >
@@ -50,7 +65,22 @@
                     <VisualizacaoMetas></VisualizacaoMetas>
                 </div>
 
-                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaMetas"></DefaultButton>
+                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaMetas" @click="enviarMetas"></DefaultButton>
+                
+                <div class="loader" v-if="this.loaderMetas">
+                    <v-progress-circular
+                        indeterminate
+                    ></v-progress-circular>
+                </div>
+                <div class="erroUpload" v-show="alertaRequisicaoMetas">
+                    <div class="mensagemErro">
+                        <span>{{ this.mensagemRequisicaoMetas}}</span>
+                    </div>
+
+                    <button style="font-size: 1.4rem;" @click="this.alertaRequisicaoMetas = false">
+                        <v-icon icon="mdi-window-close"></v-icon>
+                    </button>
+                </div>
 
             </v-window-item>
         </v-window>
@@ -60,6 +90,8 @@
 
 <script>
     import { validarTokenAcesso } from "../service/autenticacao.js";
+    import { importarIndicadores, importarMetas } from "../service/requisicao.js"
+    import { formatarIndicadores, formatarMetas } from "../utils/funcoes";
     import router from "@/router";
     import DefaultButton from "@/components/DefaultButton.vue";
     import DragNDrop from "../components/DragNDrop.vue";
@@ -77,6 +109,12 @@
                 erroUploadMetas: false,
                 mostrarTabelaIndicadores: false,
                 mostrarTabelaMetas: false,
+                loaderIndicadores: false,
+                loaderMetas: false,
+                alertaRequisicaoIndicadores: false,
+                alertaRequisicaoMetas: false,
+                mensagemRequisicaoIndicadores: '',
+                mensagemRequisicaoMetas: '',
             }
         },
 
@@ -97,12 +135,16 @@
         },
 
         methods: {
+            alteraTab(newPage) {
+                this.tab = newPage
+            },
+
             arquivoExisteIndicadores() {
                 let arquivo = this.$store.state.arquivoIndicadores;
                 if (!arquivo) {
-                    this.erroUploadIndicadores = true;
+                    this.alertaUploadIndicadores = true;
                 } else {
-                    this.erroUploadIndicadores = false;  
+                    this.alertaUploadIndicadores = false;  
                     setTimeout(() => {
                         this.emitter.emit('visualizar-indicadores');
                     }, 100);
@@ -113,9 +155,9 @@
             arquivoExisteMetas() {
                 let arquivo = this.$store.state.arquivoMetas;
                 if (!arquivo) {
-                    this.erroUploadMetas = true;
+                    this.alertaUploadMetas = true;
                 } else {
-                    this.erroUploadMetas = false;
+                    this.alertaUploadMetas = false;
                     setTimeout(() => {
                         this.emitter.emit('visualizar-metas');
                     }, 100);
@@ -123,10 +165,69 @@
                 }
             },
 
-            alteraTab(newPage) {
-                this.tab = newPage
-            }
+            async enviarIndicadores() {
+                this.loaderIndicadores = true;
+                this.mostrarTabelaIndicadores = false;
+                let json = this.$store.state.jsonIndicadores;
+                const formatarJSON = formatarIndicadores(json);
+                const requisicao = await importarIndicadores(formatarJSON);
+                if (requisicao === 200) {
+                    this.tratarSucessoIndicadores();
+                } else {
+                    this.tratarErroIndicadores(requisicao.status);
+                }
+            },
 
+            async enviarMetas() {
+                this.loaderMetas = true;
+                this.mostrarTabelaMetas = false;
+                let json = this.$store.state.jsonMetas;
+                const formatarJSON = formatarMetas(json);
+                const requisicao = await importarMetas(formatarJSON);
+                if (requisicao === 200) {
+                    this.tratarSucessoMetas();
+                } else {
+                    this.tratarErroMetas(requisicao.request.status);
+                }
+            },
+
+            tratarSucessoIndicadores() {
+                this.loaderIndicadores = false;
+                this.$store.commit("salvarJsonIndicadores", null);
+                this.mensagemRequisicaoIndicadores = 'Indicadores importados com sucesso!';
+                this.alertaRequisicaoIndicadores = true;
+            },
+
+            tratarSucessoMetas() {
+                this.loaderMetas = false;
+                this.$store.commit("salvarJsonMetas", null);
+                this.mensagemRequisicaoMetas = 'Metas importados com sucesso!';
+                this.alertaRequisicaoMetas = true;
+            },
+
+            tratarErroIndicadores(status) {
+                this.loaderIndicadores = false;
+                if (status === 400) {
+                    this.mensagemRequisicaoIndicadores = 'Erro 400';
+                } else if (status === 500) {
+                    this.mensagemRequisicaoIndicadores = 'Ops! Ocorreu algum problema interno no servidor!';
+                } else {
+                    this.mensagemRequisicaoIndicadores = 'Um erro inesperado aconteceu, busque suporte!';
+                }
+                this.alertaRequisicaoIndicadores = true;
+            },
+  
+            tratarErroMetas(status) {
+                this.loaderMetas = false;
+                if (status === 400) {
+                    this.mensagemRequisicaoMetas = 'Erro 400';
+                } else if (status === 500) {
+                    this.mensagemRequisicaoMetas = 'Ops! Ocorreu algum problema interno no servidor!';
+                } else {
+                    this.mensagemRequisicaoMetas = 'Um erro inesperado aconteceu, busque suporte!';
+                }
+                this.alertaRequisicaoMetas = true;
+            },
         },
     }
 </script>
@@ -141,8 +242,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    gap: 12rem;
 }
 
 #window {

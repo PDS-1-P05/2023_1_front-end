@@ -10,6 +10,7 @@ export async function fazerLogin(dadosLogin) {
 
     if (requisicao.status === 200) {
       localStorage.setItem("token_acesso", requisicao.data.token);
+      localStorage.setItem("email_usuario", dadosLogin.email);
       return requisicao.status;
     } else {
       return requisicao.status;
