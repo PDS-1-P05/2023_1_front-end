@@ -4,14 +4,13 @@ import jwt_decode from "jwt-decode";
 export async function fazerLogin(dadosLogin) {
   try {
     const requisicao = await axios.post(
-      "http://localhost:3000/autenticar",
+      "https://20231back-end-production.up.railway.app/autenticar",
       dadosLogin
     );
 
     if (requisicao.status === 200) {
       localStorage.setItem("token_acesso", requisicao.data.token);
-      return requisicao.status;
-    } else {
+      localStorage.setItem("email_usuario", dadosLogin.email);
       return requisicao.status;
     }
   } catch (erro) {
@@ -34,5 +33,15 @@ export async function validarTokenAcesso() {
     }
   } else {
     return false;
+  }
+}
+
+export async function deslogar() {
+  localStorage.removeItem("token_acesso");
+  const token_acesso = localStorage.getItem("token_acesso");
+
+  if (token_acesso) {
+    localStorage.removeItem("token_acesso");
+    return true;
   }
 }
