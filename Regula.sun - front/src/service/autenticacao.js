@@ -1,17 +1,18 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { config } from "../../config/config.js";
+const BASE_URL = config.BASE_URL;
 
 export async function fazerLogin(dadosLogin) {
   try {
     const requisicao = await axios.post(
-      "http://localhost:3000/autenticar",
+      BASE_URL + "/autenticar",
       dadosLogin
     );
 
     if (requisicao.status === 200) {
       localStorage.setItem("token_acesso", requisicao.data.token);
-      return requisicao.status;
-    } else {
+      localStorage.setItem("email_usuario", dadosLogin.email);
       return requisicao.status;
     }
   } catch (erro) {
