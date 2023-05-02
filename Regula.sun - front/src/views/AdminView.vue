@@ -119,7 +119,9 @@
                 let arquivo = this.$store.state.arquivoIndicadores;
                 if (!arquivo) {
                     this.alertaUploadIndicadores = true;
+                    this.alertaUploadIndicadores = true;
                 } else {
+                    this.alertaUploadIndicadores = false;  
                     this.alertaUploadIndicadores = false;  
                     setTimeout(() => {
                         this.emitter.emit('visualizar-indicadores');
@@ -133,7 +135,9 @@
                 let arquivo = this.$store.state.arquivoMetas;
                 if (!arquivo) {
                     this.alertaUploadMetas = true;
+                    this.alertaUploadMetas = true;
                 } else {
+                    this.alertaUploadMetas = false;
                     this.alertaUploadMetas = false;
                     setTimeout(() => {
                         this.emitter.emit('visualizar-metas');
@@ -226,8 +230,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    gap: 12rem;
 }
 
 #window {
@@ -246,25 +248,6 @@
     gap: 3rem;
 
     padding: 3rem;
-}
-
-.erroUpload {
-    display: flex;
-    width: 35rem;
-    padding: 0.8rem;
-    background-color: #F6E0E4;
-    border-radius: 0.5rem;
-    font-size: 1.6rem;
-    color: #B00020;
-}
-
-.erroUpload .mensagemErro {
-    width: 90%;
-}
-
-.erroUpload > button {
-    width: 10%;
-    text-align: center;
 }
 
 .wrapper-tabela {

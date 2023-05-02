@@ -22,24 +22,24 @@ export function retornarColunas(colunas) {
   return cols;
 }
 
-export function formatarIndicadores (json) {
+export function formatarIndicadores(json) {
   var indicadores = {
     emailUsuario: localStorage.getItem("email_usuario"),
     cidades: [],
-    valoresIndicadores: []
+    valoresIndicadores: [],
   };
 
   for (const [coluna] of Object.entries(json.data[0])) {
-    if (coluna !== 'Indicadores') {
+    if (coluna !== "Indicadores") {
       indicadores.cidades.push(coluna);
     }
   }
 
-  for (let cidade = 0; cidade < indicadores.cidades.length; cidade++) {
-    indicadores.valoresIndicadores[cidade] = [];
-    for(let linha = 0; linha < json.data.length; linha++) {
-      let cidadeIndi = indicadores.cidades[cidade];
-      indicadores.valoresIndicadores[cidade].push(json.data[linha][cidadeIndi])
+  for (let i = 0; i < indicadores.cidades.length; i++) {
+    indicadores.valoresIndicadores[i] = [];
+    for (let j = 0; j < json.data.length; j++) {
+      let cidade = indicadores.cidades[i];
+      indicadores.valoresIndicadores[i].push(json.data[j][cidade]);
     }
   }
 
@@ -50,25 +50,26 @@ export function formatarMetas(json) {
   var metas = {
     emailUsuario: localStorage.getItem("email_usuario"),
     cidades: [],
-    ano: '',
-    valoresMetas: []
+    ano: "",
+    valoresMetas: [],
   };
 
-  metas.ano = json.data[0]['Ano'];
+  metas.ano = json.data[0]["Ano"];
 
   for (const [coluna] of Object.entries(json.data[0])) {
-    if (coluna !== 'Metas' && coluna !== 'Ano') {
+    if (coluna !== "Metas" && coluna !== "Ano") {
       metas.cidades.push(coluna);
     }
   }
 
-  for (let cidade = 0; cidade < metas.cidades.length; cidade++) {
-    metas.valoresMetas[cidade] = [];
-    for(let linha = 0; linha < json.data.length; linha++) {
-      let cidadeMeta = metas.cidades[cidade];
-      metas.valoresMetas[cidade].push(json.data[linha][cidadeMeta])
+  for (let i = 0; i < metas.cidades.length; i++) {
+    metas.valoresMetas[i] = [];
+    for (let j = 0; j < json.data.length; j++) {
+      let cidade = metas.cidades[i];
+      metas.valoresMetas[i].push(json.data[j][cidade]);
     }
   }
 
   return metas;
 }
+
