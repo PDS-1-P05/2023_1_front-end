@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 export async function fazerLogin(dadosLogin) {
   try {
     const requisicao = await axios.post(
-      "https://20231back-end-production.up.railway.app/autenticar",
+      "https://regula-sun.up.railway.app/autentica",
       dadosLogin
     );
 
