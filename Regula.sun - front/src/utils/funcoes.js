@@ -35,11 +35,11 @@ export function formatarIndicadores(json) {
     }
   }
 
-  for (let i = 0; i < indicadores.cidades.length; i++) {
-    indicadores.valoresIndicadores[i] = [];
-    for (let j = 0; j < json.data.length; j++) {
-      let cidade = indicadores.cidades[i];
-      indicadores.valoresIndicadores[i].push(json.data[j][cidade]);
+  for (let cidade = 0; cidade < indicadores.cidades.length; cidade++) {
+    indicadores.valoresIndicadores[cidade] = [];
+    for(let linha = 0; linha < json.data.length; linha++) {
+      let cidadeIndi = indicadores.cidades[cidade];
+      indicadores.valoresIndicadores[cidade].push(json.data[linha][cidadeIndi])
     }
   }
 
@@ -62,11 +62,11 @@ export function formatarMetas(json) {
     }
   }
 
-  for (let i = 0; i < metas.cidades.length; i++) {
-    metas.valoresMetas[i] = [];
-    for (let j = 0; j < json.data.length; j++) {
-      let cidade = metas.cidades[i];
-      metas.valoresMetas[i].push(json.data[j][cidade]);
+  for (let cidade = 0; cidade < metas.cidades.length; cidade++) {
+    metas.valoresMetas[cidade] = [];
+    for(let linha = 0; linha < json.data.length; linha++) {
+      let cidadeMeta = metas.cidades[cidade];
+      metas.valoresMetas[cidade].push(json.data[linha][cidadeMeta])
     }
   }
 

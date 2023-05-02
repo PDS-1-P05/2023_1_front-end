@@ -119,9 +119,7 @@
                 let arquivo = this.$store.state.arquivoIndicadores;
                 if (!arquivo) {
                     this.alertaUploadIndicadores = true;
-                    this.alertaUploadIndicadores = true;
                 } else {
-                    this.alertaUploadIndicadores = false;  
                     this.alertaUploadIndicadores = false;  
                     setTimeout(() => {
                         this.emitter.emit('visualizar-indicadores');
@@ -135,9 +133,7 @@
                 let arquivo = this.$store.state.arquivoMetas;
                 if (!arquivo) {
                     this.alertaUploadMetas = true;
-                    this.alertaUploadMetas = true;
                 } else {
-                    this.alertaUploadMetas = false;
                     this.alertaUploadMetas = false;
                     setTimeout(() => {
                         this.emitter.emit('visualizar-metas');
