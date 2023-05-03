@@ -2,13 +2,6 @@ import axios from "axios";
 import { config } from "../../config/config.js";
 const BASE_URL = config.BASE_URL;
 
-const config = {
-  headers: {
-      "x-access-token": localStorage.getItem("token_acesso"),
-      "content-type": "application/json"
-  }
-};
-
 export async function getCidades() {
   try {
     const requisicao = await axios.get(
@@ -23,11 +16,17 @@ export async function getCidades() {
 }
 
 export async function importarIndicadores(jsonIndicadores) {
+  const configHeader = {
+    headers: {
+        "x-access-token": localStorage.getItem("token_acesso"),
+        "content-type": "application/json"
+    }
+  };
   try {
     const requisicao = await axios.post(
       BASE_URL + "/lancamentosIndicadores",
       jsonIndicadores,
-      config
+      configHeader
     );
     return requisicao.status;
   } catch (erro) {
@@ -36,11 +35,17 @@ export async function importarIndicadores(jsonIndicadores) {
 }
 
 export async function importarMetas(jsonMetas) {
+  const configHeader = {
+    headers: {
+        "x-access-token": localStorage.getItem("token_acesso"),
+        "content-type": "application/json"
+    }
+  };
   try {
     const requisicao = await axios.post(
       BASE_URL + "/lancamentosMetas",
       jsonMetas,
-      config
+      configHeader
     );
     return requisicao.status;
   } catch (erro) {
