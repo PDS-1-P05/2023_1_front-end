@@ -2,8 +2,11 @@ import axios from "axios";
 import { config } from "../../config/config.js";
 const BASE_URL = config.BASE_URL;
 
-const headers = {
-  "x-access-token": localStorage.getItem("token_acesso"),
+const config = {
+  headers: {
+      "x-access-token": localStorage.getItem("token_acesso"),
+      "content-type": "application/json"
+  }
 };
 
 export async function getCidades() {
@@ -24,7 +27,7 @@ export async function importarIndicadores(jsonIndicadores) {
     const requisicao = await axios.post(
       BASE_URL + "/lancamentosIndicadores",
       jsonIndicadores,
-      { headers }
+      config
     );
     return requisicao.status;
   } catch (erro) {
@@ -37,7 +40,7 @@ export async function importarMetas(jsonMetas) {
     const requisicao = await axios.post(
       BASE_URL + "/lancamentosMetas",
       jsonMetas,
-      { headers }
+      config
     );
     return requisicao.status;
   } catch (erro) {
