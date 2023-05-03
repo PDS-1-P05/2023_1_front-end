@@ -4,6 +4,8 @@ export default new Vuex.Store({
   state: {
     arquivoIndicadores: null,
     arquivoMetas: null,
+    jsonIndicadores: null,
+    jsonMetas: null,
   },
 
   mutations: {
@@ -13,6 +15,14 @@ export default new Vuex.Store({
 
     salvarMetas(state, arquivo) {
       state.arquivoMetas = arquivo;
+    },
+
+    salvarJsonIndicadores(state, json) {
+      state.jsonIndicadores = json;
+    },
+
+    salvarJsonMetas(state, json) {
+      state.jsonMetas = json;
     },
   },
 });
