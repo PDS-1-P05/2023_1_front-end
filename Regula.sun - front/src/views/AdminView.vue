@@ -189,10 +189,10 @@
 
             tratarErroIndicadores(status) {
                 this.loaderIndicadores = false;
-                this.bgAlertaReqMetas = '';
-                this.colorReqMetas = '';
+                this.bgAlertaReqIndi = '';
+                this.colorReqIndi = '';
                 if (status === 400) {
-                    this.mensagemRequisicaoIndicadores = 'Erro 400';
+                    this.mensagemRequisicaoIndicadores = 'Falha ao efetuar requisição!';
                 } else if (status === 500) {
                     this.mensagemRequisicaoIndicadores = 'Ops! Ocorreu algum problema interno no servidor!';
                 } else {
@@ -203,8 +203,10 @@
   
             tratarErroMetas(status) {
                 this.loaderMetas = false;
+                this.bgAlertaReqMetas = '';
+                this.colorReqMetas = '';
                 if (status === 400) {
-                    this.mensagemRequisicaoMetas = 'Erro 400';
+                    this.mensagemRequisicaoMetas = 'Falha ao efetuar requisição!';
                 } else if (status === 500) {
                     this.mensagemRequisicaoMetas = 'Ops! Ocorreu algum problema interno no servidor!';
                 } else {
