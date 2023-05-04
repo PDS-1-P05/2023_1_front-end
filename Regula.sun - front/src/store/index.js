@@ -6,6 +6,7 @@ export default new Vuex.Store({
     arquivoMetas: null,
     jsonIndicadores: null,
     jsonMetas: null,
+    logado: false,
   },
 
   mutations: {
@@ -24,5 +25,9 @@ export default new Vuex.Store({
     salvarJsonMetas(state, json) {
       state.jsonMetas = json;
     },
+
+    usuarioLogado(state, boolean) {
+      state.logado = boolean;
+    }
   },
 });

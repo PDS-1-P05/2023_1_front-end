@@ -49,11 +49,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { validarTokenAcesso, deslogar } from "../service/autenticacao.js";
-=======
-import { validarTokenAcesso } from "../service/autenticacao.js";
->>>>>>> 901c098d3718ae6ad6c570c23e191b4211dac41e
+import { deslogar, validarTokenAcesso } from "../service/autenticacao.js";
 import router from "@/router";
 
 export default {
@@ -81,7 +77,6 @@ export default {
 
       mobileNav: null,
       larguraJanela: null,
-      logado: false,
     };
   },
 
@@ -90,15 +85,11 @@ export default {
     this.mobile();
   },
 
-  mounted() {
-    validarTokenAcesso().then((token) => {
-      if (token) {
-        router.push("/admin");
-        this.logado = true;
-      } else {
-        this.logado = false;
-      }
-    });
+  computed: {
+    logado() {
+      this.rotaAdmin();
+      return this.$store.state.logado;
+    }
   },
 
   methods: {
@@ -125,19 +116,11 @@ export default {
     },
 
     sair() {
-<<<<<<< HEAD
       const sair = deslogar();
       if (sair) {
         router.push("/login");
-        this.logado = false;
+        this.$store.commit("usuarioLogado", false);
       }
-=======
-      // const sair = deslogar();
-      // if (sair) {
-      //   router.push("/login");
-      //   this.logado = false;
-      // }
->>>>>>> 901c098d3718ae6ad6c570c23e191b4211dac41e
     },
 
     active(link) {
@@ -145,15 +128,17 @@ export default {
         active: this.$route.path === link.para,
       };
     },
-  },
 
-  // mounted() {
-  //   this.teste();
-  //   window.addEventListener('storage', this.teste);
-  // },
-  // beforeUnmount() {
-  //   window.removeEventListener('storage', this.teste);
-  // }
+    rotaAdmin() {
+      validarTokenAcesso().then((token) => {
+        if (!token) {
+          this.links[3].para = "/login";
+        } else {
+          this.links[3].para = "/admin";
+        }
+      })
+    }
+  },
 };
 </script>
 
@@ -290,7 +275,7 @@ li {
   font-weight: bold;
 }
 
-@media screen and (min-width: 601px) and (max-width: 750px) {
+@media screen and (min-width: 600px) and (max-width: 750px) {
   header {
     height: 10rem;
     padding: 0 5rem;
