@@ -39,6 +39,7 @@
                 reader.readAsText(arquivo);
                 reader.onload = () => {
                     const json = processarArquivo(reader.result);
+                    this.$store.commit("salvarJsonIndicadores", json);
                     this.colunas = retornarColunas(json.meta.fields);
                     this.linhas = json.data;
                 };

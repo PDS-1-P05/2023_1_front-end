@@ -1,10 +1,12 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { config } from "../../config/config.js";
+const BASE_URL = config.BASE_URL;
 
 export async function fazerLogin(dadosLogin) {
   try {
     const requisicao = await axios.post(
-      "https://regula-sun.up.railway.app/autentica",
+      BASE_URL + "/autenticar",
       dadosLogin
     );
 

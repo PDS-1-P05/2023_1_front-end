@@ -49,7 +49,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { validarTokenAcesso, deslogar } from "../service/autenticacao.js";
+=======
+import { validarTokenAcesso } from "../service/autenticacao.js";
+>>>>>>> 901c098d3718ae6ad6c570c23e191b4211dac41e
 import router from "@/router";
 
 export default {
@@ -121,11 +125,19 @@ export default {
     },
 
     sair() {
+<<<<<<< HEAD
       const sair = deslogar();
       if (sair) {
         router.push("/login");
         this.logado = false;
       }
+=======
+      // const sair = deslogar();
+      // if (sair) {
+      //   router.push("/login");
+      //   this.logado = false;
+      // }
+>>>>>>> 901c098d3718ae6ad6c570c23e191b4211dac41e
     },
 
     active(link) {

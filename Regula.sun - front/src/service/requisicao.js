@@ -1,13 +1,54 @@
 import axios from "axios";
+import { config } from "../../config/config.js";
+const BASE_URL = config.BASE_URL;
 
 export async function getCidades() {
   try {
-    const requisicao = await axios.get("https://regula-sun.up.railway.app/cidades");
-
-        if (requisicao.status === 200) {
-        return requisicao;
-        }}catch(erro) {
-    console.log(erro);
+    const requisicao = await axios.get(
+      BASE_URL + "/cidades"
+    );
+    if (requisicao.status === 200) {
+      return requisicao;
+    }
+  } catch (erro) {
+    return erro;
   }
+}
 
+export async function importarIndicadores(jsonIndicadores) {
+  const configHeader = {
+    headers: {
+        "x-access-token": localStorage.getItem("token_acesso"),
+        "content-type": "application/json"
+    }
+  };
+  try {
+    const requisicao = await axios.post(
+      BASE_URL + "/lancamentosIndicadores",
+      jsonIndicadores,
+      configHeader
+    );
+    return requisicao.status;
+  } catch (erro) {
+    return erro;
+  }
+}
+
+export async function importarMetas(jsonMetas) {
+  const configHeader = {
+    headers: {
+        "x-access-token": localStorage.getItem("token_acesso"),
+        "content-type": "application/json"
+    }
+  };
+  try {
+    const requisicao = await axios.post(
+      BASE_URL + "/lancamentosMetas",
+      jsonMetas,
+      configHeader
+    );
+    return requisicao.status;
+  } catch (erro) {
+    return erro;
+  }
 }
