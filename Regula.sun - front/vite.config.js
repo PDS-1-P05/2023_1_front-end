@@ -6,6 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/2023.1_front-end',
   plugins: [vue(), vueJsx()],
   test: {
     globals: true,
