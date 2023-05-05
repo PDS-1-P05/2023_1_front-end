@@ -11,9 +11,9 @@ export default {
     name: 'HomeFooter',
     data() {
         return {
-            logo_agems: 'src/assets/AGEMS.svg',
-            logo_nes: 'src/assets/NES.svg',
-            logo_ufms: 'src/assets/UFMS-LOGO.svg'
+            logo_agems: '@/assets/AGEMS.svg',
+            logo_nes: '@/assets/NES.svg',
+            logo_ufms: '@/assets/UFMS-LOGO.svg'
         }
     },    
 }

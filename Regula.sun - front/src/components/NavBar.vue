@@ -6,12 +6,12 @@
       </router-link>
     </v-img>
 
-    <v-icon @click="toggleMenu" class="menu-icon">mdi-menu</v-icon>
+    <v-icon @click="toggleMenu" class="menu-icon" size="x-large">mdi-menu</v-icon>
 
     <nav>
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-menu">
-          <v-icon class="close-icon" @click="toggleDropdown">mdi-close</v-icon>
+          <v-icon class="close-icon" @click="toggleDropdown" size="x-large">mdi-close</v-icon>
           <li v-for="link in links" :key="link.para" @click="toggleFechar">
             <router-link class="nav-item" :to="link.para">
               <v-icon class="nav-icon">{{ link.icone }}</v-icon>
@@ -297,13 +297,13 @@ li {
 
 @media screen and (max-width: 600px) {
   header {
-    height: 5.5rem;
+    height: 8rem;
     padding: 0 5rem;
   }
 
   img {
-    width: 5rem;
-    height: 5rem;
+    width: 7rem;
+    height: 7rem;
   }
 }
 </style>
