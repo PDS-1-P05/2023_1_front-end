@@ -1,21 +1,14 @@
 <template>
     <footer >
-        <a id="agems" href="https://www.agems.ms.gov.br/"><img :src="logo_agems" :alt="Image" width="200" height="80" /></a>
-        <a id="nes" href="https://nes.facom.ufms.br/"><img :src="logo_nes" :alt="Image" width="50" height="86" /></a>
-        <a id="ufms" href="https://www.ufms.br/"><img :src="logo_ufms" :alt="Image" width="100" height="100" /></a>   
+        <a id="agems" href="https://www.agems.ms.gov.br/"><img src="@/assets/AGEMS.svg" :alt="Image" width="200" height="80" /></a>
+        <a id="nes" href="https://nes.facom.ufms.br/"><img src="@/assets/NES.svg" :alt="Image" width="50" height="86" /></a>
+        <a id="ufms" href="https://www.ufms.br/"><img src="@/assets/UFMS-LOGO.svg" :alt="Image" width="100" height="100" /></a>   
     </footer>
 </template>
 
 <script>
 export default {
-    name: 'HomeFooter',
-    data() {
-        return {
-            logo_agems: '@/assets/AGEMS.svg',
-            logo_nes: '@/assets/NES.svg',
-            logo_ufms: '@/assets/UFMS-LOGO.svg'
-        }
-    },    
+    name: 'HomeFooter',    
 }
 </script>
 
