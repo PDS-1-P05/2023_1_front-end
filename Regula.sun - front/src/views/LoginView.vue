@@ -106,7 +106,7 @@ export default {
             if (requisicao === 200) {
                 this.formDesabilitado = false;
                 this.btnLogar = true;
-                this.$store.commit("usuarioLogado", true);
+                // this.$store.commit("usuarioLogado", true);
                 router.push("/admin");
             } else {
                 this.tratarErroRequisicao(requisicao);

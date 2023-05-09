@@ -6,12 +6,12 @@
       </router-link>
     </v-img>
 
-    <v-icon @click="toggleMenu" class="menu-icon" size="x-large">mdi-menu</v-icon>
+    <v-icon @click="toggleMenu" class="menu-icon">mdi-menu</v-icon>
 
     <nav>
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-menu">
-          <v-icon class="close-icon" @click="toggleDropdown" size="x-large">mdi-close</v-icon>
+          <v-icon class="close-icon" @click="toggleDropdown">mdi-close</v-icon>
           <li v-for="link in links" :key="link.para" @click="toggleFechar">
             <router-link class="nav-item" :to="link.para">
               <v-icon class="nav-icon">{{ link.icone }}</v-icon>
@@ -49,9 +49,8 @@
 </template>
 
 <script>
-import { deslogar } from "../service/autenticacao.js";
+import { deslogar, validarTokenAcesso } from "../service/autenticacao.js";
 import router from "@/router";
-import store from "../store/index.js";
 
 export default {
   name: "NavbarVue",
@@ -68,11 +67,6 @@ export default {
           para: "/boletim",
           icone: "mdi-script-text",
           nome: "Boletim",
-        },
-        {
-          para: "/login",
-          icone: "mdi-account-tie",
-          nome: "Login",
         },
         {
           para: "/admin",
@@ -93,8 +87,16 @@ export default {
 
   computed: {
     logado() {
-      return this.$store.state.usuarioLogado;
-    },
+      const oi = this.$store.state.token;
+      // const teste = this.rotaAdmin();
+      // const teste = validarTokenAcesso();
+      console.log("antes do teste")
+      console.log(oi);
+      if (oi) {
+        return true;
+      }
+      return false;
+    }
   },
 
   methods: {
@@ -123,8 +125,8 @@ export default {
     sair() {
       const sair = deslogar();
       if (sair) {
-        store.dispatch("atualizarToken", false);
         router.push("/login");
+        // this.$store.commit("usuarioLogado", false);
       }
     },
 
@@ -134,27 +136,17 @@ export default {
       };
     },
 
-    // teste() {
-    //   if (active()) {
-    //     this.links[3].para = "/login";
-    //     return false;
-    //   } else {
-    //     this.links[3].para = "/admin";
-    //     return true;
-    //   }
-    // },
-
-    // rotaAdmin() {
-    //   validarTokenAcesso().then((token) => {
-    //     if (!token) {
-    //       this.links[3].para = "/login";
-    //       return false;
-    //     } else {
-    //       this.links[3].para = "/admin";
-    //       return true;
-    //     }
-    //   });
-    // },
+    rotaAdmin() {
+      validarTokenAcesso().then((token) => {
+        if (!token) {
+          this.links[3].para = "/login";
+          return false;
+        } else {
+          this.links[3].para = "/admin";
+          return true;
+        }
+      })
+    }
   },
 };
 </script>
@@ -292,7 +284,7 @@ li {
   font-weight: bold;
 }
 
-@media screen and (min-width: 601px) and (max-width: 750px) {
+@media screen and (min-width: 600px) and (max-width: 750px) {
   header {
     height: 10rem;
     padding: 0 5rem;
@@ -311,13 +303,13 @@ li {
 
 @media screen and (max-width: 600px) {
   header {
-    height: 8rem;
+    height: 5.5rem;
     padding: 0 5rem;
   }
 
   img {
-    width: 7rem;
-    height: 7rem;
+    width: 5rem;
+    height: 5rem;
   }
 }
 </style>
