@@ -6,9 +6,20 @@ export default new Vuex.Store({
     arquivoMetas: null,
     jsonIndicadores: null,
     jsonMetas: null,
+    usuarioLogado: false,
+  },
+
+  actions: {
+    atualizarUsuarioLogado({ commit }, logado) {
+      commit("setLogado", logado);
+    },
   },
 
   mutations: {
+    setLogado(state, logado) {
+      state.usuarioLogado = logado;
+    },
+
     salvarIndicadores(state, arquivo) {
       state.arquivoIndicadores = arquivo;
     },
