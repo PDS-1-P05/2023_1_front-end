@@ -8,7 +8,6 @@ export async function fazerLogin(dadosLogin) {
 try {
 const requisicao = await axios.post(BASE_URL + "/autenticar", dadosLogin);
 
-```
 if (requisicao.status === 200) {
   localStorage.setItem("token_acesso", requisicao.data.token);
   localStorage.setItem("email_usuario", dadosLogin.email);
@@ -17,7 +16,6 @@ if (requisicao.status === 200) {
   return requisicao.status;
 }
 
-```
 
 } catch (erro) {
 return erro;
@@ -31,7 +29,7 @@ if (token_acesso) {
 const decodificarToken = jwt_decode(token_acesso);
 const tempoExpiracao = decodificarToken.exp * 1000;
 
-```
+
 if (Date.now() > tempoExpiracao) {
   localStorage.removeItem("token_acesso");
   return false;
@@ -39,7 +37,7 @@ if (Date.now() > tempoExpiracao) {
   return true;
 }
 
-```
+
 
 } else {
 return false;

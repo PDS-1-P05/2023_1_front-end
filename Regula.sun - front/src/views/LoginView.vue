@@ -104,9 +104,9 @@ export default {
 
             const requisicao = await fazerLogin(dadosLogin);
             if (requisicao === 200) {
+                console.log("OIE")
                 this.formDesabilitado = false;
                 this.btnLogar = true;
-                // this.$store.commit("usuarioLogado", true);
                 router.push("/admin");
             } else {
                 this.tratarErroRequisicao(requisicao);
@@ -122,14 +122,24 @@ export default {
         tratarErroRequisicao(requisicao) {
             this.formDesabilitado = false;
             this.btnLogar = true;
+
             const status = requisicao.request.status;
             if (status === 401) {
+                console.log("passei 401");
+
                 this.mensagemAlerta = "Usuário/Senha inválido!"
                 this.alerta = true;
             } else if (status === 500) {
+                console.log("passei 500");
+
                 this.mensagemAlerta = "Ops! Ocorreu algum problema interno no servidor!"
                 this.alerta = true;
+
+            } else if (status === undefined) {
+                console.log("undef")
             } else {
+                console.log("passei 1000");
+
                 this.mensagemAlerta = "Um erro inesperado aconteceu, busque suporte!";
                 this.alerta = true;
             }

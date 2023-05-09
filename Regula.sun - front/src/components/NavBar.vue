@@ -39,6 +39,7 @@
             {{ link.nome }}
           </router-link>
         </li>
+
         <div class="logout-web" v-if="logado" @click="sair">
           <v-icon icon="mdi-logout" />
           Sair
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import { deslogar } from "../service/autenticacao.js";
+import { deslogar, validarTokenAcesso } from "../service/autenticacao.js";
 import router from "@/router";
 import store from "../store/index.js";
 
@@ -70,15 +71,10 @@ export default {
           nome: "Boletim",
         },
         {
-          para: "/login",
-          icone: "mdi-account-tie",
-          nome: "Login",
-        },
-        {
           para: "/admin",
           icone: "mdi-account-tie",
           nome: "Admin",
-        },
+        }
       ],
 
       mobileNav: null,
@@ -93,6 +89,7 @@ export default {
 
   computed: {
     logado() {
+      this.rotaAdmin();
       return this.$store.state.usuarioLogado;
     },
   },
@@ -134,28 +131,33 @@ export default {
       };
     },
 
-    // teste() {
-    //   if (active()) {
-    //     this.links[3].para = "/login";
-    //     return false;
-    //   } else {
-    //     this.links[3].para = "/admin";
-    //     return true;
-    //   }
-    // },
+    rotaAdmin() {
+      validarTokenAcesso().then((token) => {
+        if (!token) {
+          this.links[3].para = "/login";
+          return false;
+        } else {
+          this.links[3].para = "/admin";
+          return true;
+        }
+      });
+    },
 
-    // rotaAdmin() {
-    //   validarTokenAcesso().then((token) => {
-    //     if (!token) {
-    //       this.links[3].para = "/login";
-    //       return false;
-    //     } else {
-    //       this.links[3].para = "/admin";
-    //       return true;
-    //     }
-    //   });
-    // },
   },
+
+  rotaAdmin() {
+    validarTokenAcesso().then((token) => {
+      if (!token) {
+        this.links[3].para = "/login";
+        return false;
+      } else {
+        this.links[3].para = "/admin";
+        return true;
+      }
+    });
+  },
+
+
 };
 </script>
 
