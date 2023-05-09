@@ -1,10 +1,10 @@
 <template>
-     <div class="alerta" v-show="idAlerta" :style="{ backgroundColor: bgColor, color: textColor }">
+     <div class="alerta" :style="{ backgroundColor: bgColor, color: textColor }">
         <div class="mensagem">
             <span> {{ mensagem }}</span>
         </div>
 
-        <button style="font-size: 1.4rem;" @click="idAlerta = false">
+        <button style="font-size: 1.4rem;" @click="">
             <v-icon icon="mdi-window-close"></v-icon>
         </button>
     </div>

@@ -8,7 +8,7 @@
             <v-window-item value="Indicadores" class="window-item">
                 <DragNDrop titulo="Importar Indicadores" idInput="indicadores"></DragNDrop>
 
-                <AlertaInfo v-if="alertaUploadIndicadores" idAlerta="alertaUploadIndicadores"
+                <AlertaInfo v-if="alertaUploadIndicadores" idAlerta="alertaUploadIndicadores" @click="alertaUploadIndicadores = false"
                     mensagem="Insira um arquivo para fazer Upload!"></AlertaInfo>
 
                 <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteIndicadores"></DefaultButton>
@@ -24,7 +24,7 @@
                     <v-progress-circular indeterminate></v-progress-circular>
                 </div>
 
-                <AlertaInfo v-if="alertaRequisicaoIndicadores" idAlerta="alertaRequisicaoIndicadores"
+                <AlertaInfo v-if="alertaRequisicaoIndicadores" idAlerta="alertaRequisicaoIndicadores" @click="alertaRequisicaoIndicadores = false"
                     :mensagem="mensagemRequisicaoIndicadores" :bgColor="bgAlertaReqIndi" :textColor="colorReqIndi">
                 </AlertaInfo>
 
@@ -33,7 +33,7 @@
             <v-window-item value="Metas" class="window-item">
                 <DragNDrop titulo="Importar Metas" idInput="metas"></DragNDrop>
 
-                <AlertaInfo v-if="alertaUploadMetas" idAlerta="alertaUploadMetas"
+                <AlertaInfo v-if="alertaUploadMetas" idAlerta="alertaUploadMetas" @click="alertaUploadMetas = false"
                     mensagem="Insira um arquivo para fazer Upload!"></AlertaInfo>
 
                 <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas"></DefaultButton>
@@ -48,7 +48,7 @@
                     <v-progress-circular indeterminate></v-progress-circular>
                 </div>
 
-                <AlertaInfo v-if="alertaRequisicaoMetas" idAlerta="alertaRequisicaoMetas"
+                <AlertaInfo v-if="alertaRequisicaoMetas" idAlerta="alertaRequisicaoMetas" @click="alertaRequisicaoMetas = false"
                     :mensagem="mensagemRequisicaoMetas" :bgColor="bgAlertaReqMetas" :textColor="colorReqMetas"></AlertaInfo>
 
             </v-window-item>
