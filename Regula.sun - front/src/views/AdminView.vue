@@ -8,8 +8,11 @@
             <v-window-item value="Indicadores" class="window-item">
                 <DragNDrop titulo="Importar Indicadores" idInput="indicadores"></DragNDrop>
 
-                <AlertaInfo v-if="alertaUploadIndicadores" idAlerta="alertaUploadIndicadores"
-                    mensagem="Insira um arquivo para fazer Upload!"></AlertaInfo>
+                <AlertaInfo 
+                    v-if="alertaUploadIndicadores" 
+                    mensagem="Insira um arquivo para fazer Upload!"
+                    :fechar="fecharAlertUpIndi">
+                </AlertaInfo>
 
                 <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteIndicadores"></DefaultButton>
 
@@ -24,8 +27,12 @@
                     <v-progress-circular indeterminate></v-progress-circular>
                 </div>
 
-                <AlertaInfo v-if="alertaRequisicaoIndicadores" idAlerta="alertaRequisicaoIndicadores"
-                    :mensagem="mensagemRequisicaoIndicadores" :bgColor="bgAlertaReqIndi" :textColor="colorReqIndi">
+                <AlertaInfo 
+                    v-if="alertaRequisicaoIndicadores"
+                    :mensagem="mensagemRequisicaoIndicadores" 
+                    :bgColor="bgAlertaReqIndi" 
+                    :textColor="colorReqIndi"
+                    :fechar="fecharAlertReqIndi">
                 </AlertaInfo>
 
             </v-window-item>
@@ -33,8 +40,11 @@
             <v-window-item value="Metas" class="window-item">
                 <DragNDrop titulo="Importar Metas" idInput="metas"></DragNDrop>
 
-                <AlertaInfo v-if="alertaUploadMetas" idAlerta="alertaUploadMetas"
-                    mensagem="Insira um arquivo para fazer Upload!"></AlertaInfo>
+                <AlertaInfo 
+                    v-if="alertaUploadMetas"
+                    mensagem="Insira um arquivo para fazer Upload!"
+                    :fechar="fecharAlertUpMeta"
+                ></AlertaInfo>
 
                 <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas"></DefaultButton>
 
@@ -48,8 +58,13 @@
                     <v-progress-circular indeterminate></v-progress-circular>
                 </div>
 
-                <AlertaInfo v-if="alertaRequisicaoMetas" idAlerta="alertaRequisicaoMetas"
-                    :mensagem="mensagemRequisicaoMetas" :bgColor="bgAlertaReqMetas" :textColor="colorReqMetas"></AlertaInfo>
+                <AlertaInfo 
+                    v-if="alertaRequisicaoMetas"
+                    :mensagem="mensagemRequisicaoMetas" 
+                    :bgColor="bgAlertaReqMetas" 
+                    :textColor="colorReqMetas"
+                    :fechar="fecharAlertReqMeta">
+                </AlertaInfo>
 
             </v-window-item>
         </v-window>
@@ -212,6 +227,22 @@ export default {
                 this.mensagemRequisicaoMetas = 'Um erro inesperado aconteceu, busque suporte!';
             }
             this.alertaRequisicaoMetas = true;
+        },
+
+        fecharAlertUpIndi() {
+            this.alertaUploadIndicadores = false;
+        }, 
+
+        fecharAlertUpMeta() {
+            this.alertaUploadMetas = false;
+        },
+
+        fecharAlertReqIndi(){
+            this.alertaRequisicaoIndicadores = false;
+        },
+
+        fecharAlertReqMeta(){
+            this.alertaRequisicaoMetas = false;
         },
     },
 }
