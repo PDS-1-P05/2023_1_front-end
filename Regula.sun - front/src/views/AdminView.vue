@@ -8,31 +8,27 @@
             <v-window-item value="Indicadores" class="window-item">
                 <DragNDrop titulo="Importar Indicadores" idInput="indicadores"></DragNDrop>
 
-                <AlertaInfo 
-                    v-if="alertaUploadIndicadores" 
-                    mensagem="Insira um arquivo para fazer Upload!"
+                <AlertaInfo v-if="alertaUploadIndicadores" mensagem="Insira um arquivo para fazer Upload!"
                     :fechar="fecharAlertUpIndi">
                 </AlertaInfo>
 
-                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteIndicadores" v-if="preVisualizarIndi"></DefaultButton>
+                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteIndicadores" v-if="preVisualizarIndi">
+                </DefaultButton>
 
                 <div class="wrapper-tabela">
                     <VisualizacaoIndicadores></VisualizacaoIndicadores>
                 </div>
 
-                <DefaultButton conteudo="Importar Dados" v-if="this.$store.state.mostrarTabelaIndi" @click="enviarIndicadores">
+                <DefaultButton conteudo="Importar Dados" v-if="this.$store.state.mostrarTabelaIndi"
+                    @click="enviarIndicadores">
                 </DefaultButton>
 
                 <div class="loader" v-if="this.loaderIndicadores">
                     <v-progress-circular indeterminate></v-progress-circular>
                 </div>
 
-                <AlertaInfo 
-                    v-if="alertaRequisicaoIndicadores"
-                    :mensagem="mensagemRequisicaoIndicadores" 
-                    :bgColor="bgAlertaReqIndi" 
-                    :textColor="colorReqIndi"
-                    :fechar="fecharAlertReqIndi">
+                <AlertaInfo v-if="alertaRequisicaoIndicadores" :mensagem="mensagemRequisicaoIndicadores"
+                    :bgColor="bgAlertaReqIndi" :textColor="colorReqIndi" :fechar="fecharAlertReqIndi">
                 </AlertaInfo>
 
             </v-window-item>
@@ -40,35 +36,29 @@
             <v-window-item value="Metas" class="window-item">
                 <DragNDrop titulo="Importar Metas" idInput="metas"></DragNDrop>
 
-                <AlertaInfo 
-                    v-if="alertaUploadMetas"
-                    mensagem="Insira um arquivo para fazer Upload!"
-                    :fechar="fecharAlertUpMeta"
-                ></AlertaInfo>
+                <AlertaInfo v-if="alertaUploadMetas" mensagem="Insira um arquivo para fazer Upload!"
+                    :fechar="fecharAlertUpMeta"></AlertaInfo>
 
-                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas" v-if="preVisualizarMetas"></DefaultButton>
+                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas" v-if="preVisualizarMetas">
+                </DefaultButton>
 
                 <div class="wrapper-tabela">
                     <VisualizacaoMetas></VisualizacaoMetas>
                 </div>
 
-                <DefaultButton conteudo="Importar Dados" v-if="this.$store.state.mostrarTabelaMetas" @click="enviarMetas"></DefaultButton>
+                <DefaultButton conteudo="Importar Dados" v-if="this.$store.state.mostrarTabelaMetas" @click="enviarMetas">
+                </DefaultButton>
 
                 <div class="loader" v-if="this.loaderMetas">
                     <v-progress-circular indeterminate></v-progress-circular>
                 </div>
 
-                <AlertaInfo 
-                    v-if="alertaRequisicaoMetas"
-                    :mensagem="mensagemRequisicaoMetas" 
-                    :bgColor="bgAlertaReqMetas" 
-                    :textColor="colorReqMetas"
-                    :fechar="fecharAlertReqMeta">
+                <AlertaInfo v-if="alertaRequisicaoMetas" :mensagem="mensagemRequisicaoMetas" :bgColor="bgAlertaReqMetas"
+                    :textColor="colorReqMetas" :fechar="fecharAlertReqMeta">
                 </AlertaInfo>
 
             </v-window-item>
         </v-window>
-
     </div>
 </template>
 
@@ -233,17 +223,17 @@ export default {
 
         fecharAlertUpIndi() {
             this.alertaUploadIndicadores = false;
-        }, 
+        },
 
         fecharAlertUpMeta() {
             this.alertaUploadMetas = false;
         },
 
-        fecharAlertReqIndi(){
+        fecharAlertReqIndi() {
             this.alertaRequisicaoIndicadores = false;
         },
 
-        fecharAlertReqMeta(){
+        fecharAlertReqMeta() {
             this.alertaRequisicaoMetas = false;
         },
     },
