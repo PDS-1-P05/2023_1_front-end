@@ -104,7 +104,6 @@ export default {
 
             const requisicao = await fazerLogin(dadosLogin);
             if (requisicao === 200) {
-                console.log("OIE")
                 this.formDesabilitado = false;
                 this.btnLogar = true;
                 router.push("/admin");

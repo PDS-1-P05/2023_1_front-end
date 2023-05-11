@@ -7,6 +7,8 @@ export default new Vuex.Store({
     jsonIndicadores: null,
     jsonMetas: null,
     usuarioLogado: false,
+    mostrarTabelaIndi: false,
+    mostrarTabelaMetas: false,
   },
 
   actions: {
@@ -34,6 +36,14 @@ export default new Vuex.Store({
 
     salvarJsonMetas(state, json) {
       state.jsonMetas = json;
+    },
+
+    mostrarTabelaIndicadores(state, valido) {
+      state.mostrarTabelaIndi = valido;
+    },
+
+    mostrarTabelaMetas(state, valido) {
+      state.mostrarTabelaMetas = valido;
     },
   },
 });

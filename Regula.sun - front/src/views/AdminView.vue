@@ -14,13 +14,13 @@
                     :fechar="fecharAlertUpIndi">
                 </AlertaInfo>
 
-                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteIndicadores"></DefaultButton>
+                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteIndicadores" v-if="preVisualizarIndi"></DefaultButton>
 
-                <div v-if="mostrarTabelaIndicadores" class="wrapper-tabela">
+                <div class="wrapper-tabela">
                     <VisualizacaoIndicadores></VisualizacaoIndicadores>
                 </div>
 
-                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaIndicadores" @click="enviarIndicadores">
+                <DefaultButton conteudo="Importar Dados" v-if="this.$store.state.mostrarTabelaIndi" @click="enviarIndicadores">
                 </DefaultButton>
 
                 <div class="loader" v-if="this.loaderIndicadores">
@@ -46,13 +46,13 @@
                     :fechar="fecharAlertUpMeta"
                 ></AlertaInfo>
 
-                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas"></DefaultButton>
+                <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas" v-if="preVisualizarMetas"></DefaultButton>
 
-                <div v-if="mostrarTabelaMetas" class="wrapper-tabela">
+                <div class="wrapper-tabela">
                     <VisualizacaoMetas></VisualizacaoMetas>
                 </div>
 
-                <DefaultButton conteudo="Importar Dados" v-if="mostrarTabelaMetas" @click="enviarMetas"></DefaultButton>
+                <DefaultButton conteudo="Importar Dados" v-if="this.$store.state.mostrarTabelaMetas" @click="enviarMetas"></DefaultButton>
 
                 <div class="loader" v-if="this.loaderMetas">
                     <v-progress-circular indeterminate></v-progress-circular>
@@ -92,8 +92,8 @@ export default {
             tab: null,
             alertaUploadIndicadores: false,
             alertaUploadMetas: false,
-            mostrarTabelaIndicadores: false,
-            mostrarTabelaMetas: false,
+            preVisualizarIndi: true,
+            preVisualizarMetas: true,
             alertaRequisicaoIndicadores: false,
             alertaRequisicaoMetas: false,
             mensagemRequisicaoIndicadores: '',
@@ -138,8 +138,6 @@ export default {
                 setTimeout(() => {
                     this.emitter.emit('visualizar-indicadores');
                 }, 100);
-
-                this.mostrarTabelaIndicadores = true;
             }
         },
 
@@ -152,14 +150,13 @@ export default {
                 setTimeout(() => {
                     this.emitter.emit('visualizar-metas');
                 }, 100);
-
-                this.mostrarTabelaMetas = true;
             }
         },
 
         async enviarIndicadores() {
             this.loaderIndicadores = true;
-            this.mostrarTabelaIndicadores = false;
+            this.preVisualizarIndi = false;
+            this.$store.commit('mostrarTabelaIndicadores', false);
             let json = this.$store.state.jsonIndicadores;
             const formatarJSON = formatarIndicadores(json);
             const requisicao = await importarIndicadores(formatarJSON);
@@ -172,7 +169,8 @@ export default {
 
         async enviarMetas() {
             this.loaderMetas = true;
-            this.mostrarTabelaMetas = false;
+            this.preVisualizarMetas = false;
+            this.$store.commit('mostrarTabelaMetas', false);
             let json = this.$store.state.jsonMetas;
             const formatarJSON = formatarMetas(json);
             const requisicao = await importarMetas(formatarJSON);
@@ -185,6 +183,7 @@ export default {
 
         tratarSucessoIndicadores() {
             this.loaderIndicadores = false;
+            this.preVisualizarIndi = true;
             this.$store.commit("salvarJsonIndicadores", null);
             this.bgAlertaReqIndi = 'var(--corSecundaria)',
                 this.colorReqIndi = 'var(--branco)',
@@ -194,6 +193,7 @@ export default {
 
         tratarSucessoMetas() {
             this.loaderMetas = false;
+            this.preVisualizarMetas = true;
             this.$store.commit("salvarJsonMetas", null);
             this.bgAlertaReqMetas = 'var(--corSecundaria)',
                 this.colorReqMetas = 'var(--branco)',
@@ -203,6 +203,7 @@ export default {
 
         tratarErroIndicadores(status) {
             this.loaderIndicadores = false;
+            this.preVisualizarIndi = true;
             this.bgAlertaReqIndi = '';
             this.colorReqIndi = '';
             if (status === 400) {
@@ -217,6 +218,7 @@ export default {
 
         tratarErroMetas(status) {
             this.loaderMetas = false;
+            this.preVisualizarMetas = true;
             this.bgAlertaReqMetas = '';
             this.colorReqMetas = '';
             if (status === 400) {
