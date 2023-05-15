@@ -14,9 +14,17 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getIdCidade: (state) => (nome) => {
+      const cidade = state.cidades.find((cidade) => cidade.nome === nome);
+      return cidade ? cidade.id : "";
+    },
     getNomeCidade: (state) => (idCidade) => {
       const cidade = state.cidades.find((cidade) => cidade.id === idCidade);
       return cidade ? cidade.nome : "";
+    },
+    getIdIndicador: (state) => (nome) => {
+      const indicador = state.indicadores.find((indicador) => indicador.criterio === nome);
+      return indicador ? indicador.id : "";
     },
     getNomeIndicador: (state) => (idIndicador) => {
       const indicador = state.indicadores.find((indicador) => indicador.id === idIndicador);
