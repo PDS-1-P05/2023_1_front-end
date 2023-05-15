@@ -1,30 +1,35 @@
 <template>
     <div class="container">
-        <div class="filtros">
+        <div class="titulo">
             Filtros
         </div>
-        <FiltroMunicipios />
-        <FiltroIndicadores />
+        <FiltroMunicipios ref="filtroMunicipio" />
+        <FiltroIndicadores ref="filtroIndicador" />
+        <DefaultButton conteudo="Gerar Gráfico" @click="geraGrafico" />
     </div>
 </template>
 
 <script>
 import FiltroMunicipios from '@/components/FiltroMunicipio.vue';
 import FiltroIndicadores from '@/components/FiltroIndicador.vue';
+import DefaultButton from '@/components/DefaultButton.vue';
 
 export default {
     name: "GraficoView",
     components: {
         FiltroMunicipios,
         FiltroIndicadores,
+        DefaultButton,
     },
 
-    data() {
-        return {
-            municipiosSelecionados: [],
-            indicadoresSelecionados: [],
+    methods: {
+        geraGrafico() {
+            const municipiosSelecionados = this.$refs.filtroMunicipio.municipiosSelecionados;
+            const indicadoresSelecionados = this.$refs.filtroIndicador.indicadoresSelecionados;
+            console.log(municipiosSelecionados);
+            console.log(indicadoresSelecionados);
         }
-    },
+    }
 
 }
 </script>
@@ -32,9 +37,13 @@ export default {
 <style>
 .container {
     margin: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.filtros {
+.titulo {
     font-weight: bold;
     font-size: 3rem;
     width: 100%;

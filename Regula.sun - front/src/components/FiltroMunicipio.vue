@@ -11,7 +11,8 @@
                 <v-list-item v-bind="props" :text="municipio" />
             </template>
         </v-autocomplete>
-        <AlertaInfo class="alerta" v-if="alerta" mensagem="Selecione até 5 municípios" :fechar="fecharAlertaMunicipios" />
+        <AlertaInfo class="alertaM" v-if="alertaMunicipio" mensagem="Selecione até 5 municípios"
+            :fechar="fecharAlertaMunicipios" />
     </div>
 </template>
 
@@ -28,7 +29,7 @@ export default {
         return {
             municipios: [],
             municipiosSelecionados: [],
-            alerta: false,
+            alertaMunicipio: false,
             fecharAlerta: null,
             temporizador: null,
         }
@@ -41,6 +42,7 @@ export default {
     watch: {
         municipiosSelecionados() {
             this.limiteMaxMunicipios();
+
         }
     },
 
@@ -55,18 +57,23 @@ export default {
         limiteMaxMunicipios() {
             if (this.municipiosSelecionados.length > 5) {
                 this.municipiosSelecionados.pop();
-                this.alerta = true;
+                this.alertaMunicipio = true;
                 this.temporizador = setTimeout(() => {
                     this.fecharAlertaMunicipios();
                 }, 5000);
             } else {
-                this.alerta = false;
+                this.alertaMunicipio = false;
                 clearTimeout(this.temporizador);
             }
         },
 
         fecharAlertaMunicipios() {
-            this.alerta = false;
+            this.alertaMunicipio = false;
+            console.log();
+        },
+
+        mostrarMunicipiosSelecionados() {
+            alert(`Municípios selecionados: ${this.municipiosSelecionados.join(", ")}`);
         }
     }
 
@@ -74,9 +81,23 @@ export default {
 </script>
 
 <style>
-.alerta {
+.alertaM {
     position: absolute;
+    right: 10rem;
+    bottom: 75rem;
 }
+
+/* .alertaM {
+    position: absolute;
+    right: 10rem;
+    bottom: 40rem;
+} */
+
+/* .alertaM {
+    position: absolute;
+    right: 8%;
+    bottom: 70%;
+} */
 
 .municipios p {
     color: var(--pretoClaro);
@@ -88,5 +109,6 @@ export default {
     display: flex;
     flex-direction: column;
     margin-top: 3rem;
+    width: 100%;
 }
 </style>

@@ -11,7 +11,7 @@
                 <v-list-item v-bind="props" :text="indicador" />
             </template>
         </v-autocomplete>
-        <AlertaInfo class="alerta" v-if="alerta" mensagem="Selecione até 10 indicadores"
+        <AlertaInfo class="alertaI" v-if="alertaIndicador" mensagem="Selecione até 10 indicadores"
             :fechar="fecharAlertaIndicadores" />
     </div>
 </template>
@@ -29,7 +29,7 @@ export default {
         return {
             indicadores: [],
             indicadoresSelecionados: [],
-            alerta: false,
+            alertaIndicador: false,
             fecharAlerta: null,
             temporizador: null,
         }
@@ -52,26 +52,24 @@ export default {
             const jsonIndicadores = await getIndicadores();
             const indicadores = retornarDados(jsonIndicadores, "criterio");
             this.indicadores = indicadores;
-            console.log(jsonIndicadores);
-
         },
 
         limiteMaxIndicadores() {
             if (this.indicadoresSelecionados.length > 10) {
                 this.indicadoresSelecionados.pop();
-                this.alerta = true;
+                this.alertaIndicador = true;
                 this.temporizador = setTimeout(() => {
                     this.fecharAlertaIndicadores();
                 }, 5000);
             } else {
-                this.alerta = false;
+                this.alertaIndicador = false;
                 clearTimeout(this.temporizador);
 
             }
         },
 
         fecharAlertaIndicadores() {
-            this.alerta = false;
+            this.alertaIndicador = false;
         }
     },
 
@@ -79,10 +77,23 @@ export default {
 </script>
 
 <style type="text/css">
-.alerta {
+.alertaI {
     position: absolute;
-    bottom: 95%;
+    right: 10rem;
+    bottom: 70rem;
 }
+
+/* .alertaI {
+    position: absolute;
+    right: 10rem;
+    bottom: 35rem;
+} */
+
+/* .alertaI {
+    position: absolute;
+    right: 8%;
+    bottom: 60%;
+} */
 
 .indicadores p {
     color: var(--pretoClaro);
@@ -93,7 +104,8 @@ export default {
 .indicadores {
     display: flex;
     flex-direction: column;
-    margin-top: 5rem;
+    width: 100%;
+    margin: 2rem 0;
 }
 
 .item-indicador {
