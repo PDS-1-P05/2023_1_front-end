@@ -6,6 +6,7 @@
         <FiltroMunicipios ref="filtroMunicipio" />
         <FiltroIndicadores ref="filtroIndicador" />
         <DefaultButton conteudo="Gerar Gráfico" @click="geraGrafico" />
+        <GraficoVue :dados="dados"/>
     </div>
 </template>
 
@@ -13,6 +14,7 @@
 import FiltroMunicipios from '@/components/FiltroMunicipio.vue';
 import FiltroIndicadores from '@/components/FiltroIndicador.vue';
 import DefaultButton from '@/components/DefaultButton.vue';
+import GraficoVue from '../components/GraficoVue.vue';
 
 export default {
     name: "GraficoView",
@@ -20,6 +22,7 @@ export default {
         FiltroMunicipios,
         FiltroIndicadores,
         DefaultButton,
+        GraficoVue
     },
 
     methods: {
