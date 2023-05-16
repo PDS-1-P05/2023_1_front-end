@@ -15,6 +15,19 @@ export async function getCidades() {
   }
 }
 
+export async function getIndicadores() {
+  try {
+    const requisicao = await axios.get(
+      BASE_URL + "/indicadores"
+    );
+    if (requisicao.status === 200) {
+      return requisicao;
+    }
+  } catch (erro) {
+    return erro;
+  }
+}
+
 export async function importarIndicadores(jsonIndicadores) {
   const configHeader = {
     headers: {

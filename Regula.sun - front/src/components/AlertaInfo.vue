@@ -1,10 +1,7 @@
 <template>
-     <div class="alerta" v-show="idAlerta" :style="{ backgroundColor: bgColor, color: textColor }">
-        <div class="mensagem">
-            <span> {{ mensagem }}</span>
-        </div>
-
-        <button style="font-size: 1.4rem;" @click="idAlerta = false">
+    <div class="alerta" :style="{ backgroundColor: bgColor, color: textColor, width: widthAlerta }">
+        <div class="mensagem" v-html="mensagem"></div>
+        <button style="font-size: 1.4rem;" @click="fechar">
             <v-icon icon="mdi-window-close"></v-icon>
         </button>
     </div>
@@ -15,10 +12,6 @@
         name: 'AlertaInfo',
 
         props: {
-            idAlerta: {
-                type: String,
-                required: true
-            },
             mensagem: {
                 type: String,
                 required: true
@@ -28,7 +21,11 @@
             },
             textColor: {
                 type: String,
-            }
+            },
+            widthAlerta: {
+                type: String,
+            },
+            fechar: Function
         },
     }
 </script>

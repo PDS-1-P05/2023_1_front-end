@@ -39,6 +39,7 @@
             {{ link.nome }}
           </router-link>
         </li>
+
         <div class="logout-web" v-if="logado" @click="sair">
           <v-icon icon="mdi-logout" />
           Sair
@@ -49,8 +50,9 @@
 </template>
 
 <script>
-import { validarTokenAcesso } from "../service/autenticacao.js";
+import { deslogar, validarTokenAcesso } from "../service/autenticacao.js";
 import router from "@/router";
+import store from "../store/index.js";
 
 export default {
   name: "NavbarVue",
@@ -72,12 +74,11 @@ export default {
           para: "/admin",
           icone: "mdi-account-tie",
           nome: "Admin",
-        },
+        }
       ],
 
       mobileNav: null,
       larguraJanela: null,
-      logado: false,
     };
   },
 
@@ -86,15 +87,11 @@ export default {
     this.mobile();
   },
 
-  mounted() {
-    validarTokenAcesso().then((token) => {
-      if (token) {
-        router.push("/admin");
-        this.logado = true;
-      } else {
-        this.logado = false;
-      }
-    });
+  computed: {
+    logado() {
+      this.rotaAdmin();
+      return this.$store.state.usuarioLogado;
+    },
   },
 
   methods: {
@@ -121,11 +118,11 @@ export default {
     },
 
     sair() {
-      // const sair = deslogar();
-      // if (sair) {
-      //   router.push("/login");
-      //   this.logado = false;
-      // }
+      const sair = deslogar();
+      if (sair) {
+        store.dispatch("atualizarToken", false);
+        router.push("/login");
+      }
     },
 
     active(link) {
@@ -133,15 +130,34 @@ export default {
         active: this.$route.path === link.para,
       };
     },
+
+    rotaAdmin() {
+      validarTokenAcesso().then((token) => {
+        if (!token) {
+          this.links[3].para = "/login";
+          return false;
+        } else {
+          this.links[3].para = "/admin";
+          return true;
+        }
+      });
+    },
+
   },
 
-  // mounted() {
-  //   this.teste();
-  //   window.addEventListener('storage', this.teste);
-  // },
-  // beforeUnmount() {
-  //   window.removeEventListener('storage', this.teste);
-  // }
+  rotaAdmin() {
+    validarTokenAcesso().then((token) => {
+      if (!token) {
+        this.links[3].para = "/login";
+        return false;
+      } else {
+        this.links[3].para = "/admin";
+        return true;
+      }
+    });
+  },
+
+
 };
 </script>
 
