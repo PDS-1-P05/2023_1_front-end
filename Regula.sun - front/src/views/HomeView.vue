@@ -342,13 +342,6 @@ main p {
   left: -10rem;
 }
 
-.limitador {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 1024px;
-}
-
 #ranking {
   display: flex;
   justify-content: center;
@@ -381,7 +374,7 @@ main p {
 
 #ranking p {
   font-family: var(--fonteSecundaria);
-  font-size: 0.8rem;
+  font-size: 1.3rem;
 }
 
 .ranking-wrapper {
