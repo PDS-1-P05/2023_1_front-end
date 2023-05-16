@@ -3,8 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import AdminView from "../views/AdminView.vue";
 import Grafico from "../views/GraficoView.vue";
-import Grafico from "../views/GraficoView.vue";
-// import Boletim from "../views/BoletimView.vue";
+import Boletim from "../views/BoletimView.vue";
 import { validarTokenAcesso } from "../service/autenticacao";
 import store from "../store/index.js";
 
@@ -21,11 +20,11 @@ const router = createRouter({
             name: "grafico",
             component: Grafico,
         },
-        // {
-        //   path: "/boletim",
-        //   name: "boletim",
-        //   component: Boletim,
-        // },
+        {
+          path: "/boletim",
+          name: "boletim",
+          component: Boletim,
+        },
         {
             path: "/login",
             name: "login",
