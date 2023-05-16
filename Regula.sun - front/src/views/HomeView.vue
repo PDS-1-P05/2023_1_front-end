@@ -52,7 +52,7 @@
             </div>
             <div class="linha-vertical-branca"></div>
           </div>
-          <HomeButton conteudo="GERE SEU GRÁFICO!" />
+          <HomeButton @click="redirecionarParaPagina" conteudo="GERE SEU GRÁFICO!" />
         </div>
       </div>
     </section>
@@ -80,6 +80,68 @@
         </div>
       </div>
     </section>
+
+    <section id="ranking">
+      <div class="ranking-wrapper">
+        <div id="ranking-descricao">
+          <h2>
+            RANKING
+          </h2>
+          <p>das melhores cidades de Mato Grosso Do Sul de
+            acordo com seus indicadores e metas </p>
+        </div>
+        <div id="medalhas">
+          <div class="medalha-bottom">
+            <img src="@/assets/MEDALHA-DE-PRATA.svg" alt="Uma medalha de prata com o número 2 nela">
+            <h4>
+              Miranda
+            </h4>
+          </div>
+          <div class="medalha-top">
+            <img src="@/assets/MEDALHA-DE-OURO.svg" alt="Uma medalha de ouro com o número 1 nela">
+            <h4>
+              Campo Grande
+            </h4>
+          </div>
+          <div class="medalha-bottom">
+            <img src="@/assets/MEDALHA-DE-BRONZE.svg" alt="Uma medalha de bronze com o número 3 nela">
+            <h4>
+              Rio Verde
+            </h4>
+          </div>
+        </div>
+        <div id="tabela">
+          <div class="classificacao">
+            <h4>4º</h4>
+            <h5>Três Lagoas</h5>
+          </div>
+          <div class="classificacao">
+            <h4>5º</h4>
+            <h5>Dourados</h5>
+          </div>
+          <div class="classificacao">
+            <h4>6º</h4>
+            <h5>Bonito</h5>
+          </div>
+          <div class="classificacao">
+            <h4>7º</h4>
+            <h5>Corumbá</h5>
+          </div>
+          <div class="classificacao">
+            <h4>8º</h4>
+            <h5>Aquidauana</h5>
+          </div>
+          <div class="classificacao">
+            <h4>9º</h4>
+            <h5>Maracaju</h5>
+          </div>
+          <div class="classificacao">
+            <h4>10º</h4>
+            <h5>Coxim</h5>
+          </div>
+        </div>
+      </div>
+    </section>
     <HomeFooter></HomeFooter>
   </main>
 </template>
@@ -88,6 +150,7 @@
 
 import HomeButton from '@/components/HomeButton.vue'
 import HomeFooter from '@/components/HomeFooter.vue'
+import { TimeScale } from 'chart.js';
 
 export default {
   components: {
@@ -109,6 +172,10 @@ export default {
   methods: {
     onResize() {
       this.largura = window.innerWidth;
+    },
+
+    redirecionarParaPagina() {
+      this.$router.push('/grafico')
     }
   },
 
@@ -133,7 +200,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 main {
   color: var(--preto);
@@ -275,11 +342,87 @@ main p {
   left: -10rem;
 }
 
-.limitador {
+#ranking {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 1024px;
+
+  padding-inline: 1.5rem;
+  padding-block: 9rem;
+
+  background-color: var(--corPrincipalEscura);
+  color: var(--branco);
+}
+
+#ranking h2 {
+  font-family: var(--fontePrincipal);
+  font-weight: bold;
+  font-size: 2.1rem;
+}
+
+#ranking h4 {
+  font-family: var(--fontePrincipal);
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+#ranking h5 {
+  font-family: var(--fontePrincipal);
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+#ranking p {
+  font-family: var(--fonteSecundaria);
+  font-size: 1.3rem;
+}
+
+.ranking-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+
+  max-width: 57rem;
+}
+
+#ranking-descricao {
+  text-align: center;
+}
+
+#medalhas {
+  display: flex;
+  justify-content: space-between;
+
+  height: 16rem;
+}
+
+.medalha-top,
+.medalha-bottom {
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+
+  gap: 1rem;
+}
+
+.medalha-top {
+  justify-content: start;
+}
+
+.medalha-bottom {
+  justify-content: end;
+}
+
+#tabela {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.classificacao {
+  display: flex;
+  justify-content: space-between;
 }
 
 @media screen and (min-width: 600px) {
