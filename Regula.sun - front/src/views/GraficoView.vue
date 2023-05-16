@@ -6,7 +6,7 @@
         <FiltroMunicipios ref="filtroMunicipio" />
         <FiltroIndicadores ref="filtroIndicador" />
         <DefaultButton conteudo="Gerar Gráfico" @click="geraGrafico" />
-        <GraficoVue :dados="dados"/>
+        <GraficoVue :dados="dados" />
     </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
     margin: 10rem;
     display: flex;

@@ -4,13 +4,11 @@
       <h2>Boletim</h2>
       <SelectBoletim @update:modelValue="atualizarMunicipio" />
       <DefaultButton conteudo="Pré-Visualizar Boletim" @click="gerarPDF" />
-
       <AlertaInfo :valor="valordaview" v-if="alerta" idAlerta="BoletimMunicipio"
         mensagem="Selecione um município para gerar o Boletim" :fechar="fecharAlerta" />
-      <Modelo v-if="PDF" />
     </section>
     <section v-if="modeloPDF" id="preview-pdf">
-      <Modelo />
+      <ModeloBoletim />
     </section>
     <section id="info">
       <div id="definicao">
@@ -67,13 +65,13 @@
 <script>
 import SelectBoletim from '@/components/SelectBoletim.vue';
 import DefaultButton from '@/components/DefaultButton.vue';
-import Modelo from "@/components/Modelo.vue";
+import ModeloBoletim from "@/components/ModeloBoletim.vue";
 import AlertaInfo from '@/components/AlertaInfo.vue';
 
 export default {
   components: {
     SelectBoletim,
-    Modelo,
+    ModeloBoletim,
     AlertaInfo,
     DefaultButton
   },
@@ -179,8 +177,9 @@ button {
 }
 
 #preview-pdf {
-  background-color: rgba(203, 206, 211, 0.44);
-  border-radius: 2px;
+  background-color: rgba(202, 203, 204, 0.44);
+  padding: 2rem;
+  border-radius: 5px;
 }
 
 #info {
