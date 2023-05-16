@@ -7,6 +7,7 @@ import mkcert from 'vite-plugin-mkcert'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/2023_1_front-end',
   server: { https: true },
   plugins: [vue(), vueJsx(), mkcert()],
   test: {
