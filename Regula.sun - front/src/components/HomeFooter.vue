@@ -20,32 +20,63 @@ footer {
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
-    padding: 5rem 14rem;
+    padding: 5rem 10rem;
     /* margin-top: 90px;
-    margin-bottom: 143px; */
-    /* padding-top: 2%;
+    margin-bottom: 143px;
+    padding-top: 2%;
     padding-bottom: 5%; */
+}
+
+#agems {
+    margin-top: 1rem;
+}
+
+#ufms {
+    margin-right: 3rem;
 }
 
 @media (max-width: 650px) {
     footer {
         flex-direction: column;
-        text-align: center;
+        align-items: center;
     }
 
     #agems {
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
     }
 
     #nes {
-        margin-top: 10px;
-        margin-bottom: 20px;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
     }
 
     #ufms {
-        margin-top: 10px;
-        margin-bottom: 20px;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        margin-left: 3rem;
+    }
+}
+
+@media (max-width: 485px) {
+    footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #agems {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    #nes {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    #ufms {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
     }
 }
 </style>

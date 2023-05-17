@@ -39,8 +39,6 @@ export default {
     width: 30rem;
     height: 1rem;
     border-radius: 5rem;
-    position: relative;
-    z-index: 1;
 }
 
 .seletor label {
