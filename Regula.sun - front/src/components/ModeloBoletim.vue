@@ -47,19 +47,19 @@
             {{ info.indicador }}
           </td>
           <td>
-            <img :src="info.ano_1" :width="10" />
+            <img :src="info.ano_1" :width="20" />
           </td>
           <td>
-            <img :src="info.ano_2" :width="10" />
+            <img :src="info.ano_2" :width="20" />
           </td>
           <td>
-            <img :src="info.ano_3" :width="10" />
+            <img :src="info.ano_3" :width="20" />
           </td>
           <td>
-            <img :src="info.ano_4" :width="10" />
+            <img :src="info.ano_4" :width="20" />
           </td>
           <td>
-            <img :src="info.ano_5" :width="10" />
+            <img :src="info.ano_5" :width="20" />
           </td>
           <td>
             {{ info.valor }}
@@ -247,17 +247,17 @@ export default {
           letterRendering: true,
           useCORS: true,
           scale: 2,
-          quality: 4,
+          quality: 4
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
 
-      const element = document.getElementById('boletim'); // Insira o ID do seu componente aqui
-      const teste = html2pdf().set(options).from(element).save();
-      this.$store.commit('arquivoBoletim', teste);
+      const element = document.getElementById('boletim');
+      html2pdf().set(options).from(element).save();
+      // this.$store.commit('arquivoBoletim', teste);
 
       // const urlPDF = this.$store.commit('arquivoBoletim', teste);
-      window.open('arquivo', '_blank');
+      // window.open('arquivo', '_blank');
 
 
       // var linkTemp = document.createElement("a");
@@ -288,13 +288,7 @@ export default {
 </script>
   
 <style scoped>
-/* * {
-  background-color: #fff;
-  border-radius: 2px;
-  padding: 3rem;
-} */
-
-#boletim:not(footer) {
+#boletim>*:not(:last-child) {
   margin: 3rem;
 }
 
@@ -304,7 +298,7 @@ export default {
 }
 
 button {
-  background-color: grey;
+  background-color: var(--corSecundaria);
   width: 15rem;
   height: 4rem;
   border-radius: 0.5rem;
@@ -407,7 +401,7 @@ td:not(:nth-child(1)) {
 
 .item-component img {
   height: 1.8rem;
-  width: 1.3rem;
+  width: 1.4rem;
 }
 
 .item-component p {
@@ -423,6 +417,7 @@ footer {
 
 .bottom-amarelo {
   height: 1rem;
+  margin-top: 12.61rem;
   /* margin: 9rem 0 0 0; */
   background: #ebda40;
 }

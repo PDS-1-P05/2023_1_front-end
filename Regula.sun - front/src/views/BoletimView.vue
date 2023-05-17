@@ -5,7 +5,7 @@
       <SelectBoletim @update:modelValue="atualizarMunicipio" />
       <DefaultButton target="_blank" conteudo="Pré-Visualizar Boletim" @click="preVisualizar" />
       <AlertaInfo :valor="valordaview" v-if="alerta" idAlerta="BoletimMunicipio"
-        mensagem="Selecione um município para gerar o Boletim" :fechar="fecharAlerta" />
+        mensagem="Selecione um município para gerar o Boletim" :fechar="fecharAlerta" widthAlerta="40rem" />
     </section>
     <section v-if="modeloPDF" id="preview-pdf">
       <ModeloBoletim />
@@ -87,7 +87,6 @@ export default {
       preto: 'src/assets/preto.svg',
 
       alerta: false,
-      fecharAlertaAAAA: null,
       temporizador: null,
       municipioSelecionado: null,
       valordaview: 'meu valor da view',
@@ -98,7 +97,6 @@ export default {
   methods: {
     atualizarMunicipio(municipio) {
       this.municipioSelecionado = municipio;
-      this.$store.commit('salvarMunicipioSelecionado', this.municipioSelecionado);
     },
 
     preVisualizar() {
@@ -109,6 +107,7 @@ export default {
         }, 5000);
       } else {
         clearTimeout(this.temporizador);
+        this.$store.commit('salvarMunicipioSelecionado', this.municipioSelecionado);
         this.modeloPDF = true;
 
         // window.open(caminhoPDF, '_blank');
@@ -183,7 +182,7 @@ button {
 }
 
 #preview-pdf {
-  background-color: rgba(202, 203, 204, 0.44);
+  background-color: rgba(226, 231, 235, 0.44);
   padding: 2rem;
   border-radius: 5px;
 }
