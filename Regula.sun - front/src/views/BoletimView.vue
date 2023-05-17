@@ -23,7 +23,7 @@
       </div>
       <div id="informacao">
         <h3>
-          Quais informações terá nele?
+          Quais informações terão nele?
         </h3>
         <p>
           As informações exibidas serão o ano em que foi coletado os dados alguns indicadores junto
@@ -98,6 +98,7 @@ export default {
   methods: {
     atualizarMunicipio(municipio) {
       this.municipioSelecionado = municipio;
+      this.$store.commit('salvarMunicipioSelecionado', this.municipioSelecionado);
     },
 
     preVisualizar() {

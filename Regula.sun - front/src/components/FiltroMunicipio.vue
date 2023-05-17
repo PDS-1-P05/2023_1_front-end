@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .alertaM {
     position: absolute;
     right: 10rem;

@@ -16,7 +16,7 @@
     </div>
 
     <div class="municipio">
-      <p class="nome-municipio">Abaiara</p>
+      <p class="nome-municipio">{{ municipioEscolhido }}</p>
 
       <div class="info-municipio">
         <p>População Urbana (hab.)</p>
@@ -106,7 +106,7 @@
   
 <script>
 import html2pdf from 'html2pdf.js';
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 
 
 export default {
@@ -238,8 +238,9 @@ export default {
 
   methods: {
     baixarPDF() {
+      const nomeMunicipio = this.$store.state.municipioEscolhido;
       const options = {
-        filename: 'nome-cidade.pdf',
+        filename: `${nomeMunicipio}.pdf`,
         image: { type: 'jpeg', quality: 1 },
         html2canvas: {
           dpi: 600,
@@ -272,10 +273,16 @@ export default {
   },
 
   computed: {
-    ...mapState({
-      arquivo: arquivoBoletim => arquivoBoletim.teste
-    })
+    municipioEscolhido() {
+      return this.$store.state.municipioEscolhido;
+    },
   },
+
+  // computed: {
+  //   ...mapState({
+  //     arquivo: arquivoBoletim => arquivoBoletim.teste
+  //   })
+  // },
 
 };
 </script>

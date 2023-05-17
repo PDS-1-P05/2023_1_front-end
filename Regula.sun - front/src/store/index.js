@@ -12,6 +12,7 @@ export default new Vuex.Store({
     indicadores: [],
     cidades: [],
     arquivoBoletim: null,
+    municipioEscolhido: null,
   },
 
   getters: {
@@ -70,6 +71,10 @@ export default new Vuex.Store({
 
     armazenarBoletins(state, arquivo) {
       state.arquivoBoletim = arquivo;
+    },
+
+    salvarMunicipioSelecionado(state, municipio) {
+      state.municipioEscolhido = municipio;
     }
   },
 });
