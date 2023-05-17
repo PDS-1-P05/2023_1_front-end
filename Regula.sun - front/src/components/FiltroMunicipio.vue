@@ -1,18 +1,20 @@
 <template>
     <div class="municipios">
         <p>Municípios (Máx. 5)</p>
-        <v-autocomplete v-model="municipiosSelecionados" :items="municipios" chips closable-chips multiple :max="5">
+        <v-autocomplete v-model="municipiosSelecionados" :items="municipios" chips closable-chips multiple :max="5" :variant="null" class="autocomplete">
             <template v-slot:chip="{ props, municipio }">
-                <v-chip v-bind="props" :text="municipio"
-                    style="font-size: 15px; margin-right: 3px; color: var(--corPrincipalEscura)" />
+                <v-chip 
+                    v-bind="props" 
+                    :text="municipio"
+                    style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" 
+                />
             </template>
 
             <template v-slot:item="{ props, municipio }">
-                <v-list-item v-bind="props" :text="municipio" />
+                <v-list-item v-bind="props" :text="municipio" style="font-size: 8rem"/>
             </template>
         </v-autocomplete>
-        <AlertaInfo class="alertaM" v-if="alertaMunicipio" mensagem="Selecione até 5 municípios"
-            :fechar="fecharAlertaMunicipios" />
+        <AlertaInfo class="alertaM" v-if="alertaMunicipio" mensagem="Selecione até 5 municípios" :fechar="fecharAlertaMunicipios" />
     </div>
 </template>
 
@@ -80,24 +82,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .alertaM {
     position: absolute;
     right: 10rem;
     bottom: 75rem;
 }
 
-/* .alertaM {
-    position: absolute;
-    right: 10rem;
-    bottom: 40rem;
-} */
-
-/* .alertaM {
-    position: absolute;
-    right: 8%;
-    bottom: 70%;
-} */
+.municipios {
+    margin-top: 3rem;
+    width: 100%;
+}
 
 .municipios p {
     color: var(--pretoClaro);
@@ -105,10 +100,16 @@ export default {
     margin-bottom: 1rem;
 }
 
-.municipios {
-    display: flex;
-    flex-direction: column;
-    margin-top: 3rem;
-    width: 100%;
+.autocomplete{
+    font-family: var(--fontePrincipal);
+    border: 0.15rem solid var(--corTerciariaEscura);
+    border-radius: 0.6rem;
+}
+
+@media (max-width: 720px) {
+    .municipios {
+        width: 95vw;
+        margin-bottom: 2rem;
+    }
 }
 </style>

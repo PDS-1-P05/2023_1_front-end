@@ -20,16 +20,7 @@
                             @click:append="showPassword = !showPassword" v-model="senha">
                         </v-text-field>
                     </div>
-                    <div class="alerta" v-if="alerta">
-                        <div class="descricao">
-                            <v-icon icon="mdi-alert-circle-outline"></v-icon>
-                            <h3> {{ mensagemAlerta }}</h3>
-                        </div>
-                        <div class="fecharAlerta">
-                            <v-btn style="font-size: 1.4rem;" variant="text" icon="mdi-window-close"
-                                @click="this.alerta = false"></v-btn>
-                        </div>
-                    </div>
+                    <AlertaInfo v-if="alerta" :mensagem="mensagemAlerta" :fechar="fecharAlerta"></AlertaInfo>
                     <div class="loader" v-if="this.formDesabilitado">
                         <v-progress-circular indeterminate></v-progress-circular>
                     </div>
@@ -49,9 +40,14 @@
 import sjcl from 'sjcl';
 import { fazerLogin, validarTokenAcesso } from "../service/autenticacao.js";
 import router from "@/router";
+import AlertaInfo from '../components/AlertaInfo.vue';
 
 export default {
     name: "LoginView",
+
+    components: {
+        AlertaInfo,
+    },
 
     data() {
         return {
@@ -124,25 +120,23 @@ export default {
 
             const status = requisicao.request.status;
             if (status === 401) {
-                console.log("passei 401");
-
                 this.mensagemAlerta = "Usuário/Senha inválido!"
-                this.alerta = true;
             } else if (status === 500) {
-                console.log("passei 500");
-
                 this.mensagemAlerta = "Ops! Ocorreu algum problema interno no servidor!"
-                this.alerta = true;
-
-            } else if (status === undefined) {
-                console.log("undef")
-            } else {
-                console.log("passei 1000");
-
-                this.mensagemAlerta = "Um erro inesperado aconteceu, busque suporte!";
-                this.alerta = true;
             }
-        }
+            else {
+                this.mensagemAlerta = "Um erro inesperado aconteceu, busque suporte!";
+            }
+
+            this.alerta = true;
+            setTimeout(() => {
+                this.fecharAlerta();
+            }, 5000);
+        },
+
+        fecharAlerta() {
+            this.alerta = false;
+        },
     }
 
 }
@@ -207,33 +201,6 @@ export default {
     padding-right: 1rem;
     margin-bottom: 1.5rem;
     font-size: 1.6rem;
-}
-
-.alerta {
-    width: 35rem;
-    display: flex;
-    background-color: #F6E0E4;
-    border-radius: 0.5rem;
-    color: #B00020;
-}
-
-.alerta>.descricao {
-    width: 85%;
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    font-size: 1.6rem;
-}
-
-.alerta>.descricao>h3 {
-    padding-left: 1.2rem;
-    font-size: 1.6rem;
-}
-
-.alerta>.fecharAlerta {
-    width: 15%;
-    border-radius: 0.5rem;
-    align-self: center;
 }
 
 .loader {

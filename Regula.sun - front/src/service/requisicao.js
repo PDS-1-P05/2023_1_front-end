@@ -28,6 +28,17 @@ export async function getIndicadores() {
   }
 }
 
+export async function getDadosGrafico(municipiosIndicadores) {
+  try {
+    const requisicao = await axios.post(BASE_URL + "/grafico", municipiosIndicadores);
+    if (requisicao.status === 200) {
+      return requisicao;
+    }
+  } catch (erro) {
+    return erro;
+  }
+}
+
 export async function importarIndicadores(jsonIndicadores) {
   const configHeader = {
     headers: {

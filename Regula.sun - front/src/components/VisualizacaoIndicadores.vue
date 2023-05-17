@@ -80,6 +80,9 @@
                 if (!validar.municipios) {
                     this.mensagemMunicipios = "Municipios a mais: " + validar.cidEmAcrescimo + "<br>Municipios faltantes: " + validar.cidFaltando + "<br>Municipios fora de ordem: " + validar.cidForaOrdem;
                     this.erroTemplateMunicipios = true;
+                    setTimeout(() => {
+                        this.fecharErroMunicipios();
+                    }, 5000);
                 }
             },
 
@@ -87,6 +90,9 @@
                 if (!validar.indicadores) {
                     this.mensagemIndi = "Indicadores a mais: " + validar.indEmAcrescimo + "<br><br>" + "Indicadores faltantes: " + validar.indFaltando + "<br><br>" + "Indicadores fora de ordem: " + validar.indForaOrdem;
                     this.erroTemplateIndicadores = true;
+                    setTimeout(() => {
+                        this.fecharErroIndicadores();
+                    }, 5000);
                 }
             },
 

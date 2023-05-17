@@ -14,9 +14,17 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getIdMunicipio: (state) => (nome) => {
+      const municipio = state.municipios.find((municipio) => municipio.nome === nome);
+      return municipio ? municipio.id : "";
+    },
     getNomeMunicipio: (state) => (idMunicipio) => {
       const municipio = state.municipios.find((municipio) => municipio.id === idMunicipio);
       return municipio ? municipio.nome : "";
+    },
+    getIdIndicador: (state) => (nome) => {
+      const indicador = state.indicadores.find((indicador) => indicador.criterio === nome);
+      return indicador ? indicador.id : "";
     },
     getNomeIndicador: (state) => (idIndicador) => {
       const indicador = state.indicadores.find((indicador) => indicador.id === idIndicador);

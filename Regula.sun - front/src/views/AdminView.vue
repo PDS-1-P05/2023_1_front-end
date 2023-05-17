@@ -123,6 +123,9 @@ export default {
             let arquivo = this.$store.state.arquivoIndicadores;
             if (!arquivo) {
                 this.alertaUploadIndicadores = true;
+                setTimeout(() => {
+                    this.fecharAlertUpIndi();
+                }, 5000);
             } else {
                 this.alertaUploadIndicadores = false;
                 setTimeout(() => {
@@ -135,6 +138,9 @@ export default {
             let arquivo = this.$store.state.arquivoMetas;
             if (!arquivo) {
                 this.alertaUploadMetas = true;
+                setTimeout(() => {
+                    this.fecharAlertUpMeta();
+                }, 5000);
             } else {
                 this.alertaUploadMetas = false;
                 setTimeout(() => {
@@ -179,6 +185,9 @@ export default {
                 this.colorReqIndi = 'var(--branco)',
                 this.mensagemRequisicaoIndicadores = 'Indicadores importados com sucesso!';
             this.alertaRequisicaoIndicadores = true;
+            setTimeout(() => {
+                this.fecharAlertReqIndi();
+            }, 5000);
         },
 
         tratarSucessoMetas() {
@@ -189,6 +198,9 @@ export default {
                 this.colorReqMetas = 'var(--branco)',
                 this.mensagemRequisicaoMetas = 'Metas importadas com sucesso!';
             this.alertaRequisicaoMetas = true;
+            setTimeout(() => {
+                this.fecharAlertReqMeta();
+            }, 5000);
         },
 
         tratarErroIndicadores(status) {
@@ -204,6 +216,9 @@ export default {
                 this.mensagemRequisicaoIndicadores = 'Um erro inesperado aconteceu, busque suporte!';
             }
             this.alertaRequisicaoIndicadores = true;
+            setTimeout(() => {
+                this.fecharAlertReqIndi();
+            }, 5000);
         },
 
         tratarErroMetas(status) {
@@ -219,6 +234,9 @@ export default {
                 this.mensagemRequisicaoMetas = 'Um erro inesperado aconteceu, busque suporte!';
             }
             this.alertaRequisicaoMetas = true;
+            setTimeout(() => {
+                this.fecharAlertReqMeta();
+            }, 5000);
         },
 
         fecharAlertUpIndi() {

@@ -1,10 +1,13 @@
 <template>
     <div class="indicadores">
         <p>Indicadores (Máx. 10)</p>
-        <v-autocomplete v-model="indicadoresSelecionados" :items="indicadores" chips closable-chips multiple :max="10">
+        <v-autocomplete v-model="indicadoresSelecionados" :items="indicadores" chips closable-chips multiple :max="10" :variant="null" class="autocomplete">
             <template v-slot:chip="{ props, indicador }">
-                <v-chip v-bind="props" :text="indicador"
-                    style="font-size: 15px; margin-right: 3px; color: var(--corPrincipalEscura)" />
+                <v-chip 
+                    v-bind="props" 
+                    :text="indicador"
+                    style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" 
+                />
             </template>
 
             <template v-slot:item="{ props, indicador }">
@@ -76,24 +79,18 @@ export default {
 }
 </script>
 
-<style type="text/css">
+<style scoped>
 .alertaI {
     position: absolute;
     right: 10rem;
     bottom: 70rem;
 }
 
-/* .alertaI {
-    position: absolute;
-    right: 10rem;
-    bottom: 35rem;
-} */
-
-/* .alertaI {
-    position: absolute;
-    right: 8%;
-    bottom: 60%;
-} */
+.indicadores {
+    width: 100%;
+    margin: 2rem;
+    height: auto
+}
 
 .indicadores p {
     color: var(--pretoClaro);
@@ -101,15 +98,22 @@ export default {
     margin-bottom: 1rem;
 }
 
-.indicadores {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 2rem 0;
-}
-
 .item-indicador {
     margin: 0;
     padding: 0;
 }
+
+.autocomplete{
+    font-family: var(--fontePrincipal);
+    border: 0.15rem solid var(--corTerciariaEscura);
+    border-radius: 0.6rem;
+}
+
+@media (max-width: 720px) {
+    .indicadores {
+        width: 95vw;
+        margin-bottom: 2rem;
+    }
+}
+
 </style>
