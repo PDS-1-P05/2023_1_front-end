@@ -1,9 +1,9 @@
 <template>
   <div id="wrapper-boletim">
     <section id="seletor">
-      <h2>Boletim</h2>
+      <p>Boletim</p>
       <SelectBoletim @update:modelValue="atualizarMunicipio" />
-      <DefaultButton conteudo="Pré-Visualizar Boletim" @click="gerarPDF" />
+      <DefaultButton target="_blank" conteudo="Pré-Visualizar Boletim" @click="preVisualizar" />
       <AlertaInfo :valor="valordaview" v-if="alerta" idAlerta="BoletimMunicipio"
         mensagem="Selecione um município para gerar o Boletim" :fechar="fecharAlerta" />
     </section>
@@ -76,21 +76,40 @@ export default {
     DefaultButton
   },
 
+  data() {
+    return {
+      largura: window.innerWidth,
+      classe: '',
+      azul: 'src/assets/azul.svg',
+      verde: 'src/assets/verde.svg',
+      amarelo: 'src/assets/amarelo.svg',
+      vermelho: 'src/assets/vermelho.svg',
+      preto: 'src/assets/preto.svg',
+
+      alerta: false,
+      fecharAlertaAAAA: null,
+      temporizador: null,
+      municipioSelecionado: null,
+      valordaview: 'meu valor da view',
+      modeloPDF: false,
+    };
+  },
+
   methods: {
     atualizarMunicipio(municipio) {
       this.municipioSelecionado = municipio;
     },
 
-    gerarPDF() {
+    preVisualizar() {
       if (!this.municipioSelecionado) {
         this.alerta = true;
         this.temporizador = setTimeout(() => {
           this.fecharAlerta();
         }, 5000);
       } else {
-        // const caminhoPDF = '@/components/Modelo.vue';
         clearTimeout(this.temporizador);
         this.modeloPDF = true;
+
         // window.open(caminhoPDF, '_blank');
       }
       // html2pdf(this.$refs.Modelo, {
@@ -115,31 +134,17 @@ export default {
     }
   },
 
-  data() {
-    return {
-      largura: window.innerWidth,
-      classe: '',
-      azul: 'src/assets/azul.svg',
-      verde: 'src/assets/verde.svg',
-      amarelo: 'src/assets/amarelo.svg',
-      vermelho: 'src/assets/vermelho.svg',
-      preto: 'src/assets/preto.svg',
-
-      alerta: false,
-      fecharAlertaAAAA: null,
-      temporizador: null,
-      municipioSelecionado: null,
-      valordaview: 'meu valor da view',
-      modeloPDF: false,
-      // PDF: false
-    };
-  }
 }
 </script>
 
 <style scoped>
 section {
   color: var(--preto);
+}
+
+#seletor p {
+  font-weight: bold;
+  font-size: 3rem;
 }
 
 #wrapper-boletim {
@@ -186,7 +191,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  margin-bottom: 3rem;
+  margin: 3rem 0;
   text-align: justify;
 }
 

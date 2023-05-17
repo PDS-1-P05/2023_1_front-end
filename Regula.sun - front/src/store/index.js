@@ -11,6 +11,7 @@ export default new Vuex.Store({
     mostrarTabelaMetas: false,
     indicadores: [],
     cidades: [],
+    arquivoBoletim: null,
   },
 
   getters: {
@@ -66,5 +67,9 @@ export default new Vuex.Store({
     armazenarIndicadores(state, indicadores) {
       state.indicadores = indicadores;
     },
+
+    armazenarBoletins(state, arquivo) {
+      state.arquivoBoletim = arquivo;
+    }
   },
 });

@@ -1,6 +1,8 @@
 <template>
-  <button target="_blank" @click="baixarPDF">Baixar Boletim</button>
-  <div id="meu-componente">
+  <div id="botao">
+    <button @click="baixarPDF">Baixar Boletim</button>
+  </div>
+  <div id="boletim" target="_blank">
     <div class="logos">
       <img src="../assets/agemsSVG.svg" width="200" height="45" />
       <img src="../assets/regulasun.svg" width="70" />
@@ -26,10 +28,6 @@
         <p>3.245</p>
       </div>
       <hr />
-      <div class="info-municipio">
-        <p>Vencimento de Delegação</p>
-        <p>06/05/2025</p>
-      </div>
     </div>
 
     <v-table class="tabela">
@@ -73,7 +71,7 @@
       </tbody>
     </v-table>
     <section class="legenda">
-      <h4>Legenda</h4>
+      <p>Legenda</p>
       <div class="legenda-items">
         <div class="item-component">
           <img :src="azul" :alt="Excelente" />
@@ -108,20 +106,22 @@
   
 <script>
 import html2pdf from 'html2pdf.js';
+import { mapState } from 'vuex'
+
 
 export default {
-  name: "TemplateBoletim",
+  name: "ModeloBoletim",
   data() {
     return {
       linha: [
         {
           id: "1",
           indicador: "IA02 – Índice de Atendimento Urbano de Água",
-          ano_1: "@/assets/azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
 
           valor: "71,5",
           un: "%",
@@ -129,11 +129,11 @@ export default {
         {
           id: "2",
           indicador: "IA02 – Índice de Atendimento Urbano de Água",
-          ano_1: "../public/ruim-vermelho.svg",
-          ano_2: "../public/seminfo-preto.svg",
-          ano_3: "../public/bom-verde.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/vermelho.svg",
+          ano_2: "../public/preto.svg",
+          ano_3: "../public/verde.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
 
           valor: "200",
           un: "m³",
@@ -142,32 +142,32 @@ export default {
           id: "3",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
           ano_1: "../public/azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_2: "../public/vermelho.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
         {
           id: "4",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
-          ano_1: "../public/excelente-azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
         {
           id: "5",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
-          ano_1: "../public/excelente-azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
@@ -175,54 +175,54 @@ export default {
           id: "6",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
           ano_1: "../public/azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
         {
           id: "7",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
-          ano_1: "../public/excelente-azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
         {
           id: "8",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
-          ano_1: "../public/excelente-azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
         {
           id: "9",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
-          ano_1: "../public/excelente-azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
         {
           id: "10",
           indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
-          ano_1: "../public/excelente-azul.svg",
-          ano_2: "../public/excelente-azul.svg",
-          ano_3: "../public/excelente-azul.svg",
-          ano_4: "../public/excelente-azul.svg",
-          ano_5: "../public/excelente-azul.svg",
+          ano_1: "../public/azul.svg",
+          ano_2: "../public/azul.svg",
+          ano_3: "../public/azul.svg",
+          ano_4: "../public/azul.svg",
+          ano_5: "../public/azul.svg",
           valor: "1234",
           un: "%",
         },
@@ -251,19 +251,32 @@ export default {
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
 
-      const element = document.getElementById('meu-componente'); // Insira o ID do seu componente aqui
+      const element = document.getElementById('boletim'); // Insira o ID do seu componente aqui
       const teste = html2pdf().set(options).from(element).save();
-      this.$store.commit('salvarPDFBoletim', teste);
+      this.$store.commit('arquivoBoletim', teste);
 
-      var linkTemp = document.createElement("a");
-      linkTemp.href = this.$store.state.pdfBoletim;
-      linkTemp.target = '_blank';
-      linkTemp.download = "arquivo.pdf";
-      linkTemp.click();
+      // const urlPDF = this.$store.commit('arquivoBoletim', teste);
+      window.open('arquivo', '_blank');
+
+
+      // var linkTemp = document.createElement("a");
+      // linkTemp.href = this.$store.state.pdfBoletim;
+      // linkTemp.target = '_blank';
+      // linkTemp.download = "arquivo.pdf";
+      // linkTemp.click();
 
       // window.open('Modelo', '_blank');
     }
-  }
+
+
+  },
+
+  computed: {
+    ...mapState({
+      arquivo: arquivoBoletim => arquivoBoletim.teste
+    })
+  },
+
 };
 </script>
   
@@ -274,6 +287,15 @@ export default {
   padding: 3rem;
 } */
 
+#boletim:not(footer) {
+  margin: 3rem;
+}
+
+#botao {
+  display: flex;
+  justify-content: right;
+}
+
 button {
   background-color: grey;
   width: 15rem;
@@ -283,6 +305,7 @@ button {
   font-size: 1.3rem;
   font-weight: bold;
   color: var(--branco);
+  box-shadow: 0rem 0.2rem 0.5rem var(--preto);
 }
 
 .logos {
@@ -322,14 +345,13 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
   margin: 0;
   padding: 0.5rem 0;
 }
 
 .info-municipio p {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 .tabela {
@@ -355,10 +377,12 @@ td:not(:nth-child(1)) {
   flex-direction: column;
   gap: 1.5rem;
   padding-top: 2.5rem;
+  font-family: var(--fontePrincipal);
+  margin-bottom: 20rem;
 }
 
-.legenda h3 {
-  font-family: var(--fontePrincipal);
+.legenda p:nth-child(1) {
+  font-size: 1.2rem;
 }
 
 .legenda-items {
@@ -392,7 +416,7 @@ footer {
 
 .bottom-amarelo {
   height: 1rem;
-  margin: 7rem 0 0 0;
+  /* margin: 9rem 0 0 0; */
   background: #ebda40;
 }
 
