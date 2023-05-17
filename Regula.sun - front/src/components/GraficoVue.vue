@@ -20,7 +20,7 @@
 
 <script>
     import Chart from 'chart.js/auto';
-    import { getCidades, getIndicadores } from "../service/requisicao";
+    import { getMunicipios, getIndicadores } from "../service/requisicao";
     import domtoimage from 'dom-to-image-more';
 
 
@@ -43,7 +43,7 @@
         },
 
         created () {
-            this.salvarCidadesIndicadores();
+            this.salvarMunicipiosIndicadores();
             
             setTimeout(() => {
                 this.renderizarGrafico();
@@ -51,10 +51,10 @@
         },
 
         methods: {
-            async salvarCidadesIndicadores(){
-                const cidades = await getCidades();
+            async salvarMunicipiosIndicadores(){
+                const municipios = await getMunicipios();
                 const indicadores = await getIndicadores();
-                this.$store.commit('armazenarCidades', cidades.data)
+                this.$store.commit('armazenarMunicipios', municipios.data)
                 this.$store.commit('armazenarIndicadores', indicadores.data)
             },
 
@@ -71,7 +71,7 @@
             renderizarGrafico() {
                 this.retornarDataAtual();
                 const grafico = document.getElementById('chartGrafico')
-                const municipios = this.dados.map(municipio => this.getNomeCidade(municipio.idCidade));
+                const municipios = this.dados.map(municipio => this.getNomeMunicipio(municipio.idMunicipio));
                 
                 const colors = [
                     'rgba(255, 99, 132, 0.6)',
@@ -87,8 +87,8 @@
                 ];
 
                 const dadosReestruturados = {};
-                this.dados.forEach(cidade => {
-                    cidade.valoresIndicadores.forEach(indicador => {
+                this.dados.forEach(municipio => {
+                    municipio.valoresIndicadores.forEach(indicador => {
                         if (!dadosReestruturados[indicador.idIndicador]) {
                             dadosReestruturados[indicador.idIndicador] = [];
                         }
@@ -146,8 +146,8 @@
                 
             },
 
-            getNomeCidade(id) {
-                return this.$store.getters.getNomeCidade(id)
+            getNomeMunicipio(id) {
+                return this.$store.getters.getNomeMunicipio(id)
             },
 
             getNomeIndicador(id) {
@@ -183,9 +183,9 @@
             },
 
             exportarDados() {
-                const labelsCidades = this.dadosGrafico.labels;
+                const labelsMunicipios = this.dadosGrafico.labels;
                 const datasets = this.dadosGrafico.datasets;
-                const cabecalho = ['Indicadores', labelsCidades].join(",")
+                const cabecalho = ['Indicadores', labelsMunicipios].join(",")
 
                 const linhasDados = datasets.map((dataset) => {
                     const indicador = dataset.label;

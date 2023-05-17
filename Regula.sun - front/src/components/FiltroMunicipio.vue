@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getCidades } from "../service/requisicao.js";
+import { getMunicipios } from "../service/requisicao.js";
 import { retornarDados } from "../utils/funcoes";
 import AlertaInfo from "../components/AlertaInfo.vue";
 
@@ -36,7 +36,7 @@ export default {
     },
 
     mounted() {
-        this.returnCidades();
+        this.returnMunicipios();
     },
 
     watch: {
@@ -47,8 +47,8 @@ export default {
     },
 
     methods: {
-        async returnCidades() {
-            const jsonMunicipios = await getCidades();
+        async returnMunicipios() {
+            const jsonMunicipios = await getMunicipios();
             const nome_municipio = retornarDados(jsonMunicipios, "nome");
             this.municipios = nome_municipio;
 

@@ -1,5 +1,5 @@
 import Papa from "papaparse";
-import { getCidades, getIndicadores } from "../service/requisicao";
+import { getMunicipios, getIndicadores } from "../service/requisicao";
 
 export function processarArquivo(arquivoCSV) {
   const config = {
@@ -26,21 +26,21 @@ export function retornarColunas(colunas) {
 export function formatarIndicadores(json) {
   var indicadores = {
     emailUsuario: localStorage.getItem("email_usuario"),
-    cidades: [],
+    municipios: [],
     valoresIndicadores: [],
   };
 
   for (const [coluna] of Object.entries(json.data[0])) {
     if (coluna !== "Indicadores") {
-      indicadores.cidades.push(coluna);
+      indicadores.municipios.push(coluna);
     }
   }
 
-  for (let cidade = 0; cidade < indicadores.cidades.length; cidade++) {
-    indicadores.valoresIndicadores[cidade] = [];
+  for (let municipio = 0; municipio < indicadores.municipios.length; municipio++) {
+    indicadores.valoresIndicadores[municipio] = [];
     for(let linha = 0; linha < json.data.length; linha++) {
-      let cidadeIndi = indicadores.cidades[cidade];
-      indicadores.valoresIndicadores[cidade].push(json.data[linha][cidadeIndi])
+      let municipioIndi = indicadores.municipios[municipio];
+      indicadores.valoresIndicadores[municipio].push(json.data[linha][municipioIndi])
     }
   }
 
@@ -50,7 +50,7 @@ export function formatarIndicadores(json) {
 export function formatarMetas(json) {
   var metas = {
     emailUsuario: localStorage.getItem("email_usuario"),
-    cidades: [],
+    municipios: [],
     ano: "",
     valoresMetas: [],
   };
@@ -59,15 +59,15 @@ export function formatarMetas(json) {
 
   for (const [coluna] of Object.entries(json.data[0])) {
     if (coluna !== "Metas" && coluna !== "Ano") {
-      metas.cidades.push(coluna);
+      metas.municipios.push(coluna);
     }
   }
 
-  for (let cidade = 0; cidade < metas.cidades.length; cidade++) {
-    metas.valoresMetas[cidade] = [];
+  for (let municipio = 0; municipio < metas.municipios.length; municipio++) {
+    metas.valoresMetas[municipio] = [];
     for(let linha = 0; linha < json.data.length; linha++) {
-      let cidadeMeta = metas.cidades[cidade];
-      metas.valoresMetas[cidade].push(json.data[linha][cidadeMeta])
+      let municipioMeta = metas.municipios[municipio];
+      metas.valoresMetas[municipio].push(json.data[linha][municipioMeta])
     }
   }
 
@@ -78,7 +78,7 @@ export async function validarTemplate(json, tipo) {
   var templateArquivo;
   var validacao = {
     ano: false,
-    cidades: false,
+    municipios: false,
     indicadores: false,
     cidFaltando: [],
     cidEmAcrescimo: [],
@@ -97,11 +97,11 @@ export async function validarTemplate(json, tipo) {
     validacao.ano = templateArquivo.ano;
   }
 
-  const validaCidade = validarCidades(templateArquivo, templateBanco);
-  validacao.cidades = validaCidade.valido;
-  validacao.cidFaltando = validaCidade.cidFaltando;
-  validacao.cidEmAcrescimo = validaCidade.cidEmAcrescimo;
-  validacao.cidForaOrdem = validaCidade.cidForaOrdem;
+  const validaMunicipio = validarMunicipios(templateArquivo, templateBanco);
+  validacao.municipios = validaMunicipio.valido;
+  validacao.cidFaltando = validaMunicipio.cidFaltando;
+  validacao.cidEmAcrescimo = validaMunicipio.cidEmAcrescimo;
+  validacao.cidForaOrdem = validaMunicipio.cidForaOrdem;
 
   const validaIndicadores = validarIndicadores(templateArquivo, templateBanco);
   validacao.indicadores = validaIndicadores.valido;
@@ -114,13 +114,13 @@ export async function validarTemplate(json, tipo) {
 
 export function templateIndiArquivo(json) {
   var templateArquivo = {
-    cidades: [],
+    municipios: [],
     indicadores: [],
   };
 
   for (const [coluna] of Object.entries(json.data[0])) {
     if (coluna !== "Indicadores") {
-      templateArquivo.cidades.push(coluna);
+      templateArquivo.municipios.push(coluna);
     }
   }
 
@@ -133,7 +133,7 @@ export function templateIndiArquivo(json) {
 export function templateMetasArquivo(json) {
   var templateArquivo = {
     ano: false,
-    cidades: [],
+    municipios: [],
     indicadores: [],
   };
 
@@ -141,7 +141,7 @@ export function templateMetasArquivo(json) {
     if (coluna === "Ano") {
       templateArquivo.ano = true;
     } else if (coluna !== "Metas" && coluna !== "Ano") {
-      templateArquivo.cidades.push(coluna);
+      templateArquivo.municipios.push(coluna);
     }
   }
 
@@ -153,13 +153,13 @@ export function templateMetasArquivo(json) {
 
 export async function retornarTemplateBanco() {
   var dadosBanco = {
-    cidades: [],
+    municipios: [],
     indicadores: [],
   };
 
-  const jsonCidades = await getCidades();
-  const cidades = retornarDados(jsonCidades, "nome");
-  dadosBanco.cidades = cidades;
+  const jsonMunicipios = await getMunicipios();
+  const municipios = retornarDados(jsonMunicipios, "nome");
+  dadosBanco.municipios = municipios;
 
   const jsonIndicadores = await getIndicadores();
   const indicadores = retornarDados(jsonIndicadores, "criterio");
@@ -182,7 +182,7 @@ export function retornarDados(json, stringBusca) {
   return array;
 }
 
-export function validarCidades(templateArquivo, templateBanco) {
+export function validarMunicipios(templateArquivo, templateBanco) {
   var validacao = {
     valido: true,
     cidEmAcrescimo: [],
@@ -190,10 +190,10 @@ export function validarCidades(templateArquivo, templateBanco) {
     cidForaOrdem: [],
   };
 
-  const cidFaltando = templateBanco.cidades.filter((cidades) => !templateArquivo.cidades.includes(cidades));
+  const cidFaltando = templateBanco.municipios.filter((municipios) => !templateArquivo.municipios.includes(municipios));
   validacao.cidFaltando.push(cidFaltando);
 
-  const cidEmAcrescimo = templateArquivo.cidades.filter((cidades) => !templateBanco.cidades.includes(cidades));
+  const cidEmAcrescimo = templateArquivo.municipios.filter((municipios) => !templateBanco.municipios.includes(municipios));
   validacao.cidEmAcrescimo.push(cidEmAcrescimo);
 
   if (cidFaltando.length > 0 || cidEmAcrescimo.length > 0) {
@@ -202,7 +202,7 @@ export function validarCidades(templateArquivo, templateBanco) {
   }
 
   else if (cidFaltando.length === 0 && cidEmAcrescimo.length === 0) {
-    const cidForaOrdem = verificarOrdemCidades(templateArquivo, templateBanco);
+    const cidForaOrdem = verificarOrdemMunicipios(templateArquivo, templateBanco);
     if (cidForaOrdem.length > 0) {
       validacao.cidForaOrdem.push(cidForaOrdem);
       validacao.valido = false;
@@ -213,12 +213,12 @@ export function validarCidades(templateArquivo, templateBanco) {
   return validacao;
 }
 
-export function verificarOrdemCidades(templateArquivo, templateBanco){
+export function verificarOrdemMunicipios(templateArquivo, templateBanco){
   const cidForaOrdem = [];
 
-  for (var cidade = 0; cidade < templateBanco.cidades.length; cidade++) {
-    if (templateBanco.cidades[cidade] !== templateArquivo.cidades[cidade]) {
-      cidForaOrdem.push(templateArquivo.cidades[cidade]);
+  for (var municipio = 0; municipio < templateBanco.municipios.length; municipio++) {
+    if (templateBanco.municipios[municipio] !== templateArquivo.municipios[municipio]) {
+      cidForaOrdem.push(templateArquivo.municipios[municipio]);
     }
   }
 
