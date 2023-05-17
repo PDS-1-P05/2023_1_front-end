@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="area-imagem">
-            <img src="src\assets\imagem_login.svg" alt="Paisagem de MS">
+            <img src="@/assets/imagem_login.svg" alt="Paisagem de MS">
         </div>
     </div>
 </template>
