@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { getCidades } from "../services/requisicoes.js";
+    import { getMunicipios } from "../services/requisicoes.js";
 
     export default {
         name: "LoginView", 
@@ -19,7 +19,7 @@
         },
 
         mounted() {
-            const requisicao = getCidades();
+            const requisicao = getMunicipios();
             this.items = requisicao;
         }
     }

@@ -10,13 +10,13 @@ export default new Vuex.Store({
     mostrarTabelaIndi: false,
     mostrarTabelaMetas: false,
     indicadores: [],
-    cidades: [],
+    municipios: [],
   },
 
   getters: {
-    getNomeCidade: (state) => (idCidade) => {
-      const cidade = state.cidades.find((cidade) => cidade.id === idCidade);
-      return cidade ? cidade.nome : "";
+    getNomeMunicipio: (state) => (idMunicipio) => {
+      const municipio = state.municipios.find((municipio) => municipio.id === idMunicipio);
+      return municipio ? municipio.nome : "";
     },
     getNomeIndicador: (state) => (idIndicador) => {
       const indicador = state.indicadores.find((indicador) => indicador.id === idIndicador);
@@ -59,8 +59,8 @@ export default new Vuex.Store({
       state.mostrarTabelaMetas = valido;
     },
 
-    armazenarCidades(state, cidades) {
-      state.cidades = cidades;
+    armazenarMunicipios(state, municipios) {
+      state.municipios = municipios;
     },
 
     armazenarIndicadores(state, indicadores) {
