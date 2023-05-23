@@ -14,7 +14,7 @@ describe('Salvar os dados importados', () => {
         cy.url().should('include', '/admin')
     })
 
-    it('Critério 1 - Mensagem de confirmação', () => {
+    it('CT13 - Critério 3 - Planilha salva', () => {
         cy.get('input')
             .selectFile('cypress/fixtures/Indicador - PASSA.csv', {force: true})
             .then(input => {
@@ -23,5 +23,9 @@ describe('Salvar os dados importados', () => {
         })
         cy.get('button').contains('Pré-Visualizar').click()
         cy.get('table').should('exist')
+
+        cy.get('button').contains('Importar Dados').click()
+        cy.wait(12000)
+        cy.contains('div', 'sucesso').should('exist')
     })
 })
