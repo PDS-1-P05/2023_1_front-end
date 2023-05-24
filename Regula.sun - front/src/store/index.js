@@ -18,18 +18,36 @@ export default new Vuex.Store({
       const municipio = state.municipios.find((municipio) => municipio.nome === nome);
       return municipio ? municipio.id : "";
     },
+
     getNomeMunicipio: (state) => (idMunicipio) => {
       const municipio = state.municipios.find((municipio) => municipio.id === idMunicipio);
       return municipio ? municipio.nome : "";
     },
+
     getIdIndicador: (state) => (nome) => {
       const indicador = state.indicadores.find((indicador) => indicador.criterio === nome);
       return indicador ? indicador.id : "";
     },
+
     getNomeIndicador: (state) => (idIndicador) => {
       const indicador = state.indicadores.find((indicador) => indicador.id === idIndicador);
       return indicador ? indicador.criterio : "";
     },
+
+    getArrayNomeMunicipios: (state) => () => {
+      const municipiosNomes = state.municipios.map((municipios) => municipios.nome);
+      return municipiosNomes
+    },
+
+    getArrayCriterioIndicadores: (state) => () => {
+      const criterioIndicadores = state.indicadores.map((indicadores) => indicadores.criterio);
+      return criterioIndicadores
+    },
+
+    getUnidadeMedidaIndicador: (state) => (item) => {
+      const indicador = state.indicadores.find((indicador) => indicador.criterio === item);
+      return indicador ? indicador.unidade_medida : "";
+    }
   },
 
   actions: {

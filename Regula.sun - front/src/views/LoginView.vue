@@ -237,4 +237,15 @@ export default {
         display: none;
     }
 }
+
+@media (max-width: 350px) {
+    .area-login {
+        width: 100%;
+    }
+
+    .email, .senha, .botao {
+        width: 28rem;
+        height: 5rem;
+    }
+}
 </style>

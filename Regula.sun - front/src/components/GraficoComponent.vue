@@ -1,6 +1,11 @@
 <template>
-    <div class="grafico" >
-        <canvas id="chartGrafico"></canvas>
+    <div class="informativo">
+        <h3>Clicar em qualquer legenda permite ocultar/mostrar os dados no gráfico referentes ao indicador</h3>
+    </div>
+    <div class="grafico-wrapper">
+        <div class="grafico" >
+            <canvas id="chartGrafico"></canvas>
+        </div>
     </div>
     <div class="exportar">
         <v-menu>
@@ -29,7 +34,11 @@ export default {
         dados: {
             type: Array,
             required: true
-        }
+        },
+        anoSelecionado: {
+            type: String,
+            required: true
+        },
     },
 
     data() {
@@ -39,6 +48,7 @@ export default {
             dadosRequest: [],
             dadosGrafico: [],
             dataAtual: "",
+            anoRefente: "",
         }
     },
 
@@ -47,6 +57,10 @@ export default {
             this.dadosRequest = [];
             this.dadosRequest = novosDados;
             this.ajustarDados();
+        },
+
+        anoSelecionado(ano) {
+            this.anoRefente = ano;
         }
     },
 
@@ -62,7 +76,13 @@ export default {
             var ano = dataAtual.getFullYear();
             var hora = dataAtual.getHours();
             var minutos = dataAtual.getMinutes();
-            this.dataAtual = "Gerado em " + dia + "/" + mes + "/" + ano + " ás " + hora + ":" + minutos + ".";
+            if (mes < 10) { mes = "0" + mes; } 
+            if (dia < 10) { dia = "0" + dia; } 
+            if (hora < 10) { hora = "0" + hora; }
+            if (minutos < 10) { minutos = "0" + minutos; }
+            if (this.anoRefente === "") { this.anoRefente = ano; }
+
+            this.dataAtual = "Gerado em " + dia + "/" + mes + "/" + ano + " ás " + hora + ":" + minutos;
         },
 
         ajustarDados() {
@@ -87,6 +107,7 @@ export default {
                 })),
             };
 
+            this.dadosGrafico = chartData;
             this.renderizarGrafico(chartData);
         },
 
@@ -119,18 +140,16 @@ export default {
             if (this.chart) {
                 this.chart.destroy();
             }
-            const grafico = document.getElementById('chartGrafico').getContext('2d');
-            this.dadosGrafico = chartData;
+            
+            const grafico = document.getElementById('chartGrafico');
 
             this.chart = new Chart(grafico, {
                 type: 'bar',
                 data: chartData,
                 options: this.configuracaoGrafico()
             });
-        },
 
-        onResize() {
-            console.log('A')
+            
         },
 
         configuracaoGrafico(){
@@ -142,7 +161,7 @@ export default {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Referente ao ano YYYY',
+                        text: 'Referente ao ano ' + this.anoRefente,
                     },
                     subtitle: {
                         display: true,
@@ -156,17 +175,6 @@ export default {
                             top: 20
                         }
                     },
-                    legend: {
-                        labels: {
-                            font: function(context) {
-                                if (window.innerWidth < 400) {
-                                    return { size: 7 };
-                                } else if (window.innerWidth < 500) {
-                                    return { size: 8 };
-                                }
-                            },
-                        },
-                    },
                 },
                 responsive: true,
                 maintainAspectRatio: false,
@@ -178,28 +186,26 @@ export default {
 
         exportarGrafico(formato) {
             const grafico = document.getElementById('chartGrafico');
-
+    
             if (formato === '.SVG') {
-                domtoimage.toSvg(grafico).then(function (dataUrl) {
+                domtoimage.toSvg(grafico)
+                .then((url) => {
                     const svgLink = document.createElement('a');
-                    svgLink.href = dataUrl;
+                    svgLink.href = url;
                     svgLink.download = 'grafico-indicadores-agems.svg';
                     svgLink.click();
-                })
-                    .catch(function (error) {
-                        console.error('Erro ao exportar gráfico como SVG:', error);
-                    });
-
+                }).catch((error) => {
+                    console.error('Erro ao exportar gráfico como SVG:', error);
+                });
             } else if (formato === '.PNG') {
-                domtoimage.toPng(grafico).then(function (dataUrl) {
+                domtoimage.toPng(grafico).then((url) => {
                     const pngLink = document.createElement('a');
-                    pngLink.href = dataUrl;
+                    pngLink.href = url;
                     pngLink.download = 'grafico-indicadores-agems.png';
                     pngLink.click();
-                })
-                    .catch(function (error) {
-                        console.error('Erro ao exportar gráfico como PNG:', error);
-                    });
+                }).catch((error) => {
+                    console.error('Erro ao exportar gráfico como PNG:', error);
+                });
             }
 
         },
@@ -230,17 +236,26 @@ export default {
 </script>
 
 <style scoped>
+.informativo {
+    margin-top: 4rem;
+    color: var(--corPrincipal);
+}
+.grafico-wrapper {
+    width: 100vw;
+    overflow-x: auto;
+    margin: 2rem 0;
+}
+
 .grafico {
-    width: 100%;
-    height: 70rem;
-    margin-top: 2rem;
+  width: 80rem;
+  height: 60rem;
+  margin: auto;
 }
 
 .exportar {
     display: flex;
-    justify-content: space-evenly;
-    /* justify-items: space-evenly; */
-    margin-top: 1.5rem;
+    gap: 3rem;
+    margin: 1.5rem;
 }
 
 button {
@@ -268,8 +283,13 @@ button:hover {
 
 @media (max-width: 800px) {
     .grafico {
-        width: 100vw;
-        margin: 0 0.2rem;
+        margin: 0.2rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .exportar {
+        gap: 1rem
     }
 }
 </style>
