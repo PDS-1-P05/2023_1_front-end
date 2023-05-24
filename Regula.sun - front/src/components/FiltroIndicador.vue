@@ -28,7 +28,7 @@
                     <v-list-item v-for="indicador in grupo.indicadores"
                         @click="selecionarItem(indicador.criterio)"
                         class="itens"
-                        :class="{ 'item-selecionado': itemSelecionado(indicador.criterio) }"
+                        :class="{ 'item-selecionado': itemSelecionado(indicador.criterio)}"
                     >
                         {{ indicador.criterio }}
                     </v-list-item>
@@ -42,6 +42,12 @@
                 </v-list-item>
             </template>
         </v-autocomplete>
+        <AlertaInfo 
+            class="alertaI" 
+            v-if="alertaIndicador" 
+            mensagem="Selecione até 10 indicadores" 
+            :fechar="fecharAlertaIndicadores" 
+        />
         <div class="informativo">
             <h3>É necessário que os indicadores selecionados sejam da mesma categoria</h3>
         </div>
