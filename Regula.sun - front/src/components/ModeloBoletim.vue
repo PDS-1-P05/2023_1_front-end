@@ -23,11 +23,6 @@
         <p>5.124</p>
       </div>
       <hr />
-      <div class="info-municipio">
-        <p>População Total (hab.)</p>
-        <p>3.245</p>
-      </div>
-      <hr />
     </div>
 
     <v-table class="tabela">
@@ -37,7 +32,7 @@
         <th>2023</th>
         <th>2024</th>
         <th>2025</th>
-        <th>2025</th>
+        <th>2026</th>
         <th>Valor</th>
         <th>Un.</th>
       </thead>
