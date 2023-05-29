@@ -53,7 +53,7 @@ export default {
         this.salvarMunicipiosIndicadores();
         const anoAtual = new Date().getFullYear();
         this.anos = Array.from(
-            { length: anoAtual - 2000 + 1 },
+            { length: anoAtual - 2022 + 1 },
             (_, i) => anoAtual - i
         );
 
