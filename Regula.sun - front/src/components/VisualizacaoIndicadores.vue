@@ -1,6 +1,6 @@
 <template>
     <div>
-        <AlertaInfo class="alerta" v-if="erroTemplateCidades" :mensagem="mensagemCidades" widthAlerta="50%" :fechar="fecharErroCidades"></AlertaInfo>
+        <AlertaInfo class="alerta" v-if="erroTemplateMunicipios" :mensagem="mensagemMunicipios" widthAlerta="50%" :fechar="fecharErroMunicipios"></AlertaInfo>
         <AlertaInfo class="alerta" v-if="erroTemplateIndicadores" :mensagem="mensagemIndi" widthAlerta="80%" :fechar="fecharErroIndicadores"></AlertaInfo>
     </div>
     <div class="tabela" v-if="this.$store.state.mostrarTabelaIndi">
@@ -34,9 +34,9 @@
             return {
                 colunas: [],
                 linhas: [],
-                mensagemCidades: "",
+                mensagemMunicipios: "",
                 mensagemIndi: "",
-                erroTemplateCidades: false,
+                erroTemplateMunicipios: false,
                 erroTemplateIndicadores: false,
             };
         },
@@ -59,10 +59,10 @@
                 const json = processarArquivo(arquivo);
                 this.$store.commit("salvarJsonIndicadores", json);
                 const validar = await validarTemplate(json, 'indicadores');
-                if (validar.cidades && validar.indicadores) {
+                if (validar.municipios && validar.indicadores) {
                     this.mostrarDados(json)
                 } else {
-                    this.retornarCidades(validar);
+                    this.retornarMunicipios(validar);
                     this.retornarIndicadores(validar);
                     this.$store.commit('mostrarTabelaIndicadores', false)
                 }
@@ -71,15 +71,18 @@
             mostrarDados(json) {
                 this.colunas = retornarColunas(json.meta.fields);
                 this.linhas = json.data;
-                this.erroTemplateCidades = false;
+                this.erroTemplateMunicipios = false;
                 this.erroTemplateIndicadores = false;
                 this.$store.commit('mostrarTabelaIndicadores', true);
             },
 
-            retornarCidades(validar) {
-                if (!validar.cidades) {
-                    this.mensagemCidades = "Cidades a mais: " + validar.cidEmAcrescimo + "<br>Cidades faltantes: " + validar.cidFaltando + "<br>Cidades fora de ordem: " + validar.cidForaOrdem;
-                    this.erroTemplateCidades = true;
+            retornarMunicipios(validar) {
+                if (!validar.municipios) {
+                    this.mensagemMunicipios = "Municipios a mais: " + validar.cidEmAcrescimo + "<br>Municipios faltantes: " + validar.cidFaltando + "<br>Municipios fora de ordem: " + validar.cidForaOrdem;
+                    this.erroTemplateMunicipios = true;
+                    setTimeout(() => {
+                        this.fecharErroMunicipios();
+                    }, 5000);
                 }
             },
 
@@ -87,11 +90,14 @@
                 if (!validar.indicadores) {
                     this.mensagemIndi = "Indicadores a mais: " + validar.indEmAcrescimo + "<br><br>" + "Indicadores faltantes: " + validar.indFaltando + "<br><br>" + "Indicadores fora de ordem: " + validar.indForaOrdem;
                     this.erroTemplateIndicadores = true;
+                    setTimeout(() => {
+                        this.fecharErroIndicadores();
+                    }, 5000);
                 }
             },
 
-            fecharErroCidades(){
-                this.erroTemplateCidades = false;
+            fecharErroMunicipios(){
+                this.erroTemplateMunicipios = false;
             },
 
             fecharErroIndicadores(){

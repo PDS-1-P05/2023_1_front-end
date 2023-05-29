@@ -11,8 +11,6 @@ const requisicao = await axios.post(BASE_URL + "/autenticar", dadosLogin);
 if (requisicao.status === 200) {
   localStorage.setItem("token_acesso", requisicao.data.token);
   localStorage.setItem("email_usuario", dadosLogin.email);
-  // store.dispatch("atualizarUsuarioLogado", true);
-  // store.commit("setLogado", true);
   return requisicao.status;
 }
 

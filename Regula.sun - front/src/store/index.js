@@ -10,20 +10,46 @@ export default new Vuex.Store({
     mostrarTabelaIndi: false,
     mostrarTabelaMetas: false,
     indicadores: [],
-    cidades: [],
     arquivoBoletim: null,
     municipioEscolhido: null,
+    municipios: [],
   },
 
   getters: {
-    getNomeCidade: (state) => (idCidade) => {
-      const cidade = state.cidades.find((cidade) => cidade.id === idCidade);
-      return cidade ? cidade.nome : "";
+    getIdMunicipio: (state) => (nome) => {
+      const municipio = state.municipios.find((municipio) => municipio.nome === nome);
+      return municipio ? municipio.id : "";
     },
+
+    getNomeMunicipio: (state) => (idMunicipio) => {
+      const municipio = state.municipios.find((municipio) => municipio.id === idMunicipio);
+      return municipio ? municipio.nome : "";
+    },
+
+    getIdIndicador: (state) => (nome) => {
+      const indicador = state.indicadores.find((indicador) => indicador.criterio === nome);
+      return indicador ? indicador.id : "";
+    },
+
     getNomeIndicador: (state) => (idIndicador) => {
       const indicador = state.indicadores.find((indicador) => indicador.id === idIndicador);
       return indicador ? indicador.criterio : "";
     },
+
+    getArrayNomeMunicipios: (state) => () => {
+      const municipiosNomes = state.municipios.map((municipios) => municipios.nome);
+      return municipiosNomes
+    },
+
+    getArrayCriterioIndicadores: (state) => () => {
+      const criterioIndicadores = state.indicadores.map((indicadores) => indicadores.criterio);
+      return criterioIndicadores
+    },
+
+    getUnidadeMedidaIndicador: (state) => (item) => {
+      const indicador = state.indicadores.find((indicador) => indicador.criterio === item);
+      return indicador ? indicador.unidade_medida : "";
+    }
   },
 
   actions: {
@@ -61,8 +87,8 @@ export default new Vuex.Store({
       state.mostrarTabelaMetas = valido;
     },
 
-    armazenarCidades(state, cidades) {
-      state.cidades = cidades;
+    armazenarMunicipios(state, municipios) {
+      state.municipios = municipios;
     },
 
     armazenarIndicadores(state, indicadores) {

@@ -18,7 +18,7 @@ const router = createRouter({
         {
             path: "/grafico",
             name: "grafico",
-            component: Grafico,
+            component: GraficoView,
         },
         {
           path: "/boletim",

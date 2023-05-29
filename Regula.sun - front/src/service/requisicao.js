@@ -2,10 +2,10 @@ import axios from "axios";
 import { config } from "../../config/config.js";
 const BASE_URL = config.BASE_URL;
 
-export async function getCidades() {
+export async function getMunicipios() {
   try {
     const requisicao = await axios.get(
-      BASE_URL + "/cidades"
+      BASE_URL + "/municipios"
     );
     if (requisicao.status === 200) {
       return requisicao;
@@ -20,6 +20,17 @@ export async function getIndicadores() {
     const requisicao = await axios.get(
       BASE_URL + "/indicadores"
     );
+    if (requisicao.status === 200) {
+      return requisicao;
+    }
+  } catch (erro) {
+    return erro;
+  }
+}
+
+export async function getDadosGrafico(municipiosIndicadores) {
+  try {
+    const requisicao = await axios.post(BASE_URL + "/grafico", municipiosIndicadores);
     if (requisicao.status === 200) {
       return requisicao;
     }
