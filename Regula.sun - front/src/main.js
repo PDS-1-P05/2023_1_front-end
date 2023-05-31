@@ -1,16 +1,25 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import PrimeVue from "primevue/config";
+import store from "./store";
+import mitt from "mitt";
+const emitter = mitt();
 
-import "./assets/main.css";
-import "primevue/resources/themes/lara-light-indigo/theme.css";
-import "primevue/resources/primevue.min.css";
-import "primeicons/primeicons.css";
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import "@mdi/font/css/materialdesignicons.min.css";
+
+const vuetify = createVuetify({
+  components,
+  directives,
+});
 
 const app = createApp(App);
 
 app.use(router);
-app.use(PrimeVue);
-
+app.use(vuetify);
+app.use(store);
+app.config.globalProperties.emitter = emitter;
 app.mount("#app");

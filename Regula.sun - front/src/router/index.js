@@ -1,23 +1,54 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "../views/HomeView.vue";
+import LoginView from "../views/LoginView.vue";
+import AdminView from "../views/AdminView.vue";
+import GraficoView from "../views/GraficoView.vue";
+// import Boletim from "../views/BoletimView.vue";
+import { validarTokenAcesso } from "../service/autenticacao";
+import store from "../store/index.js";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
-  ]
-})
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        {
+            path: "/",
+            name: "home",
+            component: HomeView,
+        },
+        {
+            path: "/grafico",
+            name: "grafico",
+            component: GraficoView,
+        },
+        // {
+        //   path: "/boletim",
+        //   name: "boletim",
+        //   component: Boletim,
+        // },
+        {
+            path: "/login",
+            name: "login",
+            component: LoginView,
+            meta: {
+                estaAutenticado: false,
+                },
+            },
+        {
+            path: "/admin",
+            name: "admin",
+            component: AdminView,
+            meta: {
+                estaAutenticado: false,
+                isAdmin: true
+            },
+        },
+    ],
+});
 
-export default router
+router.beforeEach(async (to, from, next) => {
+    const tokenExiste = await validarTokenAcesso();
+    store.dispatch("atualizarUsuarioLogado", tokenExiste);
+    next();
+});
+
+export default router;
