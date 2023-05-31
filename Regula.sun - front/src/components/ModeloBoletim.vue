@@ -17,27 +17,23 @@
 
     <div class="municipio">
       <p class="nome-municipio">{{ municipioEscolhido }}</p>
-
+      <hr />
       <div class="info-municipio">
         <p>População Urbana (hab.)</p>
-        <p>5.124</p>
+        <p>{{ populacaoUrbana }}</p>
       </div>
-      <hr />
+
     </div>
 
     <v-table class="tabela">
       <thead>
         <th>Indicadores</th>
-        <th>2022</th>
-        <th>2023</th>
-        <th>2024</th>
-        <th>2025</th>
-        <th>2026</th>
+        <th v-for="ano in anoTeste" :key="ano">{{ ano }}</th>
         <th>Valor</th>
         <th>Un.</th>
       </thead>
       <tbody>
-        <tr v-for="info in linha" :key="info.id">
+        <tr v-for="info in linhaTeste" :key="info.id">
           <td>
             {{ info.indicador }}
           </td>
@@ -101,13 +97,16 @@
   
 <script>
 import html2pdf from 'html2pdf.js';
+import { getBoletim } from "../service/requisicao";
 // import { mapState } from 'vuex'
 
 
 export default {
   name: "ModeloBoletim",
+
   data() {
     return {
+      linhaTeste: [],
       linha: [
         {
           id: "1",
@@ -118,12 +117,12 @@ export default {
           ano_4: "../public/azul.svg",
           ano_5: "../public/azul.svg",
 
-          valor: "71,5",
+          valor: "71,5", // COLOCAR O RESPECTIVO VALOR DO BACK
           un: "%",
         },
         {
           id: "2",
-          indicador: "IA02 – Índice de Atendimento Urbano de Água",
+          indicador: "IA02 – Índice de Controlde de Perdas de Água",
           ano_1: "../public/vermelho.svg",
           ano_2: "../public/preto.svg",
           ano_3: "../public/verde.svg",
@@ -135,7 +134,7 @@ export default {
         },
         {
           id: "3",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA03 – Índice de Coleta de Esgoto",
           ano_1: "../public/azul.svg",
           ano_2: "../public/vermelho.svg",
           ano_3: "../public/azul.svg",
@@ -146,51 +145,51 @@ export default {
         },
         {
           id: "4",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA04 – Índice de Qualidade da Água Distribuída",
           ano_1: "../public/azul.svg",
           ano_2: "../public/azul.svg",
           ano_3: "../public/azul.svg",
           ano_4: "../public/azul.svg",
           ano_5: "../public/azul.svg",
           valor: "1234",
-          un: "%",
+          un: "IQA",
         },
         {
           id: "5",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA05 - Reclamações sobre qualidade da água",
           ano_1: "../public/azul.svg",
           ano_2: "../public/azul.svg",
           ano_3: "../public/azul.svg",
           ano_4: "../public/azul.svg",
           ano_5: "../public/azul.svg",
           valor: "1234",
-          un: "%",
+          un: "usuário",
         },
         {
           id: "6",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA06 - Extensão de rede",
           ano_1: "../public/azul.svg",
           ano_2: "../public/azul.svg",
           ano_3: "../public/azul.svg",
           ano_4: "../public/azul.svg",
           ano_5: "../public/azul.svg",
           valor: "1234",
-          un: "%",
+          un: "km",
         },
         {
           id: "7",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA07 – Índice de Volume produzido por habitante",
           ano_1: "../public/azul.svg",
           ano_2: "../public/azul.svg",
           ano_3: "../public/azul.svg",
           ano_4: "../public/azul.svg",
           ano_5: "../public/azul.svg",
           valor: "1234",
-          un: "%",
+          un: "m³/ano",
         },
         {
           id: "8",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA08 - Frequência semanal de coleta",
           ano_1: "../public/azul.svg",
           ano_2: "../public/azul.svg",
           ano_3: "../public/azul.svg",
@@ -201,7 +200,7 @@ export default {
         },
         {
           id: "9",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA09 - Pessoas em domicílios com abastecimento de água e esgotamento sanitário inadequados",
           ano_1: "../public/azul.svg",
           ano_2: "../public/azul.svg",
           ano_3: "../public/azul.svg",
@@ -212,7 +211,7 @@ export default {
         },
         {
           id: "10",
-          indicador: "Medida 3 – Índice de Atendimento Urbano de Água",
+          indicador: "IA10 – Queda nos casos de internação por motivos relacionados a falta ou inadequação de saneamento básico",
           ano_1: "../public/azul.svg",
           ano_2: "../public/azul.svg",
           ano_3: "../public/azul.svg",
@@ -222,16 +221,126 @@ export default {
           un: "%",
         },
       ],
-
       azul: 'src/assets/azul.svg',
       verde: 'src/assets/verde.svg',
       amarelo: 'src/assets/amarelo.svg',
       vermelho: 'src/assets/vermelho.svg',
       preto: 'src/assets/preto.svg',
+      populacaoUrbana: '',
+      anoTeste: [],
+      anos: []
     };
   },
 
+  computed: {
+    municipioEscolhido() {
+      return this.$store.state.municipioEscolhido;
+    },
+  },
+
+  created() {
+    // const anoAtual = new Date().getFullYear();
+    // this.anos = Array.from(
+    //   { length: anoAtual - 2019 + 1 },
+    //   (_, i) => anoAtual - i
+    // ).reverse();
+
+    this.exibirValor()
+  },
+
+  mounted() {
+    this.emitter.on("exibirBoletim", () => { this.exibirValor() });
+  },
+
   methods: {
+    async exibirValor() {
+      // TIRAR O + 1
+      const anoAtual = new Date().getFullYear() + 1;
+      const idMunicipioEscolhido = this.getIdMunicipio(this.municipioEscolhido);
+      const boletim = await getBoletim(idMunicipioEscolhido, anoAtual);
+
+      if (boletim.status === 200) {
+        this.populacaoUrbana = boletim.data.cabecalho;
+        console.log(boletim.data);
+
+        // const arrayIndicadores = Object.values(boletim.data.indicadores);
+
+        // for (let i = 0; i < arrayIndicadores.length; i++) {
+        //   const valor = arrayIndicadores[i];
+        //   return valor;
+        // }
+
+
+        // TENTATIVA GUI DOS ANOS
+        this.anoTeste = Object.values(boletim.data.indicadores)
+          .map(indicador => indicador.ano)
+          .filter((ano, index, anos) => anos.indexOf(ano) === index);
+
+        // if (this.anoTeste.length < 5) {
+        //   this.anoTeste.push('');
+        // } else {
+        //   this.anoTeste.push('');
+        // }
+        this.anoTeste.push('2024', '2025');
+        console.log(this.anosTeste)
+
+        // const teste = [];
+        for (const [key, value] of Object.entries(boletim.data.indicadores)) {
+          const indicador = value;
+          const linhaIndicador = {
+            id: indicador.indicador_id,
+            indicador: indicador.MetasIndicadores.criterio,
+            valor: indicador.valor,
+            un: "%",
+            anos: [],
+          };
+
+          const anos = Object.keys(boletim.data.indicadores).reduce((acc, curr) => {
+            if (boletim.data.indicadores[curr].ano !== undefined && !acc.includes(boletim.data.indicadores[curr].ano)) {
+              acc.push(boletim.data.indicadores[curr].ano);
+            }
+            return acc;
+          }, []);
+
+          anos.forEach(ano => {
+            const metaValor = boletim.data.indicadores[key].metaValor;
+            const valor = boletim.data.indicadores[key].valor;
+            if (valor === null) {
+              linhaIndicador.anos[ano] = "../public/preto.svg";
+            } else if (Number(valor) > metaValor) {
+              linhaIndicador.anos[ano] = "../public/azul.svg";
+            } else if (Number(valor) < metaValor) {
+              linhaIndicador.anos[ano] = "../public/vermelho.svg";
+            } else {
+              linhaIndicador.anos[ano] = "../public/verde.svg";
+            }
+          });
+
+          this.linhaTeste.push(linhaIndicador);
+        }
+
+        console.log(this.linhaTeste);
+
+
+        // PARA VALORES VAZIOS
+        // const dados = {}
+        // boletim.array.forEach(indicador => {
+        //   if (!algumacoisa[boletim.indicador_id]) {
+        //     algumacoisa[boletim.indicador_id] = [];
+        //   }
+
+        //   algumacoisa[boletim.indicador_id].push(boletim)
+        //   });
+      }
+    },
+
+    getIdMunicipio(nome) {
+      return this.$store.getters.getIdMunicipio(nome)
+    },
+
+
+
+
     baixarPDF() {
       const nomeMunicipio = this.$store.state.municipioEscolhido;
       const options = {
@@ -267,11 +376,6 @@ export default {
 
   },
 
-  computed: {
-    municipioEscolhido() {
-      return this.$store.state.municipioEscolhido;
-    },
-  },
 
   // computed: {
   //   ...mapState({
@@ -284,7 +388,7 @@ export default {
   
 <style scoped>
 #boletim>*:not(:last-child) {
-  margin: 3rem;
+  margin: 3.59rem;
 }
 
 #botao {

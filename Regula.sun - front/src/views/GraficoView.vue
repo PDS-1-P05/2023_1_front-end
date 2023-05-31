@@ -33,7 +33,6 @@ export default {
     components: {
         FiltroMunicipios,
         FiltroIndicadores,
-
         GraficoComponent,
     },
 
@@ -217,4 +216,5 @@ button:hover {
     .anos {
         width: 95vw;
     }
-}</style>
+}
+</style>

@@ -1,33 +1,27 @@
 <template>
     <v-autocomplete class="seletor" :variant="solo" label="Selecione o município" bg-color="var(--corTerciariaClara)"
-        :items="items" :rounded="true"></v-autocomplete>
+        :items="municipios" :rounded="true"></v-autocomplete>
 </template>
 
 <script>
-import { getCidades } from "../service/requisicao.js";
-import { retornarDados } from "../utils/funcoes";
 
 export default {
     name: "SelectBoletim",
+    props: {
+        municipios: {
+            type: Array,
+            required: true,
+        },
+    },
 
     data() {
         return {
-            items: ''
+
         }
-    },
-
-    mounted() {
-        this.returnCidades();
-
     },
 
     methods: {
-        async returnCidades() {
-            const jsonCidades = await getCidades();
-            const cidades = retornarDados(jsonCidades, "nome");
-            this.items = cidades;
 
-        }
     },
 
 }

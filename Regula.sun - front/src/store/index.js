@@ -56,6 +56,7 @@ export default new Vuex.Store({
     atualizarUsuarioLogado({ commit }, logado) {
       commit("setLogado", logado);
     },
+
   },
 
   mutations: {

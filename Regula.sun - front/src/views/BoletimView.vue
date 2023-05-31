@@ -2,13 +2,13 @@
   <div id="wrapper-boletim">
     <section id="seletor">
       <p>Boletim</p>
-      <SelectBoletim @update:modelValue="atualizarMunicipio" />
+      <SelectBoletim @update:modelValue="atualizarMunicipio" :municipios=municipios />
       <DefaultButton target="_blank" conteudo="Pré-Visualizar Boletim" @click="preVisualizar" />
       <AlertaInfo :valor="valordaview" v-if="alerta" idAlerta="BoletimMunicipio"
         mensagem="Selecione um município para gerar o Boletim" :fechar="fecharAlerta" widthAlerta="40rem" />
     </section>
     <section v-if="modeloPDF" id="preview-pdf">
-      <ModeloBoletim />
+      <ModeloBoletim :nomeMunicipio="municipioSelecionado" />
     </section>
     <section id="info">
       <div id="definicao">
@@ -67,6 +67,7 @@ import SelectBoletim from '@/components/SelectBoletim.vue';
 import DefaultButton from '@/components/DefaultButton.vue';
 import ModeloBoletim from "@/components/ModeloBoletim.vue";
 import AlertaInfo from '@/components/AlertaInfo.vue';
+import { getMunicipios } from "../service/requisicao";
 
 export default {
   components: {
@@ -76,8 +77,13 @@ export default {
     DefaultButton
   },
 
+  created() {
+    this.fazerRequisicao();
+  },
+
   data() {
     return {
+      municipios: [],
       largura: window.innerWidth,
       classe: '',
       azul: 'src/assets/azul.svg',
@@ -88,13 +94,22 @@ export default {
 
       alerta: false,
       temporizador: null,
-      municipioSelecionado: null,
+      municipioSelecionado: '',
       valordaview: 'meu valor da view',
       modeloPDF: false,
     };
   },
 
   methods: {
+    async fazerRequisicao() {
+      const municipios = await getMunicipios();
+
+      if (municipios) {
+        this.$store.commit('armazenarMunicipios', municipios.data)
+        this.municipios = this.$store.getters.getArrayNomeMunicipios();
+      }
+    },
+
     atualizarMunicipio(municipio) {
       this.municipioSelecionado = municipio;
     },
@@ -108,6 +123,7 @@ export default {
       } else {
         clearTimeout(this.temporizador);
         this.$store.commit('salvarMunicipioSelecionado', this.municipioSelecionado);
+        this.emitter.emit('exibirBoletim');
         this.modeloPDF = true;
 
         // window.open(caminhoPDF, '_blank');
