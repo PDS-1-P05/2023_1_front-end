@@ -1,5 +1,6 @@
 <template>
     <div>
+        <AlertaInfo class="alerta" v-if="erroTemplateValores" :mensagem="mensagemValores" widthAlerta="100%" :fechar="fecharErroValores"></AlertaInfo>
         <AlertaInfo class="alertas" v-if="erroTemplateAno" :mensagem="mensagemAno" :fechar="fecharErroAno"></AlertaInfo>
         <AlertaInfo class="alertas" v-if="erroTemplateMunicipios" :mensagem="mensagemMunicipios" widthAlerta="50%" :fechar="fecharErroMunicipios"></AlertaInfo>
         <AlertaInfo class="alertas" v-if="erroTemplateIndicadores"  :mensagem="mensagemIndi" widthAlerta="80%" :fechar="fecharErroIndicadores"></AlertaInfo>
@@ -21,7 +22,7 @@
 </template>
 
 <script>
-    import { processarArquivo, retornarColunas, validarTemplate } from "../utils/funcoes";
+    import { processarArquivo, retornarColunas, validarTemplate, validarValoresNulos } from "../utils/funcoes";
     import AlertaInfo from "./AlertaInfo.vue"
 
     export default {
@@ -35,13 +36,14 @@
             return {
                 colunas: [],
                 linhas: [],
+                mensagemValores: "",
                 mensagemAno: "",
                 mensagemMunicipios: "",
                 mensagemIndi: "",
+                erroTemplateValores: false,
                 erroTemplateAno: false,
                 erroTemplateMunicipios: false,
                 erroTemplateIndicadores: false,
-                mostrarMetas: false,
             };
         },
 
@@ -62,14 +64,15 @@
             async validarTemplate(arquivo) {
                 const json = processarArquivo(arquivo);
                 this.$store.commit("salvarJsonMetas", json);
-                const validar = await validarTemplate(json, 'metas');
-                if (validar.ano && validar.municipios && validar.indicadores) {
+                const template = await validarTemplate(json, 'metas');
+                const valoresNulos = validarValoresNulos(json, 'Metas');
+                if (template.ano && template.municipios && template.indicadores && !valoresNulos) {
                     this.mostrarDados(json);
                 } else {
-                    this.retornarAno(validar);
-                    this.retornarMunicipios(validar);
-                    this.retornarIndicadores(validar);
-                    this.mostrarMetas = false;
+                    this.retornarValoresNulos(valoresNulos);
+                    this.retornarAno(template);
+                    this.retornarMunicipios(template);
+                    this.retornarIndicadores(template);
                     this.$store.commit("mostrarTabelaMetas", false);
                 }
             },
@@ -77,40 +80,55 @@
             mostrarDados(json) {
                 this.colunas = retornarColunas(json.meta.fields);
                 this.linhas = json.data;
+                this.erroTemplateValores = false;
                 this.erroTemplateAno = false;
                 this.erroTemplateMunicipios = false;
                 this.erroTemplateIndicadores = false;
                 this.$store.commit("mostrarTabelaMetas", true);
             },
 
-            retornarAno(validar) {
-                if (!validar.ano) {
+            retornarValoresNulos(valoresNulos) {
+                if (valoresNulos) {
+                    this.mensagemValores = valoresNulos;
+                    this.erroTemplateValores = true
+                    setTimeout(() => {
+                        this.fecharErroValores();
+                    }, 8000);
+                }
+            },
+
+            retornarAno(template) {
+                if (!template.ano) {
                     this.mensagemAno = "Não existe a coluna 'Ano'";
                     this.erroTemplateAno = true;
                     setTimeout(() => {
                         this.fecharErroAno();
-                    }, 5000);
+                    }, 8000);
                 }
             },
 
-            retornarMunicipios(validar) {
-                if (!validar.municipios) {
-                    this.mensagemMunicipios = "Municipios a mais: " + validar.cidEmAcrescimo + "<br>Municipios faltantes: " + validar.cidFaltando + "<br>Municipios fora de ordem: " + validar.cidForaOrdem;
+            retornarMunicipios(template) {
+                if (!template.municipios) {
+                    this.mensagemMunicipios = "Municipios a mais: " + template.cidEmAcrescimo + "<br>Municipios faltantes: " + template.cidFaltando + "<br>Municipios fora de ordem: " + template.cidForaOrdem;
                     this.erroTemplateMunicipios = true;
                     setTimeout(() => {
                         this.fecharErroMunicipios();
-                    }, 5000);
+                    }, 8000);
                 }
             },
 
-            retornarIndicadores(validar) {
-                if (!validar.indicadores) {
-                    this.mensagemIndi = "Indicadores a mais: " + validar.indEmAcrescimo + "<br><br>" + "Indicadores faltantes: " + validar.indFaltando + "<br><br>" + "Indicadores fora de ordem: " + validar.indForaOrdem;
+            retornarIndicadores(template) {
+                if (!template.indicadores) {
+                    this.mensagemIndi = "Indicadores a mais: " + template.indEmAcrescimo + "<br><br>" + "Indicadores faltantes: " + template.indFaltando + "<br><br>" + "Indicadores fora de ordem: " + template.indForaOrdem;
                     this.erroTemplateIndicadores = true;
                     setTimeout(() => {
                         this.fecharErroIndicadores();
-                    }, 5000);
+                    }, 8000);
                 }
+            },
+
+            fecharErroValores(){
+                this.erroTemplateValores = false;
             },
 
             fecharErroAno(){
