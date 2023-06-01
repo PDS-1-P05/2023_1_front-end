@@ -186,16 +186,6 @@ section {
   font-weight: 600;
 }
 
-/* button {
-  background-color: var(--corPrincipalClara);
-  color: var(--branco);
-  border-radius: 0.5rem;
-  width: 23rem;
-  height: 4rem;
-  font-size: 1.3rem;
-  margin-top: 4.5rem;
-} */
-
 button {
   width: 23rem;
   height: 4rem;
@@ -203,6 +193,7 @@ button {
   border-radius: 0.5rem;
   background-color: var(--corPrincipal);
   font-size: 1.6rem;
+  margin-top: 4.5rem;
 }
 
 button:hover {
