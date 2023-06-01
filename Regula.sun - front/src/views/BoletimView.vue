@@ -3,7 +3,8 @@
     <section id="seletor">
       <p>Boletim</p>
       <SelectBoletim @update:modelValue="atualizarMunicipio" :municipios=municipios />
-      <DefaultButton target="_blank" conteudo="Pré-Visualizar Boletim" @click="preVisualizar" />
+      <button @click="preVisualizar">Pré-Visualizar Boletim </button>
+      <!-- <DefaultButton target="_blank" conteudo="Pré-Visualizar Boletim" @click="preVisualizar" /> -->
       <AlertaInfo :valor="valordaview" v-if="alerta" idAlerta="BoletimMunicipio"
         mensagem="Selecione um município para gerar o Boletim" :fechar="fecharAlerta" widthAlerta="40rem" />
     </section>
@@ -64,7 +65,6 @@
 
 <script>
 import SelectBoletim from '@/components/SelectBoletim.vue';
-import DefaultButton from '@/components/DefaultButton.vue';
 import ModeloBoletim from "@/components/ModeloBoletim.vue";
 import AlertaInfo from '@/components/AlertaInfo.vue';
 import { getMunicipios } from "../service/requisicao";
@@ -74,7 +74,6 @@ export default {
     SelectBoletim,
     ModeloBoletim,
     AlertaInfo,
-    DefaultButton
   },
 
   created() {
@@ -187,7 +186,7 @@ section {
   font-weight: 600;
 }
 
-button {
+/* button {
   background-color: var(--corPrincipalClara);
   color: var(--branco);
   border-radius: 0.5rem;
@@ -195,6 +194,19 @@ button {
   height: 4rem;
   font-size: 1.3rem;
   margin-top: 4.5rem;
+} */
+
+button {
+  width: 23rem;
+  height: 4rem;
+  color: var(--branco);
+  border-radius: 0.5rem;
+  background-color: var(--corPrincipal);
+  font-size: 1.6rem;
+}
+
+button:hover {
+  background-color: var(--corPrincipalClara);
 }
 
 #preview-pdf {
