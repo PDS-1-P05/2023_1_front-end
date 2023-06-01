@@ -95,44 +95,40 @@ export default {
         },
 
         async gerarGrafico() {
-            if (this.validarInformações()) {
-                const anoSelecionado = this.anoSelecionado;
-                const municipiosSelecionados = this.$refs.filtroMunicipio.municipiosSelecionados;
-                const indicadoresSelecionados = this.$refs.filtroIndicador.indicadoresSelecionados;
-
-                const dadosRequisicao = {
-                    ano: anoSelecionado,
-                    municipios: [],
-                    valoresIndicadores: []
-                }
-
-                municipiosSelecionados.forEach(municipio => {
-                    dadosRequisicao.municipios.push(this.getIdMunicipio(municipio));
-                });
-
-                indicadoresSelecionados.forEach(indicadores => {
-                    dadosRequisicao.valoresIndicadores.push(this.getIdIndicador(indicadores));
-                });
-
-                const retornarDados = await getDadosGrafico(dadosRequisicao);
-                this.dadosGrafico = retornarDados.data;
-            }
-        },
-
-        validarInformações() {
             const anoSelecionado = this.anoSelecionado;
             const municipiosSelecionados = this.$refs.filtroMunicipio.municipiosSelecionados;
             const indicadoresSelecionados = this.$refs.filtroIndicador.indicadoresSelecionados;
 
-            if (anoSelecionado === null || municipiosSelecionados === null || indicadoresSelecionados === null) {
-                console.log('CAMPOS VAZIOS');
-                return false;
-            } else if (anoSelecionado.length === 0 || municipiosSelecionados.length === 0 || indicadoresSelecionados.length === 0) {
-                console.log('PREENCHA TODOS OS CAMPOS');
-                return false;
+            let dadosRequisicao = {
+                ano: anoSelecionado,
+                municipios: [],
+                valoresIndicadores: []
             }
 
-            return true;
+            if (anoSelecionado.length !== 0) {
+                dadosRequisicao.ano =  anoSelecionado
+            } else {
+                delete dadosRequisicao.ano;
+            }
+
+            if (municipiosSelecionados.length !== 0) {
+                municipiosSelecionados.forEach(municipio => {
+                    dadosRequisicao.municipios.push(this.getIdMunicipio(municipio));
+                });
+            } else {
+                delete dadosRequisicao.municipios;
+            }
+
+            if (indicadoresSelecionados.lenght !== 0) {
+                indicadoresSelecionados.forEach(indicadores => {
+                    dadosRequisicao.valoresIndicadores.push(this.getIdIndicador(indicadores));
+                });
+            } else {
+                delete dadosRequisicao.valoresIndicadores;
+            }
+
+            const retornarDados = await getDadosGrafico(dadosRequisicao);
+            this.dadosGrafico = retornarDados.data;
         },
 
         getIdMunicipio(nome) {
