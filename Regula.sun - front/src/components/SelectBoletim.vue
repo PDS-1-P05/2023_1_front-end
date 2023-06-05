@@ -1,6 +1,6 @@
 <template>
     <v-autocomplete class="seletor" :variant="solo" label="Selecione o município" bg-color="var(--corTerciariaClara)"
-        :items="municipios" :rounded="true"></v-autocomplete>
+        :items="municipios"></v-autocomplete>
 </template>
 
 <script>
