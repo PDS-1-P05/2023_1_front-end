@@ -1,4 +1,5 @@
 import Vuex from "vuex";
+import axios from 'axios'
 
 export default new Vuex.Store({
   state: {
@@ -11,6 +12,7 @@ export default new Vuex.Store({
     mostrarTabelaMetas: false,
     indicadores: [],
     municipios: [],
+    ranking: [],
   },
 
   getters: {
@@ -54,6 +56,14 @@ export default new Vuex.Store({
     atualizarUsuarioLogado({ commit }, logado) {
       commit("setLogado", logado);
     },
+
+    requisitarRanking({ commit }, url) {
+      axios
+      .get(url)
+      .then((response) => {
+        commit('requisitarRanking', response.data)
+      })
+    }
   },
 
   mutations: {
@@ -91,6 +101,9 @@ export default new Vuex.Store({
 
     armazenarIndicadores(state, indicadores) {
       state.indicadores = indicadores;
+    },
+    requisitarRanking(state, ranking) {
+      state.ranking = ranking
     },
   },
 });
