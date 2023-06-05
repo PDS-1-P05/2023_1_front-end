@@ -48,6 +48,11 @@
         },
 
         created () {
+            let arquivo = this.$store.state.arquivoMetas;
+            if (arquivo) {  
+                this.lerArquivo()
+            }
+            
             this.emitter.on("visualizar-metas", () => { this.lerArquivo() });
         },
 
