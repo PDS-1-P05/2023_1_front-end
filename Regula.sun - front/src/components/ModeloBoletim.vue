@@ -139,7 +139,6 @@ export default {
       this.arrayAno = []
       this.linhaTabela = []
 
-      // TIRAR O + 1
       const anoAtual = new Date().getFullYear() + 1;
       const idMunicipioEscolhido = this.getIdMunicipio(this.municipioEscolhido);
       const boletim = await getBoletim(idMunicipioEscolhido, anoAtual);
