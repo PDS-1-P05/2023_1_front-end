@@ -210,7 +210,8 @@ li {
 
 .nav-item:hover {
   cursor: pointer;
-  font-weight: bold;
+  border-bottom: 1px solid var(--branco);
+  padding-bottom: 5px;
 }
 
 .active {

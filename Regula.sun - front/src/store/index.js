@@ -10,6 +10,8 @@ export default new Vuex.Store({
     mostrarTabelaIndi: false,
     mostrarTabelaMetas: false,
     indicadores: [],
+    arquivoBoletim: null,
+    municipioEscolhido: null,
     municipios: [],
     uniMedidaGrafico: '',
   },
@@ -55,6 +57,7 @@ export default new Vuex.Store({
     atualizarUsuarioLogado({ commit }, logado) {
       commit("setLogado", logado);
     },
+
   },
 
   mutations: {
@@ -94,6 +97,14 @@ export default new Vuex.Store({
       state.indicadores = indicadores;
     },
 
+    armazenarBoletins(state, arquivo) {
+      state.arquivoBoletim = arquivo;
+    },
+
+    salvarMunicipioSelecionado(state, municipio) {
+      state.municipioEscolhido = municipio;
+    },
+    
     armazenarUniMedidaGrafico(state, unidadeMedida) {
       state.uniMedidaGrafico = unidadeMedida;
     },
