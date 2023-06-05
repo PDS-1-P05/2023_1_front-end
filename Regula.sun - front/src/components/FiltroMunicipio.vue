@@ -2,6 +2,7 @@
     <div class="municipios">
         <p>Municípios (Máx. 5)</p>
         <v-autocomplete 
+            no-data-text="Cidade(s) não encontrada(s)."
             v-model="municipiosSelecionados" 
             :items="municipios" 
             chips 

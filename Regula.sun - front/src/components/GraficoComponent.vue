@@ -26,6 +26,8 @@
 <script>
 import Chart from 'chart.js/auto';
 import domtoimage from 'dom-to-image-more';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+Chart.register(ChartDataLabels);
 
 export default {
     name: "GraficoComponent",
@@ -64,10 +66,6 @@ export default {
         }
     },
 
-    mounted() {
-        this.ajustarDados();
-    },
-
     methods: {
         retornarDataAtual() {
             var dataAtual = new Date();
@@ -82,7 +80,7 @@ export default {
             if (minutos < 10) { minutos = "0" + minutos; }
             if (this.anoRefente === "") { this.anoRefente = ano; }
 
-            this.dataAtual = "Gerado em " + dia + "/" + mes + "/" + ano + " ás " + hora + ":" + minutos;
+            this.dataAtual = "Gerado em " + dia + "/" + mes + "/" + ano + " às " + hora + ":" + minutos;
         },
 
         ajustarDados() {
@@ -152,6 +150,18 @@ export default {
             
         },
 
+        retornarValorMaximoGrafico() {
+            let valorMaximo = null;
+            this.dadosGrafico.datasets.forEach(indicador => {
+                const valorMaximoIndicador = Math.max(...indicador.data);
+                if (valorMaximoIndicador > valorMaximo) {
+                    valorMaximo = valorMaximoIndicador;
+                }
+            });
+
+            return valorMaximo;
+        },
+        
         configuracaoGrafico(){
             const chartOptions = {
                 interaction: {
@@ -162,23 +172,41 @@ export default {
                     title: {
                         display: true,
                         text: 'Referente ao ano ' + this.anoRefente,
+                        font: { size: 14},
+                        padding: { top: 20},
                     },
                     subtitle: {
                         display: true,
                         text: this.dataAtual,
+                        position: 'top',
+                        padding: { bottom: 10, top: 10 },
+                    },
+                    legend: {
                         position: 'bottom',
-                        font: {
-                            size: 14,
-                            family: 'var(--fontePrincipal)',
-                        },
-                        padding: {
-                            top: 20
+                        labels: { pointStyle: 'circle', usePointStyle: true },
+                      
+                    },
+                    datalabels: { anchor: 'end', align: 'end', color: 'black', 
+                        font: { weight: 'bold' },
+                    },
+                },
+                scales: {
+                    y: {
+                        max: this.retornarValorMaximoGrafico() + 2,
+                        title: {
+                            display: true,
+                            text:"Unidade de medida: " + this.$store.state.uniMedidaGrafico,
+                            font: {  size: 14 },
+                            padding: { bottom: 15 }
                         }
                     },
+                    x: { 
+                        ticks: { padding: 20 }
+                    }
                 },
                 responsive: true,
                 maintainAspectRatio: false,
-                indexAxis: 'y',
+                indexAxis: 'x',
             };
 
             return chartOptions;
@@ -186,7 +214,7 @@ export default {
 
         exportarGrafico(formato) {
             const grafico = document.getElementById('chartGrafico');
-    
+
             if (formato === '.SVG') {
                 domtoimage.toSvg(grafico)
                 .then((url) => {
@@ -247,9 +275,10 @@ export default {
 }
 
 .grafico {
-  width: 80rem;
+  width: 100rem;
   height: 60rem;
   margin: auto;
+  padding: 2rem;
 }
 
 .exportar {

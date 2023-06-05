@@ -11,6 +11,7 @@ export default new Vuex.Store({
     mostrarTabelaMetas: false,
     indicadores: [],
     municipios: [],
+    uniMedidaGrafico: '',
   },
 
   getters: {
@@ -91,6 +92,10 @@ export default new Vuex.Store({
 
     armazenarIndicadores(state, indicadores) {
       state.indicadores = indicadores;
+    },
+
+    armazenarUniMedidaGrafico(state, unidadeMedida) {
+      state.uniMedidaGrafico = unidadeMedida;
     },
   },
 });
