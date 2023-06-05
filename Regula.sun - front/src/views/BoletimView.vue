@@ -4,7 +4,6 @@
       <p>Boletim</p>
       <SelectBoletim @update:modelValue="atualizarMunicipio" :municipios=municipios />
       <button @click="preVisualizar">Pré-Visualizar Boletim </button>
-      <!-- <DefaultButton target="_blank" conteudo="Pré-Visualizar Boletim" @click="preVisualizar" /> -->
       <AlertaInfo :valor="valordaview" v-if="alerta" idAlerta="BoletimMunicipio"
         mensagem="Selecione um município para gerar o Boletim" :fechar="fecharAlerta" widthAlerta="40rem" />
     </section>
@@ -39,18 +38,27 @@
         <div class="gota-img">
           <img :src="azul" :alt="Excelente" />
           <p>Excelente</p>
+          <p>(Acima da meta em mais de 25%)</p>
         </div>
         <div class="gota-img">
           <img :src="verde" :alt="Bom" />
           <p>Bom</p>
+          <p>(Acima da meta em até 25%)</p>
         </div>
         <div class="gota-img">
           <img :src="amarelo" :alt="Mediano" />
-          <p>Mediano</p>
+          <p>Satisfatório</p>
+          <p>(Meta cumprida e/ou resultados ideais)</p>
+        </div>
+        <div class="gota-img">
+          <img :src="laranja" :alt="Mediano" />
+          <p>Insatisfatório</p>
+          <p>(Entre 51% e 75% do desejado)</p>
         </div>
         <div class="gota-img">
           <img :src="vermelho" :alt="Ruim" />
-          <p>Ruim</p>
+          <p>Muito Insatisfatório</p>
+          <p>(Abaixo de 50% do desejado)</p>
         </div>
         <div class="gota-img">
           <img :src="preto" :alt="SemInformacao" />
@@ -88,6 +96,7 @@ export default {
       azul: 'src/assets/azul.svg',
       verde: 'src/assets/verde.svg',
       amarelo: 'src/assets/amarelo.svg',
+      laranja: 'src/assets/laranja.svg',
       vermelho: 'src/assets/vermelho.svg',
       preto: 'src/assets/preto.svg',
 
@@ -124,24 +133,7 @@ export default {
         this.$store.commit('salvarMunicipioSelecionado', this.municipioSelecionado);
         this.emitter.emit('exibirBoletim');
         this.modeloPDF = true;
-
-        // window.open(caminhoPDF, '_blank');
       }
-      // html2pdf(this.$refs.Modelo, {
-      //   margin: [1, 1, 0, 1],
-      //   filename: "municipio.pdf",
-      //   image: { type: "png", quality: 1 },
-      //   html2canvas: {
-      //     dpi: 600,
-      //     letterRendering: true,
-      //     useCORS: true,
-      //     scale: 2,
-      //     background: (251, 251, 251),
-      //     quality: 4,
-      //   },
-      //   jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-      // });
-
     },
 
     fecharAlerta() {
@@ -255,7 +247,6 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   gap: 1.5rem;
 }
 

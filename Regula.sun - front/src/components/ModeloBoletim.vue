@@ -30,7 +30,7 @@
         <th>Indicadores</th>
         <th v-for="ano in arrayAno" :key="ano" id="col_ano">{{ ano }}</th>
         <th>Valor</th>
-        <th>Un.</th>
+        <th>Unidade</th>
       </thead>
       <tbody>
         <tr v-for="info in linhaTabela" :key="info.id">
@@ -50,9 +50,6 @@
             <img :src="info.ano_4" :width="20" />
           </td>
           <td>
-            <img :src="info.ano_5" :width="20" />
-          </td>
-          <td>
             {{ info.valor }}
           </td>
           <td>
@@ -66,19 +63,23 @@
       <div class="legenda-items">
         <div class="item-component">
           <img :src="azul" :alt="Excelente" />
-          <p>Excelente</p>
+          <p>Excelente (Acima da meta em mais de 25%)</p>
         </div>
         <div class="item-component">
           <img :src="verde" :alt="Bom" />
-          <p>Bom</p>
+          <p>Bom (Acima da meta em até 25%)</p>
         </div>
         <div class="item-component">
-          <img :src="amarelo" :alt="Mediano" />
-          <p>Mediano</p>
+          <img :src="amarelo" :alt="Satisfatório" />
+          <p>Satisfatório (Meta cumprida e/ou resultados ideais)</p>
         </div>
         <div class="item-component">
-          <img :src="vermelho" :alt="Ruim" />
-          <p>Ruim</p>
+          <img :src="laranja" :alt="Satisfatório" />
+          <p>Insatisfatório (Entre 51% e 75% do desejado)</p>
+        </div>
+        <div class="item-component">
+          <img :src="vermelho" :alt="Insatisfatório" />
+          <p>Muito Insatisfatório (Abaixo de 50% do desejado)</p>
         </div>
         <div class="item-component">
           <img :src="preto" :alt="SemInformacao" />
@@ -112,6 +113,7 @@ export default {
       azul: 'src/assets/azul.svg',
       verde: 'src/assets/verde.svg',
       amarelo: 'src/assets/amarelo.svg',
+      laranja: 'src/assets/laranja.svg',
       vermelho: 'src/assets/vermelho.svg',
       preto: 'src/assets/preto.svg',
       populacaoUrbana: '',
@@ -148,7 +150,7 @@ export default {
         this.arrayAno = Object.values(boletim.data.indicadores)
           .map(indicador => indicador.ano)
           .filter((ano, index, anos) => anos.indexOf(ano) === index);
-        while (this.arrayAno.length < 5) { this.arrayAno.push("--") }
+        while (this.arrayAno.length < 4) { this.arrayAno.push("--") }
 
 
         for (const [key, value] of Object.entries(boletim.data.indicadores)) {
@@ -175,14 +177,19 @@ export default {
 
             if (valor === null) {
               linhaIndicador[propName] = "../public/preto.svg";
-            } else if ((valor) > metaValor) {
+            } else if ((valor) > (metaValor) + 0.26 * (metaValor)) {
               linhaIndicador[propName] = "../public/azul.svg";
-            } else if ((valor) < metaValor) {
+            } else if (0.01 * (metaValor) < (valor) <= (metaValor) + 0.25 * (metaValor)) {
+              linhaIndicador[propName] = "../public/verde.svg";
+            } else if (0.5 * (metaValor) < (valor) < 0.75 * (metaValor)) {
+              linhaIndicador[propName] = "../public/laranja.svg";
+            } else if ((valor) < 0.5 * (metaValor)) {
               linhaIndicador[propName] = "../public/vermelho.svg";
             } else {
-              linhaIndicador[propName] = "../public/verde.svg";
+              linhaIndicador[propName] = "../public/amarelo.svg";
             }
           }
+
           this.linhaTabela.push(linhaIndicador);
         }
 
@@ -219,7 +226,7 @@ export default {
   
 <style scoped>
 #boletim>*:not(:last-child) {
-  margin: 3.53rem;
+  margin: 3.068rem;
 }
 
 #botao {
@@ -286,8 +293,9 @@ button {
 }
 
 .tabela {
-  margin-top: 4rem;
+  margin-top: 3rem;
   font-size: 1.2rem;
+  margin-bottom: 0;
 }
 
 th {
@@ -310,27 +318,28 @@ td:not(:nth-child(1)) {
 .legenda {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding-top: 2.5rem;
+  gap: 1rem;
   font-family: var(--fontePrincipal);
   margin-bottom: 20rem;
+  align-items: right;
 }
 
 .legenda p:nth-child(1) {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 .legenda-items {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  text-align: right;
+  align-items: left;
 }
 
 .item-component {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  padding-bottom: 1rem;
+  column-gap: 0.5rem;
 }
 
 .item-component img {
@@ -351,8 +360,6 @@ footer {
 
 .bottom-amarelo {
   height: 1rem;
-  margin-top: 12.61rem;
-  /* margin: 9rem 0 0 0; */
   background: #ebda40;
 }
 
