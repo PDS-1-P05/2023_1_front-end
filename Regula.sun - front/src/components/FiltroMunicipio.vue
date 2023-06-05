@@ -1,8 +1,19 @@
 <template>
     <div class="municipios">
         <p>Municípios (Máx. 5)</p>
-        <v-autocomplete v-model="municipiosSelecionados" :items="municipios" chips closable-chips multiple :max="5"
-            :variant="null" class="autocomplete" hide-details="true" :loading="loader">
+        <v-autocomplete 
+            no-data-text="Cidade(s) não encontrada(s)."
+            v-model="municipiosSelecionados" 
+            :items="municipios" 
+            chips 
+            closable-chips 
+            multiple 
+            :max="5" 
+            :variant="null" 
+            class="autocomplete"
+            hide-details="true"
+            :loading="loader"
+        >
             <template v-slot:chip="{ props }">
                 <v-chip v-bind="props" style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" />
             </template>

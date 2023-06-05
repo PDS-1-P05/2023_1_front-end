@@ -13,6 +13,7 @@ export default new Vuex.Store({
     arquivoBoletim: null,
     municipioEscolhido: null,
     municipios: [],
+    uniMedidaGrafico: '',
   },
 
   getters: {
@@ -102,6 +103,10 @@ export default new Vuex.Store({
 
     salvarMunicipioSelecionado(state, municipio) {
       state.municipioEscolhido = municipio;
-    }
+    },
+    
+    armazenarUniMedidaGrafico(state, unidadeMedida) {
+      state.uniMedidaGrafico = unidadeMedida;
+    },
   },
 });

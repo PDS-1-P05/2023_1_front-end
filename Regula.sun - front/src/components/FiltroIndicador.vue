@@ -1,8 +1,20 @@
 <template>
     <div class="indicadores">
         <p>Indicadores (Máx. 10)</p>
-        <v-autocomplete v-model="indicadoresSelecionados" :items="this.indicadores" chips closable-chips multiple :max="10"
-            :variant="null" class="autocomplete" hide-details="true" style=" color: var(--corPrincipal);" :loading="loader">
+        <v-select
+            no-data-text="Ops! Erro ao carregar os itens, por favor tente recarregar a página."
+            v-model="indicadoresSelecionados" 
+            :items="this.indicadores" 
+            chips 
+            closable-chips 
+            multiple 
+            :max="10"
+            :variant="null" 
+            class="autocomplete" 
+            hide-details="true" 
+            style=" color: var(--corPrincipal);" 
+            :loading="loader"
+        >
             <template v-slot:chip="{ props }">
                 <v-chip v-bind="props" style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" />
             </template>
@@ -25,7 +37,7 @@
                     {{ indicador.criterio }}
                 </v-list-item>
             </template>
-        </v-autocomplete>
+        </v-select>
         <AlertaInfo class="alertaI" v-if="alertaIndicador" mensagem="Selecione até 10 indicadores"
             :fechar="fecharAlertaIndicadores" />
         <div class="informativo">
@@ -92,6 +104,8 @@ export default {
                 if (this.indicadoresSelecionados.length < 10) {
                     if (this.indicadoresSelecionados.length === 0) {
                         this.indicadoresSelecionados.push(item);
+                        let unidadePrimaria = this.getUnidadeMedida(this.indicadoresSelecionados[0]);
+                        this.$store.commit('armazenarUniMedidaGrafico', unidadePrimaria)
                     } else {
                         this.validarUnidadeMedida(item);
                     }
@@ -110,11 +124,7 @@ export default {
         validarUnidadeMedida(item) {
             let unidadePrimaria = this.getUnidadeMedida(this.indicadoresSelecionados[0]);
             let unidadeIndicadorSelecionado = this.getUnidadeMedida(item);
-            if (unidadePrimaria !== unidadeIndicadorSelecionado) {
-                console.log("UNIDADES DE MEDIDAS SAO DIFERENTES")
-
-            } else {
-                console.log("UNIDADES DE MEDIDAS SAO IGUAIS")
+            if (unidadePrimaria === unidadeIndicadorSelecionado) {
                 this.indicadoresSelecionados.push(item);
             }
         },
