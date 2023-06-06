@@ -2,6 +2,7 @@
     <div class="municipios">
         <p>Municípios (Máx. 5)</p>
         <v-autocomplete 
+            no-data-text="Cidade(s) não encontrada(s)."
             v-model="municipiosSelecionados" 
             :items="municipios" 
             chips 
@@ -14,28 +15,18 @@
             :loading="loader"
         >
             <template v-slot:chip="{ props }">
-                <v-chip 
-                    v-bind="props"
-                    style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" 
-                />
+                <v-chip v-bind="props" style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" />
             </template>
-            
+
             <template v-slot:item="{ props }">
-                <v-list-item 
-                    @click="selecionarItem(props.title)" 
-                    class="itens"
-                    :class="{ 'item-selecionado': itemSelecionado(props.title) }"
-                >
+                <v-list-item @click="selecionarItem(props.title)" class="itens"
+                    :class="{ 'item-selecionado': itemSelecionado(props.title) }">
                     {{ props.title }}
                 </v-list-item>
             </template>
         </v-autocomplete>
-        <AlertaInfo 
-            class="alertaM" 
-            v-if="alertaMunicipio" 
-            mensagem="Selecione até 5 municípios" 
-            :fechar="fecharAlertaMunicipios" 
-        />
+        <AlertaInfo class="alertaM" v-if="alertaMunicipio" mensagem="Selecione até 5 municípios"
+            :fechar="fecharAlertaMunicipios" />
     </div>
 </template>
 
@@ -48,14 +39,14 @@ export default {
     props: {
         municipios: {
             type: Array,
-            required: true 
+            required: true
         },
         loader: {
             type: Boolean,
             default: true
         },
     },
-    
+
     data() {
         return {
             municipiosSelecionados: [],
@@ -98,6 +89,7 @@ export default {
     margin-top: 2rem;
     width: 100%;
 }
+
 .municipios p {
     color: var(--pretoClaro);
     font-weight: bold;
@@ -111,17 +103,21 @@ export default {
     right: 3rem;
     top: 5%;
 }
-.autocomplete{
+
+.autocomplete {
     font-family: var(--fontePrincipal);
     border: 0.15rem solid var(--corPrincipalClara);
     border-radius: 0.6rem;
 }
+
 .itens {
     font-size: 1.4rem;
 }
+
 .itens:hover {
     background-color: var(--brancoClaro);
 }
+
 .item-selecionado {
     background-color: var(--corPrincipalClara);
     color: var(--branco);

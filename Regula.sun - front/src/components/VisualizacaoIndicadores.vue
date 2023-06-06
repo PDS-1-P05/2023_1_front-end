@@ -44,7 +44,12 @@
             };
         },
 
-        created () {
+        created() {
+            let arquivo = this.$store.state.arquivoIndicadores;
+            if (arquivo) {  
+                this.lerArquivo()
+            }
+
             this.emitter.on("visualizar-indicadores", () => { this.lerArquivo() });
         },
 

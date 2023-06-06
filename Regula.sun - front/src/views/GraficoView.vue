@@ -17,7 +17,7 @@
         <FiltroMunicipios ref="filtroMunicipio" class="filtroMunicipio" :loader="loaderMunicipios"
             :municipios="nomesMunicipios" />
         <FiltroIndicadores ref="filtroIndicador" :loader="loaderIndicadores" :indicadores="criteriosIndicadores" />
-        <button @click="gerarGrafico">Gerar Gráfico</button>
+        <button @click="gerarGrafico" :disabled="btnGerarGrafico">Gerar Gráfico</button>
         <GraficoComponent :dados="dadosGrafico" :anoSelecionado="String(anoSelecionado)" />
     </div>
 </template>
@@ -33,12 +33,12 @@ export default {
     components: {
         FiltroMunicipios,
         FiltroIndicadores,
-
         GraficoComponent,
     },
 
     data() {
         return {
+            btnGerarGrafico: false,
             anoSelecionado: "",
             anos: [],
             dadosGrafico: [],
@@ -82,6 +82,7 @@ export default {
         async graficoInicial() {
             const retornarDados = await getDadosGrafico();
             if (retornarDados) {
+                this.$store.commit('armazenarUniMedidaGrafico', '%')
                 this.dadosGrafico = retornarDados.data;
             }
         },
@@ -95,6 +96,10 @@ export default {
         },
 
         async gerarGrafico() {
+            this.btnGerarGrafico = true;
+            setTimeout(() => {
+                this.btnGerarGrafico = false;
+            }, 2000);
             const anoSelecionado = this.anoSelecionado;
             const municipiosSelecionados = this.$refs.filtroMunicipio.municipiosSelecionados;
             const indicadoresSelecionados = this.$refs.filtroIndicador.indicadoresSelecionados;

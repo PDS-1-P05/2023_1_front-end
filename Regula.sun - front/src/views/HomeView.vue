@@ -1,6 +1,6 @@
 <template>
   <main>
-    
+
     <section class="wrapper background-hero" id="hero">
       <div class="hero-wrapper">
         <h2>
@@ -8,28 +8,31 @@
         </h2>
         <div class="linha-horizontal"></div>
         <p>
-          Informações que podem ser consumidas de múltiplas maneiras como gráficos gerados a partir de filtros pré-selecionados, tabelas de dados que podem ser exportadas para usos diversos e boletins municipais para acompanhar o desempenho de qualquer município.
+          Informações que podem ser consumidas de múltiplas maneiras como gráficos gerados a partir de filtros
+          pré-selecionados, tabelas de dados que podem ser exportadas para usos diversos e boletins municipais para
+          acompanhar o desempenho de qualquer município.
         </p>
       </div>
     </section>
 
     <section class="wrapper" id="sobre">
-        <div :class="classe">
-          <div class="coluna-a">
-            <div class="linha-vertical"></div>
-            <div class="texto-wrapper">
-              <h3>
-                Sobre - Regula.SUN
-              </h3>
-              <p>
-                Regula.SUN é uma aplicação que tem por objetivo proporcionar aos cidadãos de Mato Grosso do Sul acesso a informações de saneamento básico de maneira simples e concisa.
-              </p>
-            </div>
-          </div>
-          <div class="coluna-b">
-            <img src="@/assets/REGULASUN.svg" alt="">
+      <div :class="classe">
+        <div class="coluna-a">
+          <div class="linha-vertical"></div>
+          <div class="texto-wrapper">
+            <h3>
+              Sobre - Regula.SUN
+            </h3>
+            <p>
+              Regula.SUN é uma aplicação que tem por objetivo proporcionar aos cidadãos de Mato Grosso do Sul acesso a
+              informações de saneamento básico de maneira simples e concisa.
+            </p>
           </div>
         </div>
+        <div class="coluna-b">
+          <img src="@/assets/REGULASUN.svg" alt="">
+        </div>
+      </div>
     </section>
 
     <section class="wrapper background" id="grafico">
@@ -46,13 +49,14 @@
                 Gerador de Gráficos
               </h3>
               <p>
-                As informações sobre cidades e seus indicadores e metas podem ser filtradas e visualizadas através de um gráfico gerado de acordo com os filtros selecionados.
+                As informações sobre cidades e seus indicadores e metas podem ser filtradas e visualizadas através de um
+                gráfico gerado de acordo com os filtros selecionados.
                 É simples!
               </p>
             </div>
             <div class="linha-vertical-branca"></div>
           </div>
-          <HomeButton @click="redirecionarParaPagina" conteudo="GERE SEU GRÁFICO!" />
+          <HomeButton @click="redirecionarParaGrafico" conteudo="GERE SEU GRÁFICO!" />
         </div>
       </div>
     </section>
@@ -67,11 +71,12 @@
                 Boletim Municipal
               </h3>
               <p>
-                Cada cidade possuí seu boletim anual contendo informações sobre seus indicadores e resultados anuais. Faça o download do boletim da sua cidade e veja o desempenho da mesma!
+                Cada cidade possuí seu boletim anual contendo informações sobre seus indicadores e resultados anuais. Faça
+                o download do boletim da sua cidade e veja o desempenho da mesma!
               </p>
             </div>
           </div>
-          <HomeButton conteudo="GERE O BOLETIM DO SEU MUNICÍPIO!"/>
+          <HomeButton @click="redirecionarParaBoletim" conteudo="GERE O BOLETIM DO SEU MUNICÍPIO!" />
         </div>
         <div class="coluna-b">
           <div class="moldura-boletim">
@@ -122,14 +127,18 @@ export default {
       this.largura = window.innerWidth;
     },
 
-    redirecionarParaPagina() {
+    redirecionarParaGrafico() {
       this.$router.push('/grafico')
     },
 
     async retornarRanking() {
-            const ranking = await getRanking();
-            this.ranking = ranking.data.top10Rankings
-        }
+      const ranking = await getRanking();
+      this.ranking = ranking.data.top10Rankings
+    },
+
+    redirecionarParaBoletim() {
+      this.$router.push('/boletim') 
+    }
   },
 
   beforeUnmount() {
@@ -145,7 +154,7 @@ export default {
           this.classe = 'wrapper-section-mobile'
         }
       },
-      
+
       immediate: true
     }
   }
@@ -154,12 +163,11 @@ export default {
 </script>
 
 <style scoped>
-
 main {
   color: var(--preto);
 }
 
-main h2{
+main h2 {
   font-family: var(--fontePrincipal);
   font-size: 2.6rem;
 
@@ -234,9 +242,8 @@ main p {
 
   background: rgb(2, 64, 105);
   background: radial-gradient(circle,
-    var(--corPrincipal),
-    var(--corPrincipalEscura) 72%
-  );
+      var(--corPrincipal),
+      var(--corPrincipalEscura) 72%);
 }
 
 .background {
@@ -326,7 +333,7 @@ main p {
 }
 
 @media screen and (min-width: 1024px) {
-  main h2{
+  main h2 {
     font-family: var(--fontePrincipal);
     font-size: 5.5rem;
 
@@ -345,5 +352,4 @@ main p {
     font-size: 1.6rem;
   }
 }
-
 </style>
