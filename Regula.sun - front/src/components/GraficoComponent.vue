@@ -150,18 +150,6 @@ export default {
 
         },
 
-        retornarValorMaximoGrafico() {
-            let valorMaximo = null;
-            this.dadosGrafico.datasets.forEach(indicador => {
-                const valorMaximoIndicador = Math.max(...indicador.data);
-                if (valorMaximoIndicador > valorMaximo) {
-                    valorMaximo = valorMaximoIndicador;
-                }
-            });
-
-            return valorMaximo;
-        },
-
         configuracaoGrafico() {
             const chartOptions = {
                 interaction: {
@@ -179,7 +167,7 @@ export default {
                         display: true,
                         text: this.dataAtual,
                         position: 'top',
-                        padding: { bottom: 10, top: 10 },
+                        padding: { bottom: 50, top: 10 },
                     },
                     legend: {
                         position: 'bottom',
@@ -193,7 +181,6 @@ export default {
                 },
                 scales: {
                     y: {
-                        max: this.retornarValorMaximoGrafico() + 2,
                         title: {
                             display: true,
                             text: "Unidade de medida: " + this.$store.state.uniMedidaGrafico,
@@ -208,6 +195,7 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 indexAxis: 'x',
+                barPercentage: 1
             };
 
             return chartOptions;
@@ -267,7 +255,9 @@ export default {
 <style scoped>
 .informativo {
     margin-top: 4rem;
+    width: 90vw;
     color: var(--corPrincipal);
+    text-align: center;
 }
 
 .grafico-wrapper {
@@ -277,7 +267,7 @@ export default {
 }
 
 .grafico {
-    width: 100rem;
+    width: 150rem;
     height: 60rem;
     margin: auto;
     padding: 2rem;
