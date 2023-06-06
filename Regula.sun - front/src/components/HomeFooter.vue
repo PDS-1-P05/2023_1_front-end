@@ -22,10 +22,6 @@ footer {
     justify-content: space-between;
     align-content: center;
     padding: 5rem 10rem;
-    /* margin-top: 90px;
-    margin-bottom: 143px;
-    padding-top: 2%;
-    padding-bottom: 5%; */
 }
 
 #agems {
@@ -79,4 +75,5 @@ footer {
         margin-top: 1rem;
         margin-bottom: 2rem;
     }
-}</style>
+}
+</style>

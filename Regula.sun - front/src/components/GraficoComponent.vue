@@ -3,7 +3,7 @@
         <h3>Clicar em qualquer legenda permite ocultar/mostrar os dados no gráfico referentes ao indicador</h3>
     </div>
     <div class="grafico-wrapper">
-        <div class="grafico" >
+        <div class="grafico">
             <canvas id="chartGrafico"></canvas>
         </div>
     </div>
@@ -74,8 +74,8 @@ export default {
             var ano = dataAtual.getFullYear();
             var hora = dataAtual.getHours();
             var minutos = dataAtual.getMinutes();
-            if (mes < 10) { mes = "0" + mes; } 
-            if (dia < 10) { dia = "0" + dia; } 
+            if (mes < 10) { mes = "0" + mes; }
+            if (dia < 10) { dia = "0" + dia; }
             if (hora < 10) { hora = "0" + hora; }
             if (minutos < 10) { minutos = "0" + minutos; }
             if (this.anoRefente === "") { this.anoRefente = ano; }
@@ -117,7 +117,7 @@ export default {
             return this.$store.getters.getNomeIndicador(id)
         },
 
-        coresGrafico(index){
+        coresGrafico(index) {
             const colors = [
                 'rgba(255, 99, 132, 0.6)',
                 'rgba(54, 162, 235, 0.6)',
@@ -138,7 +138,7 @@ export default {
             if (this.chart) {
                 this.chart.destroy();
             }
-            
+
             const grafico = document.getElementById('chartGrafico');
 
             this.chart = new Chart(grafico, {
@@ -147,7 +147,7 @@ export default {
                 options: this.configuracaoGrafico()
             });
 
-            
+
         },
 
         retornarValorMaximoGrafico() {
@@ -161,8 +161,8 @@ export default {
 
             return valorMaximo;
         },
-        
-        configuracaoGrafico(){
+
+        configuracaoGrafico() {
             const chartOptions = {
                 interaction: {
                     mode: 'index',
@@ -172,8 +172,8 @@ export default {
                     title: {
                         display: true,
                         text: 'Referente ao ano ' + this.anoRefente,
-                        font: { size: 14},
-                        padding: { top: 20},
+                        font: { size: 14 },
+                        padding: { top: 20 },
                     },
                     subtitle: {
                         display: true,
@@ -184,9 +184,10 @@ export default {
                     legend: {
                         position: 'bottom',
                         labels: { pointStyle: 'circle', usePointStyle: true },
-                      
+
                     },
-                    datalabels: { anchor: 'end', align: 'end', color: 'black', 
+                    datalabels: {
+                        anchor: 'end', align: 'end', color: 'black',
                         font: { weight: 'bold' },
                     },
                 },
@@ -195,12 +196,12 @@ export default {
                         max: this.retornarValorMaximoGrafico() + 2,
                         title: {
                             display: true,
-                            text:"Unidade de medida: " + this.$store.state.uniMedidaGrafico,
-                            font: {  size: 14 },
+                            text: "Unidade de medida: " + this.$store.state.uniMedidaGrafico,
+                            font: { size: 14 },
                             padding: { bottom: 15 }
                         }
                     },
-                    x: { 
+                    x: {
                         ticks: { padding: 20 }
                     }
                 },
@@ -217,14 +218,14 @@ export default {
 
             if (formato === '.SVG') {
                 domtoimage.toSvg(grafico)
-                .then((url) => {
-                    const svgLink = document.createElement('a');
-                    svgLink.href = url;
-                    svgLink.download = 'grafico-indicadores-agems.svg';
-                    svgLink.click();
-                }).catch((error) => {
-                    console.error('Erro ao exportar gráfico como SVG:', error);
-                });
+                    .then((url) => {
+                        const svgLink = document.createElement('a');
+                        svgLink.href = url;
+                        svgLink.download = 'grafico-indicadores-agems.svg';
+                        svgLink.click();
+                    }).catch((error) => {
+                        console.error('Erro ao exportar gráfico como SVG:', error);
+                    });
             } else if (formato === '.PNG') {
                 domtoimage.toPng(grafico).then((url) => {
                     const pngLink = document.createElement('a');
@@ -257,7 +258,7 @@ export default {
             downloadLink.href = window.URL.createObjectURL(csv);
             downloadLink.click();
         },
-        
+
 
     },
 }
@@ -268,6 +269,7 @@ export default {
     margin-top: 4rem;
     color: var(--corPrincipal);
 }
+
 .grafico-wrapper {
     width: 100vw;
     overflow-x: auto;
@@ -275,10 +277,10 @@ export default {
 }
 
 .grafico {
-  width: 100rem;
-  height: 60rem;
-  margin: auto;
-  padding: 2rem;
+    width: 100rem;
+    height: 60rem;
+    margin: auto;
+    padding: 2rem;
 }
 
 .exportar {
@@ -294,6 +296,7 @@ button {
     border-radius: 0.5rem;
     background-color: var(--corPrincipal);
     font-size: 1.6rem;
+    margin-bottom: 5rem;
 }
 
 button:hover {
