@@ -1,4 +1,5 @@
 import Vuex from "vuex";
+import axios from 'axios'
 
 export default new Vuex.Store({
   state: {
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     arquivoBoletim: null,
     municipioEscolhido: null,
     municipios: [],
+    ranking: [],
     uniMedidaGrafico: '',
   },
 
@@ -58,6 +60,13 @@ export default new Vuex.Store({
       commit("setLogado", logado);
     },
 
+    requisitarRanking({ commit }, url) {
+      axios
+      .get(url)
+      .then((response) => {
+        commit('requisitarRanking', response.data)
+      })
+    }
   },
 
   mutations: {
@@ -97,6 +106,10 @@ export default new Vuex.Store({
       state.indicadores = indicadores;
     },
 
+    requisitarRanking(state, ranking) {
+      state.ranking = ranking
+    },
+    
     armazenarBoletins(state, arquivo) {
       state.arquivoBoletim = arquivo;
     },
