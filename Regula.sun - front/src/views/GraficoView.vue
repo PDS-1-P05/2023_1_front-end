@@ -111,7 +111,7 @@ export default {
             }
 
             if (anoSelecionado.length !== 0) {
-                dadosRequisicao.ano =  anoSelecionado
+                dadosRequisicao.ano = anoSelecionado
             } else {
                 delete dadosRequisicao.ano;
             }

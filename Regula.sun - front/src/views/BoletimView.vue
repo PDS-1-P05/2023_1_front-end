@@ -37,39 +37,49 @@
       <div class="gotas">
         <div class="gota-img">
           <img :src="azul" :alt="Excelente" />
-          <p>Excelente</p>
-          <p>(Acima da meta em mais de 25%)</p>
+          <div class="gota-descricao">
+            <p>Excelente</p>
+            <p>(Acima da meta em mais de 25%)</p>
+          </div>
         </div>
         <div class="gota-img">
           <img :src="verde" :alt="Bom" />
-          <p>Bom</p>
-          <p>(Acima da meta em até 25%)</p>
+          <div class="gota-descricao">
+            <p>Bom</p>
+            <p>(Acima da meta em até 25%)</p>
+          </div>
         </div>
         <div class="gota-img">
           <img :src="amarelo" :alt="Mediano" />
-          <p>Satisfatório</p>
-          <p>(Meta cumprida e/ou resultados ideais)</p>
+          <div class="gota-descricao">
+            <p>Satisfatório</p>
+            <p>(Meta cumprida e/ou resultados ideais)</p>
+          </div>
         </div>
         <div class="gota-img">
           <img :src="laranja" :alt="Mediano" />
-          <p>Insatisfatório</p>
-          <p>(Entre 51% e 75% do desejado)</p>
+          <div class="gota-descricao">
+            <p>Insatisfatório</p>
+            <p>(Entre 51% e 75% do desejado)</p>
+          </div>
         </div>
         <div class="gota-img">
           <img :src="vermelho" :alt="Ruim" />
-          <p>Muito Insatisfatório</p>
-          <p>(Abaixo de 50% do desejado)</p>
+          <div class="gota-descricao">
+            <p>Muito Insatisfatório</p>
+            <p>(Abaixo de 50% do desejado)</p>
+          </div>
         </div>
         <div class="gota-img">
           <img :src="preto" :alt="SemInformacao" />
-          <p>Sem Informação</p>
+          <div class="gota-descricao">
+            <p>Sem Informação</p>
+          </div>
         </div>
       </div>
     </section>
   </div>
 </template>
-
-
 
 <script>
 import SelectBoletim from '@/components/SelectBoletim.vue';
@@ -160,15 +170,12 @@ section {
 }
 
 #seletor {
-  margin-top: 10rem;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   gap: 3rem;
-
+  margin-top: 10rem;
   margin-bottom: 9rem;
 }
 
@@ -227,19 +234,22 @@ button:hover {
 #legenda {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
   padding-top: 2.5rem;
+  gap: 1.5rem;
 }
 
 #legenda h2 {
   font-family: var(--fontePrincipal);
   font-size: 1.6rem;
+  padding-bottom: 3rem;
 }
 
 .gotas {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 3rem;
 }
 
 .gota-img {
@@ -260,6 +270,22 @@ button:hover {
   font-size: 0.8rem;
 }
 
+.gota-descricao {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.gota-img:nth-child(6) {
+  margin-bottom: 2rem;
+}
+
+.gota-descricao>p:first-child {
+  font-weight: bold;
+}
+
 @media screen and (min-width: 450px) {
   .gota-img img {
     height: 6rem;
@@ -268,6 +294,11 @@ button:hover {
 
   .gota-img p {
     font-size: 1.3rem;
+  }
+
+  .gota-descricao>p:last-child {
+    padding: 0 1.5rem;
+    text-align: center;
   }
 }
 
@@ -283,6 +314,12 @@ button:hover {
   #seletor {
     gap: 7rem;
   }
+
+  .gotas {
+    display: flex;
+    flex-direction: row;
+  }
+
 }
 
 @media screen and (min-width: 1024px) {

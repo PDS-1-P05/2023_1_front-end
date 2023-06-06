@@ -29,7 +29,7 @@
       <thead>
         <th>Indicadores</th>
         <th v-for="ano in arrayAno" :key="ano" id="col_ano">{{ ano }}</th>
-        <th>Valor</th>
+        <th>Valor {{ anoAtual }} </th>
         <th>Unidade</th>
       </thead>
       <tbody>
@@ -108,7 +108,7 @@ export default {
     return {
       linhaTabela: [],
       arrayAno: [],
-      anos: [],
+      anoAtual: '',
 
       azul: 'src/assets/azul.svg',
       verde: 'src/assets/verde.svg',
@@ -149,6 +149,7 @@ export default {
         this.arrayAno = Object.values(boletim.data.indicadores)
           .map(indicador => indicador.ano)
           .filter((ano, index, anos) => anos.indexOf(ano) === index);
+        this.anoAtual = this.arrayAno[this.arrayAno.length - 1];
         while (this.arrayAno.length < 4) { this.arrayAno.push("--") }
 
 
