@@ -176,24 +176,22 @@ export default {
             var propName = `ano_${i + 1}`;
 
             if (valor === null) {
-              linhaIndicador[propName] = "public/preto.svg";
+              linhaIndicador[propName] = "preto.svg";
             } else if ((valor) > (metaValor) + 0.26 * (metaValor)) {
-              linhaIndicador[propName] = "public/azul.svg";
+              linhaIndicador[propName] = "azul.svg";
             } else if (0.01 * (metaValor) < (valor) <= (metaValor) + 0.25 * (metaValor)) {
-              linhaIndicador[propName] = "public/verde.svg";
+              linhaIndicador[propName] = "verde.svg";
             } else if (0.5 * (metaValor) < (valor) < 0.75 * (metaValor)) {
-              linhaIndicador[propName] = "public/laranja.svg";
+              linhaIndicador[propName] = "laranja.svg";
             } else if ((valor) < 0.5 * (metaValor)) {
-              linhaIndicador[propName] = "public/vermelho.svg";
+              linhaIndicador[propName] = "vermelho.svg";
             } else {
-              linhaIndicador[propName] = "public/amarelo.svg";
+              linhaIndicador[propName] = "amarelo.svg";
             }
           }
 
           this.linhaTabela.push(linhaIndicador);
         }
-
-        console.log(this.linhaTabela);
       }
     },
 
