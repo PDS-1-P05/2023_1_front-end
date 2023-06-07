@@ -76,3 +76,29 @@ export async function importarMetas(jsonMetas) {
     return erro;
   }
 }
+
+export async function getRanking() {
+  try {
+    const requisicao = await axios.get(
+      BASE_URL + "/ranking"
+    );
+    if (requisicao.status === 200) {
+      return requisicao;
+    }
+  } catch (erro) {
+    return erro;
+  }
+}
+    
+export async function getBoletim(id, ano) {
+  try {
+    const requisicao = await axios.get(
+      BASE_URL + "/boletim" + "/" + id + "/" + ano,
+    );
+    if (requisicao.status === 200) {
+      return requisicao;
+    }
+  } catch (erro) {
+    return erro;
+  }
+}

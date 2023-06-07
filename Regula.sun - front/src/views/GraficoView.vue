@@ -7,20 +7,18 @@
             <p>Selecione um ano</p>
             <v-select v-model="anoSelecionado" :items="anos" :variant="null" class="select">
                 <template v-slot:item="{ props }">
-                    <v-list-item
-                        @click="selecionarItem(props.title)" 
-                        class="itens"
-                        :class="{ 'item-selecionado': itemSelecionado(props.title) }"
-                    >
+                    <v-list-item @click="selecionarItem(props.title)" class="itens"
+                        :class="{ 'item-selecionado': itemSelecionado(props.title) }">
                         {{ props.title }}
                     </v-list-item>
                 </template>
             </v-select>
         </div>
-        <FiltroMunicipios ref="filtroMunicipio" class="filtroMunicipio" :loader="loaderMunicipios" :municipios="nomesMunicipios"/>
-        <FiltroIndicadores ref="filtroIndicador" :loader="loaderIndicadores" :indicadores="criteriosIndicadores"/>
-        <button @click="gerarGrafico">Gerar Gráfico</button>
-        <GraficoComponent :dados="dadosGrafico" :anoSelecionado="String(anoSelecionado)"/>
+        <FiltroMunicipios ref="filtroMunicipio" class="filtroMunicipio" :loader="loaderMunicipios"
+            :municipios="nomesMunicipios" />
+        <FiltroIndicadores ref="filtroIndicador" :loader="loaderIndicadores" :indicadores="criteriosIndicadores" />
+        <button @click="gerarGrafico" :disabled="btnGerarGrafico">Gerar Gráfico</button>
+        <GraficoComponent :dados="dadosGrafico" :anoSelecionado="String(anoSelecionado)" />
     </div>
 </template>
 
@@ -33,14 +31,14 @@ import { getMunicipios, getIndicadores, getDadosGrafico } from "../service/requi
 export default {
     name: "GraficoView",
     components: {
-    FiltroMunicipios,
-    FiltroIndicadores,
-   
-    GraficoComponent,
-},
+        FiltroMunicipios,
+        FiltroIndicadores,
+        GraficoComponent,
+    },
 
     data() {
         return {
+            btnGerarGrafico: false,
             anoSelecionado: "",
             anos: [],
             dadosGrafico: [],
@@ -55,10 +53,10 @@ export default {
         this.salvarMunicipiosIndicadores();
         const anoAtual = new Date().getFullYear();
         this.anos = Array.from(
-            { length: anoAtual - 2000 + 1 },
+            { length: anoAtual - 2022 + 1 },
             (_, i) => anoAtual - i
         );
-        
+
         setTimeout(() => {
             this.graficoInicial();
         }, 1000);
@@ -68,28 +66,29 @@ export default {
         async salvarMunicipiosIndicadores() {
             const municipios = await getMunicipios();
             const indicadores = await getIndicadores();
-            if (municipios) { 
+            if (municipios) {
                 this.$store.commit('armazenarMunicipios', municipios.data)
                 this.nomesMunicipios = this.$store.getters.getArrayNomeMunicipios();
-                this.loaderMunicipios = false; 
+                this.loaderMunicipios = false;
 
             }
-            if (indicadores) { 
+            if (indicadores) {
                 this.$store.commit('armazenarIndicadores', indicadores.data)
                 this.criteriosIndicadores = indicadores.data;
-                this.loaderIndicadores = false; 
+                this.loaderIndicadores = false;
             }
         },
 
         async graficoInicial() {
             const retornarDados = await getDadosGrafico();
             if (retornarDados) {
+                this.$store.commit('armazenarUniMedidaGrafico', '%')
                 this.dadosGrafico = retornarDados.data;
             }
-        }, 
+        },
 
         selecionarItem(item) {
-           this.anoSelecionado = item;
+            this.anoSelecionado = item;
         },
 
         itemSelecionado(item) {
@@ -97,50 +96,50 @@ export default {
         },
 
         async gerarGrafico() {
-            if(this.validarInformações()) {
-                const anoSelecionado = this.anoSelecionado;
-                const municipiosSelecionados = this.$refs.filtroMunicipio.municipiosSelecionados;
-                const indicadoresSelecionados = this.$refs.filtroIndicador.indicadoresSelecionados;
-                
-                const dadosRequisicao = {
-                    ano: anoSelecionado,
-                    municipios: [],
-                    valoresIndicadores: []
-                }
-
-                municipiosSelecionados.forEach(municipio => {
-                    dadosRequisicao.municipios.push(this.getIdMunicipio(municipio));
-                });
-
-                indicadoresSelecionados.forEach(indicadores => {
-                    dadosRequisicao.valoresIndicadores.push(this.getIdIndicador(indicadores));
-                });
-
-                const retornarDados = await getDadosGrafico(dadosRequisicao);
-                this.dadosGrafico = retornarDados.data;
-            }
-        },
-
-        validarInformações() {
+            this.btnGerarGrafico = true;
+            setTimeout(() => {
+                this.btnGerarGrafico = false;
+            }, 2000);
             const anoSelecionado = this.anoSelecionado;
             const municipiosSelecionados = this.$refs.filtroMunicipio.municipiosSelecionados;
             const indicadoresSelecionados = this.$refs.filtroIndicador.indicadoresSelecionados;
 
-            if (anoSelecionado === null || municipiosSelecionados === null || indicadoresSelecionados === null) {
-                console.log('CAMPOS VAZIOS');
-                return false;
-            } else if (anoSelecionado.length === 0 || municipiosSelecionados.length === 0 || indicadoresSelecionados.length === 0) {
-                console.log('PREENCHA TODOS OS CAMPOS');
-                return false;
+            let dadosRequisicao = {
+                ano: anoSelecionado,
+                municipios: [],
+                valoresIndicadores: []
             }
 
-            return true;
+            if (anoSelecionado.length !== 0) {
+                dadosRequisicao.ano = anoSelecionado
+            } else {
+                delete dadosRequisicao.ano;
+            }
+
+            if (municipiosSelecionados.length !== 0) {
+                municipiosSelecionados.forEach(municipio => {
+                    dadosRequisicao.municipios.push(this.getIdMunicipio(municipio));
+                });
+            } else {
+                delete dadosRequisicao.municipios;
+            }
+
+            if (indicadoresSelecionados.lenght !== 0) {
+                indicadoresSelecionados.forEach(indicadores => {
+                    dadosRequisicao.valoresIndicadores.push(this.getIdIndicador(indicadores));
+                });
+            } else {
+                delete dadosRequisicao.valoresIndicadores;
+            }
+
+            const retornarDados = await getDadosGrafico(dadosRequisicao);
+            this.dadosGrafico = retornarDados.data;
         },
 
         getIdMunicipio(nome) {
             return this.$store.getters.getIdMunicipio(nome)
         },
-        
+
         getIdIndicador(nome) {
             return this.$store.getters.getIdIndicador(nome)
         },
@@ -149,7 +148,6 @@ export default {
 </script>
 
 <style scoped>
-
 button {
     width: 15rem;
     height: 4rem;
@@ -162,6 +160,7 @@ button {
 button:hover {
     background-color: var(--corPrincipalClara);
 }
+
 .container {
     margin: 10rem;
     display: flex;
@@ -169,6 +168,7 @@ button:hover {
     justify-content: center;
     align-items: center;
 }
+
 .titulo {
     font-weight: bold;
     font-size: 3rem;
@@ -180,6 +180,7 @@ button:hover {
     width: 100%;
     text-align: start;
 }
+
 .anos p {
     color: var(--pretoClaro);
     font-weight: bold;
@@ -193,17 +194,21 @@ button:hover {
     border-radius: 0.6rem;
     height: 6rem;
 }
-.autocomplete{
+
+.autocomplete {
     font-family: var(--fontePrincipal);
     border: 0.15rem solid var(--corTerciariaEscura);
     border-radius: 0.6rem;
 }
+
 .itens {
     font-size: 1.4rem;
 }
+
 .itens:hover {
     background-color: var(--brancoClaro);
 }
+
 .item-selecionado {
     background-color: var(--corPrincipalClara);
     color: var(--branco);

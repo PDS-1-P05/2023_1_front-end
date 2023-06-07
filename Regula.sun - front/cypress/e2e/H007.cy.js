@@ -170,5 +170,30 @@ describe('Importar dados em formato csv', () => {
 
         cy.get('button').eq(3).click()
         cy.get('div').should('contain', `Não existe a coluna 'Ano'`)
+    }),
+
+    it('CT48 - Cenário 13 - Campo vazio no arquivo de indicadores', () => {
+        cy.get('input')
+            .selectFile('cypress/fixtures/Indicador - Campo Vazio.csv', {force: true})
+            .then(input => {
+                expect(input[0].files[0].name).to.eq('Indicador - Campo Vazio.csv')
+                cy.get('span').should('contain', 'Indicador - Campo Vazio.csv')
+        })
+
+        cy.get('button').contains('Pré-Visualizar').click()
+        cy.get('div').should('contain', 'Valor vazio encontrado na COLUNA: Corguinho, INDICADOR: Número de reclamações registrados na Ouvidoria da AGEMS')
+    }),
+
+    it('CT49 - Cenário 14 - Campo vazio no arquivo de metas', () => {
+        cy.get('button').contains('Metas').click()
+        cy.get('input').eq(1)
+            .selectFile('cypress/fixtures/Meta - Campo Vazio.csv', {force: true})
+            .then(input => {
+                expect(input[0].files[0].name).to.eq('Meta - Campo Vazio.csv')
+                cy.get('span').should('contain', 'Meta - Campo Vazio.csv')
+        })
+
+        cy.get('button').eq(3).click()
+        cy.get('div').should('contain', 'Valor vazio encontrado na COLUNA: Maracaju, INDICADOR: Reservação (em m³)')
     });
 });

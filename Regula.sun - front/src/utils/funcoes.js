@@ -273,3 +273,25 @@ export function verificarOrdemIndicadores(templateArquivoFormatado, banIndi){
 
   return cidForaOrdem;
 }
+
+export function validarValoresNulos(json, colunaInicial) {
+  let mensagem = '';
+
+  const dados = json.data
+  for (let linha = 0; linha < dados.length; linha++) {
+    const indicador = dados[linha][colunaInicial]
+
+    for (const municipio in dados[linha]) {
+      if (municipio !== colunaInicial) {
+        const valor = dados[linha][municipio];
+
+        if (!valor || valor.trim() === '') {
+          mensagem += `Valor vazio encontrado na COLUNA: ${municipio}, INDICADOR: ${indicador}<br><br>`;
+        }
+      }
+    }
+  }
+
+  if (mensagem.length === 0) { return false }
+  return mensagem;
+}

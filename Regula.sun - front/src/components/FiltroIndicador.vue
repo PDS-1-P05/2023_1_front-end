@@ -1,35 +1,31 @@
 <template>
     <div class="indicadores">
         <p>Indicadores (Máx. 10)</p>
-        <v-autocomplete 
-            v-model="indicadoresSelecionados"
-            :items="this.indicadores"
+        <v-select
+            no-data-text="Ops! Erro ao carregar os itens, por favor tente recarregar a página."
+            v-model="indicadoresSelecionados" 
+            :items="this.indicadores" 
             chips 
-            closable-chips
+            closable-chips 
             multiple 
-            :max="10" 
+            :max="10"
             :variant="null" 
-            class="autocomplete"
-            hide-details="true"
-            style=" color: var(--corPrincipal);"
+            class="autocomplete" 
+            hide-details="true" 
+            style=" color: var(--corPrincipal);" 
             :loading="loader"
         >
             <template v-slot:chip="{ props }">
-                <v-chip 
-                    v-bind="props"
-                    style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" 
-                />
+                <v-chip v-bind="props" style="font-size: 1.6rem; margin-right: 0.3rem; color: var(--corPrincipal)" />
             </template>
 
             <template v-slot:prepend-item>
                 <div v-for="grupo in this.indicadoresAgrupados" :key="grupo.tipo">
-                    <h4 style="font-size: 1.7rem; color: var(--corPrincipal); padding: 1rem; ">Categoria de {{ grupo.tipo }} </h4>
+                    <h4 style="font-size: 1.7rem; color: var(--corPrincipal); padding: 1rem; ">Unidade {{
+                        grupo.tipo }} </h4>
                     <v-divider></v-divider>
-                    <v-list-item v-for="indicador in grupo.indicadores"
-                        @click="selecionarItem(indicador.criterio)"
-                        class="itens"
-                        :class="{ 'item-selecionado': itemSelecionado(indicador.criterio)}"
-                    >
+                    <v-list-item v-for="indicador in grupo.indicadores" @click="selecionarItem(indicador.criterio)"
+                        class="itens" :class="{ 'item-selecionado': itemSelecionado(indicador.criterio) }">
                         {{ indicador.criterio }}
                     </v-list-item>
                     <v-divider v-if="grupo !== this.indicadoresAgrupados[this.indicadoresAgrupados.length - 1]"></v-divider>
@@ -41,17 +37,13 @@
                     {{ indicador.criterio }}
                 </v-list-item>
             </template>
-        </v-autocomplete>
-        <AlertaInfo 
-            class="alertaI" 
-            v-if="alertaIndicador" 
-            mensagem="Selecione até 10 indicadores" 
-            :fechar="fecharAlertaIndicadores" 
-        />
+        </v-select>
+        <AlertaInfo class="alertaI" v-if="alertaIndicador" mensagem="Selecione até 10 indicadores"
+            :fechar="fecharAlertaIndicadores" />
         <div class="informativo">
             <h3>É necessário que os indicadores selecionados sejam da mesma categoria</h3>
         </div>
-        
+
     </div>
 </template>
 
@@ -64,7 +56,7 @@ export default {
     props: {
         indicadores: {
             type: Array,
-            required: true 
+            required: true
         },
         loader: {
             type: Boolean,
@@ -84,7 +76,7 @@ export default {
     mounted() {
         setTimeout(() => {
             this.returnIndicadores();
-        }, 1000); 
+        }, 1000);
     },
 
     methods: {
@@ -92,7 +84,7 @@ export default {
             this.agruparIndicadores();
         },
 
-        agruparIndicadores(){
+        agruparIndicadores() {
             const grupos = {};
             for (const indicador of this.indicadores) {
                 const tipo = indicador.unidade_medida || "";
@@ -112,6 +104,8 @@ export default {
                 if (this.indicadoresSelecionados.length < 10) {
                     if (this.indicadoresSelecionados.length === 0) {
                         this.indicadoresSelecionados.push(item);
+                        let unidadePrimaria = this.getUnidadeMedida(this.indicadoresSelecionados[0]);
+                        this.$store.commit('armazenarUniMedidaGrafico', unidadePrimaria)
                     } else {
                         this.validarUnidadeMedida(item);
                     }
@@ -130,11 +124,7 @@ export default {
         validarUnidadeMedida(item) {
             let unidadePrimaria = this.getUnidadeMedida(this.indicadoresSelecionados[0]);
             let unidadeIndicadorSelecionado = this.getUnidadeMedida(item);
-            if (unidadePrimaria !== unidadeIndicadorSelecionado) {
-                console.log("UNIDADES DE MEDIDAS SAO DIFERENTES")
-
-            } else {
-                console.log("UNIDADES DE MEDIDAS SAO IGUAIS")
+            if (unidadePrimaria === unidadeIndicadorSelecionado) {
                 this.indicadoresSelecionados.push(item);
             }
         },
@@ -161,34 +151,41 @@ export default {
     margin-top: 0.5rem;
     color: var(--corPrincipal)
 }
+
 .indicadores {
     width: 100%;
     margin: 2rem;
     height: auto
 }
+
 .indicadores p {
     color: var(--pretoClaro);
     font-weight: bold;
     font-size: 1.6rem;
     margin-bottom: 1rem;
 }
+
 .alertaI {
     position: fixed;
     z-index: 101;
     right: 3rem;
     top: 10%;
 }
-.autocomplete{
+
+.autocomplete {
     font-family: var(--fontePrincipal);
     border: 0.15rem solid var(--corPrincipalClara);
     border-radius: 0.6rem;
 }
+
 .itens {
     font-size: 1.4rem;
 }
+
 .itens:hover {
     background-color: var(--brancoClaro);
 }
+
 .item-selecionado {
     background-color: var(--corPrincipalClara);
     color: var(--branco);
@@ -200,5 +197,4 @@ export default {
         margin-bottom: 2rem;
     }
 }
-
 </style>
