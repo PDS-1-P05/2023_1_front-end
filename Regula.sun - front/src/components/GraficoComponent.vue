@@ -267,7 +267,7 @@ export default {
 }
 
 .grafico {
-    width: 150rem;
+    width: 120rem;
     height: 60rem;
     margin: auto;
     padding: 2rem;
