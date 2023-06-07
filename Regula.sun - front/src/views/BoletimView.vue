@@ -36,42 +36,42 @@
       <h2>Legenda</h2>
       <div class="gotas">
         <div class="gota-img">
-          <img :src="azul" :alt="Excelente" />
+          <img src="@/assets/azul.svg" :alt="Excelente" />
           <div class="gota-descricao">
             <p>Excelente</p>
             <p>(Acima da meta em mais de 25%)</p>
           </div>
         </div>
         <div class="gota-img">
-          <img :src="verde" :alt="Bom" />
+          <img src="@/assets/verde.svg" :alt="Bom" />
           <div class="gota-descricao">
             <p>Bom</p>
             <p>(Acima da meta em até 25%)</p>
           </div>
         </div>
         <div class="gota-img">
-          <img :src="amarelo" :alt="Mediano" />
+          <img src="@/assets/amarelo.svg" :alt="Mediano" />
           <div class="gota-descricao">
             <p>Satisfatório</p>
             <p>(Meta cumprida e/ou resultados ideais)</p>
           </div>
         </div>
         <div class="gota-img">
-          <img :src="laranja" :alt="Mediano" />
+          <img src="@/assets/laranja.svg" :alt="Mediano" />
           <div class="gota-descricao">
             <p>Insatisfatório</p>
             <p>(Entre 51% e 75% do desejado)</p>
           </div>
         </div>
         <div class="gota-img">
-          <img :src="vermelho" :alt="Ruim" />
+          <img src="@/assets/vermelho.svg" :alt="Ruim" />
           <div class="gota-descricao">
             <p>Muito Insatisfatório</p>
             <p>(Abaixo de 50% do desejado)</p>
           </div>
         </div>
         <div class="gota-img">
-          <img :src="preto" :alt="SemInformacao" />
+          <img src="@/assets/preto.svg" :alt="SemInformacao" />
           <div class="gota-descricao">
             <p>Sem Informação</p>
           </div>
@@ -103,12 +103,6 @@ export default {
       municipios: [],
       largura: window.innerWidth,
       classe: '',
-      azul: 'src/assets/azul.svg',
-      verde: 'src/assets/verde.svg',
-      amarelo: 'src/assets/amarelo.svg',
-      laranja: 'src/assets/laranja.svg',
-      vermelho: 'src/assets/vermelho.svg',
-      preto: 'src/assets/preto.svg',
 
       alerta: false,
       temporizador: null,

@@ -62,27 +62,27 @@
       <p>Legenda</p>
       <div class="legenda-items">
         <div class="item-component">
-          <img :src="azul" :alt="Excelente" />
+          <img src="@/assets/azul.svg" :alt="Excelente" />
           <p>Excelente (Acima da meta em mais de 25%)</p>
         </div>
         <div class="item-component">
-          <img :src="verde" :alt="Bom" />
+          <img src="@/assets/verde.svg" :alt="Bom" />
           <p>Bom (Acima da meta em até 25%)</p>
         </div>
         <div class="item-component">
-          <img :src="amarelo" :alt="Satisfatório" />
+          <img src="@/assets/amarelo.svg" :alt="Satisfatório" />
           <p>Satisfatório (Meta cumprida e/ou resultados ideais)</p>
         </div>
         <div class="item-component">
-          <img :src="laranja" :alt="Satisfatório" />
+          <img src="@/assets/laranja.svg" :alt="Satisfatório" />
           <p>Insatisfatório (Entre 51% e 75% do desejado)</p>
         </div>
         <div class="item-component">
-          <img :src="vermelho" :alt="Insatisfatório" />
+          <img src="@/assets/vermelho.svg" :alt="Insatisfatório" />
           <p>Muito Insatisfatório (Abaixo de 50% do desejado)</p>
         </div>
         <div class="item-component">
-          <img :src="preto" :alt="SemInformacao" />
+          <img src="@/assets/preto.svg" :alt="SemInformacao" />
           <p>Sem Informação</p>
         </div>
       </div>
@@ -110,12 +110,12 @@ export default {
       arrayAno: [],
       anoAtual: '',
 
-      azul: 'src/assets/azul.svg',
-      verde: 'src/assets/verde.svg',
-      amarelo: 'src/assets/amarelo.svg',
-      laranja: 'src/assets/laranja.svg',
-      vermelho: 'src/assets/vermelho.svg',
-      preto: 'src/assets/preto.svg',
+      // azul: 'src/assets/azul.svg',
+      // verde: 'src/assets/verde.svg',
+      // amarelo: 'src/assets/amarelo.svg',
+      // laranja: 'src/assets/laranja.svg',
+      // vermelho: 'src/assets/vermelho.svg',
+      // preto: 'src/assets/preto.svg',
       populacaoUrbana: '',
     };
   },
@@ -176,24 +176,22 @@ export default {
             var propName = `ano_${i + 1}`;
 
             if (valor === null) {
-              linhaIndicador[propName] = "../public/preto.svg";
+              linhaIndicador[propName] = "preto.svg";
             } else if ((valor) > (metaValor) + 0.26 * (metaValor)) {
-              linhaIndicador[propName] = "../public/azul.svg";
+              linhaIndicador[propName] = "azul.svg";
             } else if (0.01 * (metaValor) < (valor) <= (metaValor) + 0.25 * (metaValor)) {
-              linhaIndicador[propName] = "../public/verde.svg";
+              linhaIndicador[propName] = "verde.svg";
             } else if (0.5 * (metaValor) < (valor) < 0.75 * (metaValor)) {
-              linhaIndicador[propName] = "../public/laranja.svg";
+              linhaIndicador[propName] = "laranja.svg";
             } else if ((valor) < 0.5 * (metaValor)) {
-              linhaIndicador[propName] = "../public/vermelho.svg";
+              linhaIndicador[propName] = "vermelho.svg";
             } else {
-              linhaIndicador[propName] = "../public/amarelo.svg";
+              linhaIndicador[propName] = "amarelo.svg";
             }
           }
 
           this.linhaTabela.push(linhaIndicador);
         }
-
-        console.log(this.linhaTabela);
       }
     },
 
