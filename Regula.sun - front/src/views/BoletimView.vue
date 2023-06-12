@@ -17,8 +17,9 @@
         </h3>
         <p>
           É um documento em formato PDF com o resultado final das fiscalizações programadas e eventuais
-          realizadas pela equipe de fiscalização descrevendo as constatações, não-conformidades, recomendações e
-          determinações estabelecidas do município a sua escolha.
+          feitas pela equipe de fiscalização. Este arquivo descreve as constatações, não-conformidades e
+          determinações estabelecidas do município a sua escolha. Em síntese, são exibidas informações
+          numéricas e gráficas das metas por indicador.
         </p>
       </div>
       <div id="informacao">
@@ -26,8 +27,10 @@
           Quais informações terão nele?
         </h3>
         <p>
-          As informações exibidas serão o ano em que foi coletado os dados alguns indicadores junto
-          com seus valores sendo ilustrado numericamente e em cores, conforme a legenda abaixo.
+          O boletim apresenta 10 indicadores, os quais foram selecionados por cidadãos do estado de Mato Grosso do Sul.
+          Além disso, ele exibe o(s) ano(s) da(s) última(s) coleta(s) num período de 4 anos. O valor exibido refere-se 
+          a coleta do último ano inserido. Junto deste valor há uma ilustração representada por gotas dividas por cores,
+          conforme a legenda abaixo.
         </p>
       </div>
     </section>
