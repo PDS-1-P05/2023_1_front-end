@@ -1,7 +1,4 @@
 <template>
-  <div id="botao">
-    <button @click="baixarPDF">Baixar Boletim</button>
-  </div>
   <div id="boletim" target="_blank">
     <div class="logos">
       <img src="../assets/agemsSVG.svg" width="200" height="45" />
@@ -93,6 +90,9 @@
       <div class="bottom-verde" />
       <div class="bottom-azul" />
     </footer>
+  </div>
+  <div id="botao">
+    <button @click="baixarPDF">Baixar Boletim</button>
   </div>
 </template>
   
@@ -229,11 +229,12 @@ export default {
 
 #botao {
   display: flex;
-  justify-content: right;
+  justify-content: center;
+  margin-top: 1.5rem;
 }
 
 button {
-  background-color: var(--corSecundaria);
+  background-color: var(--corPrincipal);
   width: 15rem;
   height: 4rem;
   border-radius: 0.5rem;
@@ -242,6 +243,10 @@ button {
   font-weight: bold;
   color: var(--branco);
   box-shadow: 0rem 0.2rem 0.5rem var(--preto);
+}
+
+button:hover {
+    background-color: var(--corPrincipalClara);
 }
 
 .logos {
