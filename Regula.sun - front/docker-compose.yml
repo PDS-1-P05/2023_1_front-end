@@ -1,0 +1,16 @@
+version: '3'
+services:
+  node_front:
+      container_name: regula_sun_front
+      image: regula_sun_front:0.0.23
+      build: .
+      ports:
+        - "5173:5173"
+      volumes:
+        - ./api:/src/front
+      networks:
+        - regula_sun_network
+
+networks:
+  regula_sun_network:
+    external: true
