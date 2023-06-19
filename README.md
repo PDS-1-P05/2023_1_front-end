@@ -74,6 +74,10 @@ npm run dev
 - Programas: Postman, GitHub CLI.
 - Extensões VSCode: Git Graph, Postman, Thunder Client, GitHub Pull Requests and Issues, Vue VSCode Snippets e JavaScript (ES6) code snippets.
 
+<br>
+
+## Estrutura do Sistema
+
 ```
 2023.1_front-end
 ├─ docs
