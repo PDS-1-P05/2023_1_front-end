@@ -238,10 +238,22 @@ export default {
 
 .medalha-top {
   justify-content: start;
+  align-items: center;
+}
+
+.medalha-top img{
+  max-width: 10rem;
 }
 
 .medalha-bottom {
   justify-content: end;
+  align-items: center;
+
+  width: 11rem;
+}
+
+.medalha-bottom img{
+  max-width: 8rem;
 }
 
 #tabela {
