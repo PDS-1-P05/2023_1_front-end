@@ -5,11 +5,20 @@ export function processarArquivo(arquivoCSV) {
   const config = {
     delimiter: ",",
     header: true,
-    transform: (value) => (value === "-" ? "-1" : value),
+    transform: (value) => transformarValor(value),
   };
 
   const result = Papa.parse(arquivoCSV, config);
   return result;
+}
+
+function transformarValor(value) {
+  if (value === "-") {
+    value = "-1";
+  }
+
+  value = value.replace(',', '.')
+  return value
 }
 
 export function retornarColunas(colunas) {
