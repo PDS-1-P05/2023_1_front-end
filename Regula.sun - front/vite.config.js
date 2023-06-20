@@ -10,7 +10,7 @@ export default defineConfig({
   base: '/2023_1_front-end',
   server: { 
     host: '0.0.0.0',
-    https: true,
+    https: false,
   },
   plugins: [vue(), vueJsx(), mkcert()],
   test: {
