@@ -78,13 +78,29 @@
 
         methods: {
             submissaoDrop(event) {
+                this.info = false;
+                this.descricao = '';
                 const file = event.dataTransfer.files[0];
+                this.ocultarTabela()
                 this.validarArquivo(file);
             },
 
             submissaoInput() {
+                this.info = false;
+                this.descricao = '';
                 const file = this.$refs.entradaArquivo.files[0]
+                this.ocultarTabela()
                 this.validarArquivo(file);
+            },
+
+            ocultarTabela(){
+                if (this.idInput === "indicadores") {
+                    this.$store.commit('mostrarTabelaIndicadores', false);
+                    this.$store.commit("salvarArquivoIndicadores", null);
+                } else if (this.idInput === "metas") {
+                    this.$store.commit('mostrarTabelaMetas', false);
+                    this.$store.commit("salvarArquivoMetas", null);
+                }
             },
 
             validarArquivo(arquivo) {
