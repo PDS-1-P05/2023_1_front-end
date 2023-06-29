@@ -60,6 +60,22 @@
             return { ativo, alternarAtivo }
         },
 
+        created() {
+            if (this.idInput === "indicadores") {
+                let nomeArquivo = this.$store.state.nomeArquivoIndicadores;
+                if (nomeArquivo !== ''){
+                    this.info = true;
+                    this.descricao = nomeArquivo;
+                }
+            } else if (this.idInput === "metas") {
+                let nomeArquivo = this.$store.state.nomeArquivoMetas;
+                if (nomeArquivo !== ''){
+                    this.info = true;
+                    this.descricao = nomeArquivo;
+                }
+            }
+        },
+
         methods: {
             submissaoDrop(event) {
                 const file = event.dataTransfer.files[0];
@@ -79,13 +95,14 @@
                     } else {
                         this.descricao = arquivo.name;
                         if (this.idInput === "indicadores") {
-                            this.$store.commit("salvarIndicadores", arquivo);
+                            this.$store.commit("nomeArquivoIndicadores", arquivo.name);
+                            this.$store.commit("salvarArquivoIndicadores", arquivo);
                         } else if (this.idInput === "metas") {
-                            this.$store.commit("salvarMetas", arquivo);
+                            this.$store.commit("nomeArquivoMetas", arquivo.name);
+                            this.$store.commit("salvarArquivoMetas", arquivo);
                         }
                     }
                 }
-                
             }
         }
     }

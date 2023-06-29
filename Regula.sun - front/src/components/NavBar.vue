@@ -120,7 +120,7 @@ export default {
     sair() {
       const sair = deslogar();
       if (sair) {
-        store.dispatch("atualizarToken", false);
+        store.dispatch("atualizarUsuarioLogado", false);
         router.push("/login");
       }
     },

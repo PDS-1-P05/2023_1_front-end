@@ -45,8 +45,8 @@
         },
 
         created() {
-            let arquivo = this.$store.state.arquivoIndicadores;
-            if (arquivo) {  
+            let mostrarTabela = this.$store.state.mostrarTabelaIndi;
+            if (mostrarTabela) {  
                 this.lerArquivo()
             }
 
