@@ -83,44 +83,6 @@ export function formatarMetas(json) {
   return metas;
 }
 
-export async function validarTemplate(json, tipo) {
-  var templateArquivo;
-  var validacao = {
-    ano: false,
-    municipios: false,
-    indicadores: false,
-    cidFaltando: [],
-    cidEmAcrescimo: [],
-    cidForaOrdem: [],
-    indFaltando: [],
-    indEmAcrescimo: [],
-    indForaOrdem: [],
-  };
-
-  const templateBanco = await retornarTemplateBanco();
-
-  if (tipo === "indicadores") {
-    templateArquivo = templateIndiArquivo(json);
-  } else if (tipo === "metas") {
-    templateArquivo = templateMetasArquivo(json);
-    validacao.ano = templateArquivo.ano;
-  }
-
-  const validaMunicipio = validarMunicipios(templateArquivo, templateBanco);
-  validacao.municipios = validaMunicipio.valido;
-  validacao.cidFaltando = validaMunicipio.cidFaltando;
-  validacao.cidEmAcrescimo = validaMunicipio.cidEmAcrescimo;
-  validacao.cidForaOrdem = validaMunicipio.cidForaOrdem;
-
-  const validaIndicadores = validarIndicadores(templateArquivo, templateBanco);
-  validacao.indicadores = validaIndicadores.valido;
-  validacao.indFaltando = validaIndicadores.indFaltando;
-  validacao.indEmAcrescimo = validaIndicadores.indEmAcrescimo;
-  validacao.indForaOrdem = validaIndicadores.indForaOrdem;
-
-  return validacao;
-}
-
 export function templateIndiArquivo(json) {
   var templateArquivo = {
     municipios: [],
