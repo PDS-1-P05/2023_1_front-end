@@ -3,22 +3,33 @@
         <div class="titulo">
             Filtros
         </div>
-        <div class="anos">
-            <p>Selecione um ano</p>
-            <v-select v-model="anoSelecionado" :items="anos" :variant="null" class="select">
-                <template v-slot:item="{ props }">
-                    <v-list-item @click="selecionarItem(props.title)" class="itens"
-                        :class="{ 'item-selecionado': itemSelecionado(props.title) }">
-                        {{ props.title }}
-                    </v-list-item>
-                </template>
-            </v-select>
-        </div>
-        <FiltroMunicipios ref="filtroMunicipio" class="filtroMunicipio" :loader="loaderMunicipios"
-            :municipios="nomesMunicipios" />
-        <FiltroIndicadores ref="filtroIndicador" :loader="loaderIndicadores" :indicadores="criteriosIndicadores" />
-        <button @click="gerarGrafico" :disabled="btnGerarGrafico">Gerar Gráfico</button>
-        <GraficoComponent :dados="dadosGrafico" :anoSelecionado="String(anoSelecionado)" />
+
+        <v-row align="center" justify="center">
+            <v-col>
+                <div class="anos">
+                    <p>Selecione um ano</p>
+                    <v-select v-model="anoSelecionado" :items="anos" :variant="null" class="select">
+                        <template v-slot:item="{ props }">
+                            <v-list-item @click="selecionarItem(props.title)" class="itens"
+                                :class="{ 'item-selecionado': itemSelecionado(props.title) }">
+                                {{ props.title }}
+                            </v-list-item>
+                        </template>
+                    </v-select>
+                </div>
+            </v-col>
+            <v-col>
+                <FiltroMunicipios ref="filtroMunicipio" class="filtroMunicipio" :loader="loaderMunicipios"
+                    :municipios="nomesMunicipios" />
+                </v-col>
+               
+                <FiltroIndicadores ref="filtroIndicador" :loader="loaderIndicadores" :indicadores="criteriosIndicadores" />
+           
+                <button @click="gerarGrafico" :disabled="btnGerarGrafico">Gerar Gráfico</button>
+        </v-row>
+        
+            <GraficoComponent :dados="dadosGrafico" :anoSelecionado="String(anoSelecionado)" />
+
     </div>
 </template>
 
@@ -148,19 +159,6 @@ export default {
 </script>
 
 <style scoped>
-button {
-    width: 15rem;
-    height: 4rem;
-    color: var(--branco);
-    border-radius: 0.5rem;
-    background-color: var(--corPrincipal);
-    font-size: 1.6rem;
-}
-
-button:hover {
-    background-color: var(--corPrincipalClara);
-}
-
 .container {
     margin: 10rem;
     display: flex;
@@ -174,11 +172,7 @@ button:hover {
     font-size: 3rem;
     width: 100%;
     text-align: center;
-}
-
-.anos {
-    width: 100%;
-    text-align: start;
+    margin-bottom: 3rem;
 }
 
 .anos p {
@@ -214,9 +208,16 @@ button:hover {
     color: var(--branco);
 }
 
-@media (max-width: 720px) {
-    .anos {
-        width: 95vw;
-    }
+button {
+    width: 15rem;
+    height: 4rem;
+    color: var(--branco);
+    border-radius: 0.5rem;
+    background-color: var(--corPrincipal);
+    font-size: 1.6rem;
+}
+
+button:hover {
+    background-color: var(--corPrincipalClara);
 }
 </style>

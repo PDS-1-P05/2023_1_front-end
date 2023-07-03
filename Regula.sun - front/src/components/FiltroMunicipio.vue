@@ -86,7 +86,6 @@ export default {
 
 <style scoped>
 .municipios {
-    margin-top: 2rem;
     width: 100%;
 }
 
