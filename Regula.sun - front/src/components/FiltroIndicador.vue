@@ -154,7 +154,8 @@ export default {
 
 .indicadores {
     width: 100%;
-    margin: 2rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
     height: auto
 }
 
