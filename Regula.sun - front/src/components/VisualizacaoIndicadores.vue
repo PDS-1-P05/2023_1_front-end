@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <AlertaInfo class="alerta" v-if="erroTemplateValores" :mensagem="mensagemValores" widthAlerta="100%" :fechar="fecharErroValores"></AlertaInfo>
-        <AlertaInfo class="alerta" v-if="erroTemplateMunicipios" :mensagem="mensagemMunicipios" widthAlerta="50%" :fechar="fecharErroMunicipios"></AlertaInfo>
-        <AlertaInfo class="alerta" v-if="erroTemplateIndicadores" :mensagem="mensagemIndi" widthAlerta="100%" :fechar="fecharErroIndicadores"></AlertaInfo>
+    <div class="alerta">
+        <AlertaInfo v-if="mostrarErro" :mensagem="mensagemErro" widthAlerta="100%" :fechar="fecharMensagemErro"></AlertaInfo>
     </div>
     <div class="tabela" v-if="this.$store.state.mostrarTabelaIndi">
         <v-table fixed-header height="80rem" data-test="teste">
@@ -21,7 +19,7 @@
 </template>
 
 <script>
-    import { processarArquivo, retornarColunas, validarTemplate, validarValoresNulos } from "../utils/funcoes";
+    import * as Funcoes from "../utils/funcoes";
     import AlertaInfo from "./AlertaInfo.vue"
 
     export default {
@@ -35,12 +33,8 @@
             return {
                 colunas: [],
                 linhas: [],
-                mensagemValores: "",
-                mensagemMunicipios: "",
-                mensagemIndi: "",
-                erroTemplateValores: false,
-                erroTemplateMunicipios: false,
-                erroTemplateIndicadores: false,
+                mensagemErro: "",
+                mostrarErro: false,
             };
         },
 
@@ -64,70 +58,79 @@
             },
 
             async validarTemplate(arquivo) {
-                const json = processarArquivo(arquivo);
+                const json = Funcoes.processarArquivo(arquivo);
                 this.$store.commit("salvarJsonIndicadores", json);
-                const template = await validarTemplate(json, 'indicadores');
-                const valoresNulos = validarValoresNulos(json, 'Indicadores');
-                if (template.municipios && template.indicadores && !valoresNulos) {
+                const templateBanco = await Funcoes.retornarTemplateBanco();
+                const templateArquivo = Funcoes.templateIndiArquivo(json);
+                const municipiosValidos = Funcoes.validarMunicipios(templateArquivo, templateBanco);
+                const indicadoresValidos = Funcoes.validarIndicadores(templateArquivo, templateBanco);
+                const valoresNulos = Funcoes.validarValoresNulos(json, 'Indicadores');
+
+                if (municipiosValidos.valido && indicadoresValidos.valido && !valoresNulos) {
                     this.mostrarDados(json)
                 } else {
-                    this.retornarValoresNulos(valoresNulos)
-                    this.retornarMunicipios(template);
-                    this.retornarIndicadores(template);
                     this.$store.commit('mostrarTabelaIndicadores', false)
+                    this.retornarInvalidez(municipiosValidos, indicadoresValidos, valoresNulos);
                 }
             },
 
             mostrarDados(json) {
-                this.colunas = retornarColunas(json.meta.fields);
+                this.colunas = Funcoes.retornarColunas(json.meta.fields);
                 this.linhas = json.data;
-                this.erroTemplateValores = false;
-                this.erroTemplateMunicipios = false;
-                this.erroTemplateIndicadores = false;
+                this.mostrarErro = false;
                 this.$store.commit('mostrarTabelaIndicadores', true);
             },
 
-            retornarValoresNulos(valoresNulos) {
-                if (valoresNulos) {
-                    this.mensagemValores = valoresNulos;
-                    this.erroTemplateValores = true
+            retornarInvalidez(municipiosValidos, indicadoresValidos, valoresNulos) {
+                if (!municipiosValidos.valido && !indicadoresValidos.valido) {
+                    this.mensagemErro = "Verifique o arquivo, dados inválidos."
+                    this.mostrarErro = true;
                     setTimeout(() => {
-                        this.fecharErroValores();
+                        this.fecharMensagemErro();
                     }, 8000);
+                } else if (!municipiosValidos.valido) {
+                    this.retornarMunicipios(municipiosValidos);
+                } else if (!indicadoresValidos.valido) {
+                    this.retornarIndicadores(indicadoresValidos);
+                } else if (valoresNulos) {
+                    this.retornarValoresNulos(valoresNulos)
                 }
             },
 
             retornarMunicipios(template) {
-                if (!template.municipios) {
-                    this.mensagemMunicipios = "Municipios a mais: " + template.cidEmAcrescimo + "<br>Municipios faltantes: " + template.cidFaltando + "<br>Municipios fora de ordem: " + template.cidForaOrdem;
-                    this.erroTemplateMunicipios = true;
+                if (!template.valido) {
+                    this.mensagemErro = "Municipios a mais: " + template.cidEmAcrescimo + "<br><br>" + "Municipios faltantes: " + template.cidFaltando + "<br><br>" + "Municipios fora de ordem: " + template.cidForaOrdem;
+                    this.mostrarErro = true;
                     setTimeout(() => {
-                        this.fecharErroMunicipios();
+                        this.fecharMensagemErro();
                     }, 8000);
                 }
             },
 
             retornarIndicadores(template) {
-                if (!template.indicadores) {
-                    this.mensagemIndi = "Indicadores a mais: " + template.indEmAcrescimo + "<br><br>" + "Indicadores faltantes: " + template.indFaltando + "<br><br>" + "Indicadores fora de ordem: " + template.indForaOrdem;
-                    this.erroTemplateIndicadores = true;
+                if (!template.valido) {
+                    this.mensagemErro = "Indicadores a mais: " + template.indEmAcrescimo + "<br><br>" + "Indicadores faltantes: " + template.indFaltando + "<br><br>" + "Indicadores fora de ordem: " + template.indForaOrdem;
+                    this.mostrarErro = true;
                     setTimeout(() => {
-                        this.fecharErroIndicadores();
+                        this.fecharMensagemErro();
                     }, 8000);
                 }
             },
 
-            fecharErroValores(){
-                this.erroTemplateValores = false;
+             retornarValoresNulos(valoresNulos) {
+                if (valoresNulos) {
+                    this.mensagemErro = valoresNulos;
+                    this.mostrarErro = true
+                    setTimeout(() => {
+                        this.fecharMensagemErro();
+                    }, 8000);
+                }
             },
 
-            fecharErroMunicipios(){
-                this.erroTemplateMunicipios = false;
+            fecharMensagemErro(){
+                this.mostrarErro = false;
             },
 
-            fecharErroIndicadores(){
-                this.erroTemplateIndicadores = false;
-            },
         },
     }
 </script>
@@ -136,6 +139,7 @@
 .alerta {
     margin: auto;
     margin-bottom: 0.2rem;
+    width: 70vw;
 }
 .tabela{
     border: 0.1rem solid var(--pretoClaro);
