@@ -39,8 +39,8 @@
         },
 
         created () {
-            let arquivo = this.$store.state.arquivoMetas;
-            if (arquivo) {  
+            let mostrarTabela = this.$store.state.mostrarTabelaMetas;
+            if (mostrarTabela) {  
                 this.lerArquivo()
             }
             

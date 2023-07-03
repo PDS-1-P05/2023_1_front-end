@@ -8,7 +8,7 @@
             <v-window-item value="Indicadores" class="window-item">
                 <DragNDrop titulo="Importar Indicadores" idInput="indicadores"></DragNDrop>
 
-                <AlertaInfo v-if="alertaUploadIndicadores" mensagem="Insira um arquivo para fazer Upload!"
+                <AlertaInfo v-if="alertaUploadIndicadores" mensagem="Insira um arquivo!"
                     :fechar="fecharAlertUpIndi">
                 </AlertaInfo>
 
@@ -36,7 +36,7 @@
             <v-window-item value="Metas" class="window-item">
                 <DragNDrop titulo="Importar Metas" idInput="metas"></DragNDrop>
 
-                <AlertaInfo v-if="alertaUploadMetas" mensagem="Insira um arquivo para fazer Upload!"
+                <AlertaInfo v-if="alertaUploadMetas" mensagem="Insira um arquivo!"
                     :fechar="fecharAlertUpMeta"></AlertaInfo>
 
                 <DefaultButton conteudo="Pré-Visualizar" @click="arquivoExisteMetas" v-if="preVisualizarMetas">
@@ -182,8 +182,8 @@ export default {
             this.preVisualizarIndi = true;
             this.$store.commit("salvarJsonIndicadores", null);
             this.bgAlertaReqIndi = 'var(--corSecundaria)',
-                this.colorReqIndi = 'var(--branco)',
-                this.mensagemRequisicaoIndicadores = 'Indicadores importados com sucesso!';
+            this.colorReqIndi = 'var(--branco)',
+            this.mensagemRequisicaoIndicadores = 'Indicadores importados com sucesso!';
             this.alertaRequisicaoIndicadores = true;
             setTimeout(() => {
                 this.fecharAlertReqIndi();
@@ -195,8 +195,8 @@ export default {
             this.preVisualizarMetas = true;
             this.$store.commit("salvarJsonMetas", null);
             this.bgAlertaReqMetas = 'var(--corSecundaria)',
-                this.colorReqMetas = 'var(--branco)',
-                this.mensagemRequisicaoMetas = 'Metas importadas com sucesso!';
+            this.colorReqMetas = 'var(--branco)',
+            this.mensagemRequisicaoMetas = 'Metas importadas com sucesso!';
             this.alertaRequisicaoMetas = true;
             setTimeout(() => {
                 this.fecharAlertReqMeta();

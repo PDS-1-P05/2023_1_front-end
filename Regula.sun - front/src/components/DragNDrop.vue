@@ -60,15 +60,47 @@
             return { ativo, alternarAtivo }
         },
 
+        created() {
+            if (this.idInput === "indicadores") {
+                let nomeArquivo = this.$store.state.nomeArquivoIndicadores;
+                if (nomeArquivo !== ''){
+                    this.info = true;
+                    this.descricao = nomeArquivo;
+                }
+            } else if (this.idInput === "metas") {
+                let nomeArquivo = this.$store.state.nomeArquivoMetas;
+                if (nomeArquivo !== ''){
+                    this.info = true;
+                    this.descricao = nomeArquivo;
+                }
+            }
+        },
+
         methods: {
             submissaoDrop(event) {
+                this.info = false;
+                this.descricao = '';
                 const file = event.dataTransfer.files[0];
+                this.ocultarTabela()
                 this.validarArquivo(file);
             },
 
             submissaoInput() {
+                this.info = false;
+                this.descricao = '';
                 const file = this.$refs.entradaArquivo.files[0]
+                this.ocultarTabela()
                 this.validarArquivo(file);
+            },
+
+            ocultarTabela(){
+                if (this.idInput === "indicadores") {
+                    this.$store.commit('mostrarTabelaIndicadores', false);
+                    this.$store.commit("salvarArquivoIndicadores", null);
+                } else if (this.idInput === "metas") {
+                    this.$store.commit('mostrarTabelaMetas', false);
+                    this.$store.commit("salvarArquivoMetas", null);
+                }
             },
 
             validarArquivo(arquivo) {
@@ -79,13 +111,14 @@
                     } else {
                         this.descricao = arquivo.name;
                         if (this.idInput === "indicadores") {
-                            this.$store.commit("salvarIndicadores", arquivo);
+                            this.$store.commit("nomeArquivoIndicadores", arquivo.name);
+                            this.$store.commit("salvarArquivoIndicadores", arquivo);
                         } else if (this.idInput === "metas") {
-                            this.$store.commit("salvarMetas", arquivo);
+                            this.$store.commit("nomeArquivoMetas", arquivo.name);
+                            this.$store.commit("salvarArquivoMetas", arquivo);
                         }
                     }
                 }
-                
             }
         }
     }

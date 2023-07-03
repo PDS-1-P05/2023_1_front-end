@@ -3,6 +3,8 @@ import axios from 'axios'
 
 export default new Vuex.Store({
   state: {
+    nomeArquivoIndicadores: '',
+    nomeArquivoMetas: '',
     arquivoIndicadores: null,
     arquivoMetas: null,
     jsonIndicadores: null,
@@ -74,11 +76,19 @@ export default new Vuex.Store({
       state.usuarioLogado = logado;
     },
 
-    salvarIndicadores(state, arquivo) {
+    nomeArquivoIndicadores(state, nome) {
+      state.nomeArquivoIndicadores = nome;
+    },
+
+    nomeArquivoMetas(state, nome) {
+      state.nomeArquivoMetas = nome;
+    },
+
+    salvarArquivoIndicadores(state, arquivo) {
       state.arquivoIndicadores = arquivo;
     },
 
-    salvarMetas(state, arquivo) {
+    salvarArquivoMetas(state, arquivo) {
       state.arquivoMetas = arquivo;
     },
 
